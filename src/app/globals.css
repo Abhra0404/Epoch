@@ -1,0 +1,304 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --radius: 1rem;
+  --radius-card: 2rem;
+  --radius-container: 3rem;
+  --radius-inner: 1.5rem;
+  --background: #f7f7f4;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f0;
+  --secondary-foreground: #000000;
+  --muted: #f4f4f0;
+  --muted-foreground: #525252;
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --destructive: #000000;
+  --warning: #000000;
+  --success: #000000;
+  --border: #d6d6d6;
+  --input: #d6d6d6;
+  --ring: #000000;
+  --sidebar: #f4f4f0;
+  --sidebar-foreground: #000000;
+  --paper-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --paper-shadow-md: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --paper-shadow-lg: 0 20px 60px -15px rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #a3a3a3;
+  --muted-foreground-dim: #737373;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --destructive: #ffffff;
+  --warning: #ffffff;
+  --success: #ffffff;
+  --border: #262626;
+  --input: #262626;
+  --ring: #ffffff;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+}
+
+/* Dark mode: lighter font weights for readability on dark backgrounds */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+  font-weight: 500 !important;
+  letter-spacing: -0.02em;
+}
+
+html.dark body {
+  font-weight: 300;
+}
+
+html.dark strong {
+  font-weight: 500;
+}
+
+html.dark .prose p {
+  font-weight: 300;
+}
+
+html.dark .prose li {
+  font-weight: 300;
+}
+
+/* Dark mode: lighter text weights for UI elements */
+html.dark .text-xs,
+html.dark .text-sm,
+html.dark .text-base {
+  font-weight: 300;
+}
+
+html.dark .font-semibold,
+html.dark .font-medium {
+  font-weight: 400;
+}
+
+html.dark .font-bold {
+  font-weight: 500;
+}
+
+html.dark .font-extrabold {
+  font-weight: 600;
+}
+
+/* Dark mode: muted text colors */
+html.dark .text-muted-foreground {
+  color: #a3a3a3;
+}
+
+html.dark .text-muted-foreground\/80 {
+  color: #737373;
+}
+
+@theme inline {
+  --font-sans: var(--font-roboto);
+  --font-display: var(--font-montserrat);
+  --font-mono: var(--font-pt-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-card: var(--radius-card);
+  --radius-container: var(--radius-container);
+  --radius-inner: var(--radius-inner);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-roboto), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body.paper-lines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.03),
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 24px
+  );
+}
+
+.dark body.paper-lines::before {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 24px
+  );
+}
+
+::selection {
+  background: #000000;
+  color: #ffffff;
+}
+
+.dark ::selection {
+  background: #ffffff;
+  color: #000000;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-montserrat), var(--font-roboto), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.paper-card {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--foreground) 6%, transparent);
+  border-radius: var(--radius-card);
+  box-shadow: var(--paper-shadow-sm);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.paper-card:hover {
+  box-shadow: var(--paper-shadow-md);
+}
+
+.paper-card-elevated {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--foreground) 6%, transparent);
+  border-radius: var(--radius-card);
+  box-shadow: var(--paper-shadow-lg);
+}
+
+.paper-inner {
+  background: var(--secondary);
+  border: 1px solid color-mix(in srgb, var(--foreground) 4%, transparent);
+  border-radius: var(--radius-inner);
+}
+
+.paper-feature-section {
+  background: color-mix(in srgb, var(--card) 50%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.paper-feature-inner {
+  background: var(--background);
+  border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  border-radius: var(--radius-container);
+}
+
+.bg-matte-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent) 70%, var(--foreground));
+}
+
+/* ── KaTeX Styling (Paper Theme) ───────────────────────────── */
+.katex {
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+}
+
+.katex-display {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.katex-display .katex {
+  color: var(--foreground);
+}
+
+.katex math-display,
+.katex-display > .katex > .katex-html {
+  color: var(--foreground);
+}
+
+/* Ensure all content sits above the diagonal texture */
+main,
+header,
+footer,
+nav,
+[role="dialog"],
+[data-radix-popper-content-wrapper] {
+  position: relative;
+  z-index: 2;
+}
+
+/* Override KaTeX error color */
+.katex .katex-error {
+  color: var(--destructive);
+}
