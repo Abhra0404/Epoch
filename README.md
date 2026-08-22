@@ -1,36 +1,247 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Epoch
 
-## Getting Started
+> **Learn. Build. Research.**
 
-First, run the development server:
+Epoch is a developer-focused **AI/ML learning platform** designed to take learners from mathematical foundations and core machine learning concepts to deep learning, modern AI, and research.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Instead of being a collection of courses or bookmarks, Epoch connects **structured notes, learning roadmaps, interactive experimentation, interview preparation, curated resources, AI assistance, and research** into one learning ecosystem.
+
+---
+
+## Features
+
+### Structured Learning
+
+* Topic-wise AI/ML notes
+* Beginner → Advanced progression
+* Mathematical intuition and derivations
+* Practical implementations
+* Prerequisites and related concepts
+* Learn → Practice → Apply workflow
+
+### Learning Roadmaps
+
+Structured paths for different AI/ML goals:
+
+* ML Engineer
+* Deep Learning Engineer
+* LLM Engineer
+* Computer Vision Engineer
+* AI Researcher
+* MLOps Engineer
+
+### Interactive Playground
+
+Experiment with ML concepts directly in the browser.
+
+Planned capabilities include:
+
+* Algorithm implementations
+* Interactive visualizations
+* Dataset experimentation
+* Hyperparameter tuning
+* Model evaluation
+* Saved experiments
+
+### Interview Preparation
+
+Practice across:
+
+* Machine Learning
+* Deep Learning
+* Mathematics
+* Statistics
+* LLMs
+* ML System Design
+* Coding
+* Research
+
+Includes conceptual, mathematical, implementation, debugging, and system-design questions.
+
+### Resource Library
+
+Curated resources for every topic:
+
+* Courses
+* Books
+* Videos
+* Articles
+* Documentation
+* GitHub repositories
+* Research papers
+
+Resources are categorized by difficulty, type, and topic.
+
+### AI Tutor
+
+An integrated AI assistant designed specifically for learning AI/ML.
+
+Capabilities include:
+
+* Context-aware explanations
+* Socratic learning
+* Concept clarification
+* Code debugging
+* Practice generation
+* Interview simulation
+* Learning recommendations
+
+### Research Hub
+
+Explore AI/ML research through:
+
+* Curated papers
+* Paper explanations
+* Research areas
+* Paper-to-concept relationships
+* Implementation resources
+* Reproduction projects
+
+---
+
+## Learning Architecture
+
+Epoch organizes knowledge around interconnected topics rather than isolated courses.
+
+```text
+                    Mathematics
+                         │
+                         ↓
+                    Foundations
+                         │
+                         ↓
+                  Machine Learning
+                         │
+             ┌───────────┼───────────┐
+             ↓           ↓           ↓
+       Deep Learning    NLP          CV
+             │
+             ↓
+        Transformers
+             │
+             ↓
+           LLMs
+             │
+             ↓
+        Modern AI Systems
+             │
+             ↓
+           Research
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Each topic can connect to:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Prerequisites
+* Notes
+* Resources
+* Interview questions
+* Playground experiments
+* Projects
+* Research papers
+* Related topics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+epoch/
+├── app/
+│   ├── learn/
+│   ├── topics/
+│   ├── roadmaps/
+│   ├── playground/
+│   ├── interview/
+│   ├── resources/
+│   ├── research/
+│   ├── projects/
+│   └── dashboard/
+│
+├── components/
+│   ├── ui/
+│   ├── navigation/
+│   ├── topics/
+│   ├── roadmap/
+│   ├── playground/
+│   └── research/
+│
+├── content/
+│   ├── mathematics/
+│   ├── machine-learning/
+│   ├── deep-learning/
+│   ├── nlp/
+│   └── computer-vision/
+│
+├── lib/
+│   ├── db/
+│   ├── ai/
+│   ├── search/
+│   └── utils/
+│
+├── prisma/
+├── public/
+├── types/
+└── README.md
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Design Philosophy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Epoch follows a **developer-first and research-oriented** design philosophy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Principles
+
+* **Understand before memorizing**
+* **Learn the mathematics behind the model**
+* **Implement what you learn**
+* **Experiment with real systems**
+* **Build projects**
+* **Understand research**
+* **Follow concepts, not just courses**
+
+The interface uses a dark, minimal "developer lab" aesthetic with a focus on readability, technical content, interactive experimentation, and fast navigation.
+
+---
+
+## Contributing
+
+Epoch is intended to become an open and continuously improving knowledge platform.
+
+Contributions can eventually include:
+
+* New topic notes
+* Resource recommendations
+* Corrections
+* Interview questions
+* Playground experiments
+* Research papers
+* Project ideas
+* Documentation improvements
+
+Contribution guidelines will be added as the project opens for community contributions.
+
+---
+
+## Vision
+
+The long-term goal of Epoch is to create a **complete knowledge and experimentation layer for AI/ML**.
+
+```text
+             LEARN
+               ↓
+           UNDERSTAND
+               ↓
+             CODE
+               ↓
+          EXPERIMENT
+               ↓
+             BUILD
+               ↓
+           INTERVIEW
+               ↓
+            RESEARCH
+```
+
+> **Epoch — Master AI/ML from first principles.**
