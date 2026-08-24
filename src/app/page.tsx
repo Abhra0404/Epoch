@@ -147,10 +147,9 @@ export default function Home() {
 
           {/* ── Left column: copy ── */}
           <div className="flex flex-col">
-            {/* Badge */}
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground shadow-xs">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
-              Now in early access — structured AI & ML education
+            {/* Eyebrow */}
+            <div className="flex w-fit items-center gap-3 border-l-2 border-foreground pl-3 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">
+              A clearer path through AI & ML
             </div>
 
             {/* Headline */}
@@ -415,7 +414,7 @@ export default function Home() {
 
       {/* ── CTA BANNER ───────────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        <div className="relative overflow-hidden rounded-[2rem] bg-stone-800 dark:bg-stone-900 px-8 sm:px-14 py-14 sm:py-20 text-center">
+        <div className="relative overflow-hidden rounded-[2rem] border border-stone-700 bg-stone-800 px-8 sm:px-14 py-14 sm:py-20 text-center shadow-lg">
           <div className="relative z-10">
             <p className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-4">
               Ready to start?
@@ -433,14 +432,14 @@ export default function Home() {
             <div className="mt-10 flex flex-wrap gap-3 justify-center">
               <Link
                 href="/learn"
-                className="inline-flex items-center gap-2 rounded-full bg-stone-50 px-7 py-3.5 text-sm font-bold text-stone-900 hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 Explore Learn Hub
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/roadmaps"
-                className="inline-flex items-center gap-2 rounded-full border border-stone-600 bg-stone-700/50 px-7 py-3.5 text-sm font-bold text-stone-100 hover:bg-stone-700 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-7 py-3.5 text-sm font-bold text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 Pick a Roadmap
               </Link>

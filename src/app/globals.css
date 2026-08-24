@@ -36,17 +36,17 @@
 }
 
 .dark {
-  --background: #000000;
+  --background: #1a1a1a;
   --foreground: #ffffff;
-  --card: #0a0a0a;
+  --card: #1f1f1f;
   --card-foreground: #ffffff;
-  --popover: #0a0a0a;
+  --popover: #1f1f1f;
   --popover-foreground: #ffffff;
   --primary: #ffffff;
   --primary-foreground: #000000;
-  --secondary: #1a1a1a;
+  --secondary: #262626;
   --secondary-foreground: #ffffff;
-  --muted: #1a1a1a;
+  --muted: #262626;
   --muted-foreground: #a3a3a3;
   --muted-foreground-dim: #737373;
   --accent: #ffffff;
@@ -54,10 +54,10 @@
   --destructive: #ffffff;
   --warning: #ffffff;
   --success: #ffffff;
-  --border: #262626;
-  --input: #262626;
+  --border: #404040;
+  --input: #404040;
   --ring: #ffffff;
-  --sidebar: #0a0a0a;
+  --sidebar: #1f1f1f;
   --sidebar-foreground: #ffffff;
 }
 
@@ -176,8 +176,8 @@ body.paper-lines::before {
 .dark body.paper-lines::before {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0.03) 1px,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.06) 1px,
     transparent 1px,
     transparent 24px
   );
@@ -207,7 +207,7 @@ h6 {
 
 .paper-card {
   background: var(--card);
-  border: 1px solid color-mix(in srgb, var(--foreground) 6%, transparent);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: var(--paper-shadow-sm);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
@@ -219,26 +219,26 @@ h6 {
 
 .paper-card-elevated {
   background: var(--card);
-  border: 1px solid color-mix(in srgb, var(--foreground) 6%, transparent);
+  border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: var(--paper-shadow-lg);
 }
 
 .paper-inner {
   background: var(--secondary);
-  border: 1px solid color-mix(in srgb, var(--foreground) 4%, transparent);
+  border: 1px solid var(--border);
   border-radius: var(--radius-inner);
 }
 
 .paper-feature-section {
   background: color-mix(in srgb, var(--card) 50%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
 }
 
 .paper-feature-inner {
   background: var(--background);
-  border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  border: 1px solid var(--border);
   border-radius: var(--radius-container);
 }
 

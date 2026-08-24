@@ -15,7 +15,11 @@ import {
   ThumbsUp, 
   Bookmark, 
   Check, 
-  ArrowRight 
+  ArrowRight,
+  GraduationCap,
+  Book,
+  File,
+  Lightbulb
 } from "lucide-react";
 import Link from "next/link";
 
@@ -23,7 +27,7 @@ interface ResourceItem {
   id: string;
   title: string;
   author: string;
-  type: "Textbook" | "Course" | "Paper" | "Repository";
+  category: "Courses" | "Books" | "Articles & Docs" | "Project Ideas";
   level: "Beginner" | "Intermediate" | "Advanced";
   description: string;
   tags: string[];
@@ -37,7 +41,7 @@ const resources: ResourceItem[] = [
     id: "1",
     title: "Pattern Recognition and Machine Learning",
     author: "Christopher M. Bishop (Microsoft Research)",
-    type: "Textbook",
+    category: "Books",
     level: "Intermediate",
     description: "The definitive reference text on Bayesian pattern recognition, linear classification, and graphical models.",
     tags: ["Bayesian ML", "Linear Models", "Probabilistic ML"],
@@ -49,7 +53,7 @@ const resources: ResourceItem[] = [
     id: "2",
     title: "Deep Learning (The MIT Press)",
     author: "Ian Goodfellow, Yoshua Bengio, Aaron Courville",
-    type: "Textbook",
+    category: "Books",
     level: "Advanced",
     description: "Comprehensive textbook covering linear algebra, deep feedforward networks, optimization algorithms, and generative models.",
     tags: ["Deep Learning", "Optimization", "Neural Networks"],
@@ -59,43 +63,9 @@ const resources: ResourceItem[] = [
   },
   {
     id: "3",
-    title: "Stanford CS229: Machine Learning Lecture Series",
-    author: "Andrew Ng (Stanford University)",
-    type: "Course",
-    level: "Beginner",
-    description: "World-famous lecture series covering supervised learning, SVMs, kernel methods, learning theory, and reinforcement learning.",
-    tags: ["Supervised ML", "Stanford", "Lecture Series"],
-    url: "https://cs229.stanford.edu/",
-    upvotes: 580,
-    linkedTopicSlug: "simple-linear-regression"
-  },
-  {
-    id: "4",
-    title: "Attention Is All You Need",
-    author: "Ashish Vaswani et al. (Google Brain / Research)",
-    type: "Paper",
-    level: "Advanced",
-    description: "Landmark 2017 research paper introducing the Transformer model based entirely on self-attention mechanisms.",
-    tags: ["Transformers", "Attention", "NLP"],
-    url: "https://arxiv.org/abs/1706.03762",
-    upvotes: 620,
-  },
-  {
-    id: "5",
-    title: "PyTorch Core Engine & Tutorials",
-    author: "Meta AI & Open Source Contributors",
-    type: "Repository",
-    level: "Intermediate",
-    description: "Official GitHub repository for PyTorch tensor computation and dynamic neural networks with strong GPU acceleration.",
-    tags: ["PyTorch", "Python", "GPU Tensors"],
-    url: "https://github.com/pytorch/pytorch",
-    upvotes: 295,
-  },
-  {
-    id: "6",
     title: "The Elements of Statistical Learning",
     author: "Trevor Hastie, Robert Tibshirani, Jerome Friedman",
-    type: "Textbook",
+    category: "Books",
     level: "Advanced",
     description: "Rigorous statistical perspective on data mining, inference, lasso shrinkage, and ensemble trees.",
     tags: ["Statistics", "Lasso", "Random Forests"],
@@ -104,10 +74,22 @@ const resources: ResourceItem[] = [
     linkedTopicSlug: "ridge-and-lasso-regularization"
   },
   {
-    id: "7",
+    id: "4",
+    title: "Stanford CS229: Machine Learning Lecture Series",
+    author: "Andrew Ng (Stanford University)",
+    category: "Courses",
+    level: "Beginner",
+    description: "World-famous lecture series covering supervised learning, SVMs, kernel methods, learning theory, and reinforcement learning.",
+    tags: ["Supervised ML", "Stanford", "Lecture Series"],
+    url: "https://cs229.stanford.edu/",
+    upvotes: 580,
+    linkedTopicSlug: "simple-linear-regression"
+  },
+  {
+    id: "5",
     title: "Fast.ai: Practical Deep Learning for Coders",
     author: "Jeremy Howard & Rachel Thomas",
-    type: "Course",
+    category: "Courses",
     level: "Beginner",
     description: "Top-down hands-on course building state-of-the-art vision and NLP models using PyTorch & fastai library.",
     tags: ["Hands-on PyTorch", "Practical ML", "Vision"],
@@ -115,33 +97,132 @@ const resources: ResourceItem[] = [
     upvotes: 389,
   },
   {
+    id: "6",
+    title: "MIT 6.S191: Intro to Deep Learning",
+    author: "Alexander Amini & Ava Soleimany (MIT)",
+    category: "Courses",
+    level: "Beginner",
+    description: "Fast-paced introduction to deep learning methods with applications to computer vision, NLP, and biology.",
+    tags: ["Deep Learning", "MIT", "Introductory"],
+    url: "http://introtodeeplearning.com/",
+    upvotes: 267,
+  },
+  {
+    id: "7",
+    title: "Attention Is All You Need",
+    author: "Ashish Vaswani et al. (Google Brain / Research)",
+    category: "Articles & Docs",
+    level: "Advanced",
+    description: "Landmark 2017 research paper introducing the Transformer model based entirely on self-attention mechanisms.",
+    tags: ["Transformers", "Attention", "NLP"],
+    url: "https://arxiv.org/abs/1706.03762",
+    upvotes: 620,
+  },
+  {
     id: "8",
-    title: "Hugging Face Transformers Library",
-    author: "Hugging Face Community",
-    type: "Repository",
+    title: "PyTorch Documentation & Tutorials",
+    author: "Meta AI & Open Source Contributors",
+    category: "Articles & Docs",
     level: "Intermediate",
-    description: "State-of-the-art Machine Learning for PyTorch, TensorFlow, and JAX with thousands of pretrained models.",
-    tags: ["LLMs", "Pretrained Models", "Open Source"],
-    url: "https://github.com/huggingface/transformers",
+    description: "Official documentation, tutorials, and API references for PyTorch tensor computation and dynamic neural networks.",
+    tags: ["PyTorch", "Documentation", "Tutorials"],
+    url: "https://pytorch.org/tutorials/",
+    upvotes: 295,
+  },
+  {
+    id: "9",
+    title: "Hugging Face Transformers Documentation",
+    author: "Hugging Face Community",
+    category: "Articles & Docs",
+    level: "Intermediate",
+    description: "Comprehensive guides for using pretrained models, tokenizers, and pipelines for NLP, vision, and audio tasks.",
+    tags: ["Transformers", "LLMs", "Documentation"],
+    url: "https://huggingface.co/docs/transformers/index",
     upvotes: 490,
-  }
+  },
+  {
+    id: "10",
+    title: "Build a Neural Network from Scratch",
+    author: "Epoch AI Platform",
+    category: "Project Ideas",
+    level: "Beginner",
+    description: "Implement a multilayer perceptron with backpropagation using only NumPy. Understand forward/backward pass mechanics.",
+    tags: ["NumPy", "Backpropagation", "From Scratch"],
+    url: "#",
+    upvotes: 156,
+    linkedTopicSlug: "logistic-regression-and-the-sigmoid-function"
+  },
+  {
+    id: "11",
+    title: "End-to-End House Price Prediction Pipeline",
+    author: "Epoch AI Platform",
+    category: "Project Ideas",
+    level: "Intermediate",
+    description: "Build a production-grade ML pipeline: data cleaning, feature engineering, model training, evaluation, and deployment.",
+    tags: ["Scikit-learn", "Pipeline", "Deployment"],
+    url: "#",
+    upvotes: 234,
+    linkedTopicSlug: "regression-evaluation"
+  },
+  {
+    id: "12",
+    title: "Fine-tune a Transformer for Text Classification",
+    author: "Epoch AI Platform",
+    category: "Project Ideas",
+    level: "Advanced",
+    description: "Use Hugging Face Transformers to fine-tune BERT/RoBERTa on a custom dataset with LoRA adapters.",
+    tags: ["Transformers", "LoRA", "Fine-tuning"],
+    url: "#",
+    upvotes: 189,
+    linkedTopicSlug: "loss-function-and-gradient-descent"
+  },
+  {
+    id: "13",
+    title: "Implement Decision Tree & Random Forest from Scratch",
+    author: "Epoch AI Platform",
+    category: "Project Ideas",
+    level: "Intermediate",
+    description: "Code Gini impurity, information gain, bootstrap sampling, and ensemble voting without using Scikit-learn.",
+    tags: ["Decision Trees", "Ensemble", "From Scratch"],
+    url: "#",
+    upvotes: 178,
+    linkedTopicSlug: "decision-tree-fundamentals"
+  },
+  {
+    id: "14",
+    title: "Reproduce 'Attention Is All You Need' in PyTorch",
+    author: "Epoch AI Platform",
+    category: "Project Ideas",
+    level: "Advanced",
+    description: "Build the Transformer architecture from the ground up: multi-head attention, positional encoding, and training loop.",
+    tags: ["Transformers", "PyTorch", "Reproduction"],
+    url: "#",
+    upvotes: 312,
+  },
 ];
 
+const categoryConfig = {
+  "Courses": { icon: GraduationCap, color: "text-gray-900", bg: "bg-gray-900/10", border: "border-gray-900/20" },
+  "Books": { icon: Book, color: "text-gray-900", bg: "bg-gray-900/10", border: "border-gray-900/20" },
+  "Articles & Docs": { icon: File, color: "text-gray-900", bg: "bg-gray-900/10", border: "border-gray-900/20" },
+  "Project Ideas": { icon: Lightbulb, color: "text-gray-900", bg: "bg-gray-900/10", border: "border-gray-900/20" },
+} as const;
+
 export default function ResourcesPage() {
-  const [selectedType, setSelectedType] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(["1", "3"]);
-  const [upvotedIds, setUpvotedIds] = useState<string[]>(["2"]);
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(["1", "4"]);
+  const [upvotedIds, setUpvotedIds] = useState<string[]>(["2", "7"]);
 
   const filteredResources = resources.filter((item) => {
-    const matchesType = selectedType === "All" || item.type === selectedType;
+    const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
     const matchesQuery =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    return matchesType && matchesQuery;
+    return matchesCategory && matchesQuery;
   });
 
   const toggleBookmark = (id: string) => {
@@ -163,34 +244,35 @@ export default function ResourcesPage() {
       <main className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
         {/* Header */}
         <section className="text-center max-w-3xl mx-auto py-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-gray-900 shadow-xs">
-            <Sparkles className="h-3.5 w-3.5" />
-            Vetted External Resources
-          </div>
           <h1 className="mt-5 font-display text-4xl font-bold tracking-tight sm:text-5xl">
             Curated AI & ML Resource Index
           </h1>
           <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-            The best textbooks, university lecture series, landmark research papers, and open-source repositories curated for your learning path.
+            The best textbooks, university lecture series, landmark research papers, and hands-on project ideas curated for your learning path.
           </p>
         </section>
 
         {/* Filter Controls */}
         <section className="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2">
-            {["All", "Textbook", "Course", "Paper", "Repository"].map((type) => (
-              <button
-                key={type}
-                onClick={() => setSelectedType(type)}
-                className={`rounded-full px-4 py-2 text-xs font-bold transition-all border ${
-                  selectedType === type
-                    ? "bg-gray-900/15 text-gray-900 border-gray-900/40 shadow-xs"
-                    : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
-                }`}
-              >
-                {type}
-              </button>
-            ))}
+            {["All", "Courses", "Books", "Articles & Docs", "Project Ideas"].map((cat) => {
+              const Icon = categoryConfig[cat as keyof typeof categoryConfig]?.icon || BookOpen;
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition-all border ${
+                    isSelected
+                      ? "bg-gray-900/15 text-gray-900 border-gray-900/40 shadow-xs"
+                      : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
+                  }`}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
           <div className="relative w-full md:w-72">
@@ -211,6 +293,7 @@ export default function ResourcesPage() {
             const isBookmarked = bookmarkedIds.includes(item.id);
             const isUpvoted = upvotedIds.includes(item.id);
             const displayUpvotes = item.upvotes + (isUpvoted ? 1 : 0);
+            const catConfig = categoryConfig[item.category];
 
             return (
               <div
@@ -219,16 +302,9 @@ export default function ResourcesPage() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
-                      item.type === "Textbook"
-                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
-                        : item.type === "Course"
-                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
-                        : item.type === "Paper"
-                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
-                        : "bg-gray-900/10 text-gray-900 border-gray-900/20"
-                    }`}>
-                      {item.type}
+                    <span className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${catConfig.bg} ${catConfig.color} ${catConfig.border}`}>
+                      <catConfig.icon className="h-3 w-3" />
+                      {item.category}
                     </span>
 
                     <div className="flex items-center gap-2">
@@ -291,7 +367,7 @@ export default function ResourcesPage() {
                       Linked Epoch Note
                       <ArrowRight className="h-3 w-3" />
                     </Link>
-                  ) : <div />}
+                  ) : <div />} 
 
                   <a
                     href={item.url}
@@ -307,6 +383,12 @@ export default function ResourcesPage() {
             );
           })}
         </section>
+        
+        {filteredResources.length === 0 && (
+          <section className="mt-12 text-center py-12">
+            <p className="text-muted-foreground">No resources found matching your criteria.</p>
+          </section>
+        )}
       </main>
 
       <Footer />

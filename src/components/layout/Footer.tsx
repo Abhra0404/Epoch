@@ -81,7 +81,7 @@ export function Footer() {
           <p className="text-xs text-white/40">
             © {new Date().getFullYear()} epoch AI Platform. Built with paper-inspired design.
           </p>
-          <div className="select-none font-display text-5xl font-semibold tracking-tighter text-white/15 sm:text-7xl">
+          <div className="select-none font-display text-5xl font-[600] tracking-tighter text-white/15 sm:text-7xl">
             epoch
           </div>
         </div>

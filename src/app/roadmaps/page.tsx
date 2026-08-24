@@ -253,10 +253,6 @@ export default function RoadmapsPage() {
       <main className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
         {/* Header section */}
         <section className="text-center max-w-3xl mx-auto py-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-accent shadow-xs">
-            <Sparkles className="h-3.5 w-3.5" />
-            Curated Career & Skill Paths
-          </div>
           <h1 className="mt-5 font-display text-4xl font-bold tracking-tight sm:text-5xl">
             Structured Roadmaps to AI & ML Mastery
           </h1>
