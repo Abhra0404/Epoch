@@ -1,10 +1,10 @@
-# Epoch
+# epoch
 
 > **Learn. Build. Research.**
 
-Epoch is a developer-focused **AI/ML learning platform** designed to take learners from mathematical foundations and core machine learning concepts to deep learning, modern AI, and research.
+**epoch** is a developer-focused **AI/ML learning platform** designed to take learners from mathematical foundations and core machine learning concepts to deep learning, modern AI, and research.
 
-Instead of being a collection of courses or bookmarks, Epoch connects **structured notes, learning roadmaps, interactive experimentation, interview preparation, curated resources, AI assistance, and research** into one learning ecosystem.
+Instead of being a collection of courses or bookmarks, **epoch** connects **structured notes, learning roadmaps, interactive experimentation, interview preparation, curated resources, AI assistance, and research** into one learning ecosystem.
 
 ---
 
@@ -101,7 +101,7 @@ Explore AI/ML research through:
 
 ## Learning Architecture
 
-Epoch organizes knowledge around interconnected topics rather than isolated courses.
+**epoch** organizes knowledge around interconnected topics rather than isolated courses.
 
 ```text
                     Mathematics
@@ -189,7 +189,7 @@ epoch/
 
 ## Design Philosophy
 
-Epoch follows a **developer-first and research-oriented** design philosophy.
+**epoch** follows a **developer-first and research-oriented** design philosophy.
 
 ### Principles
 
@@ -207,7 +207,7 @@ The interface uses a dark, minimal "developer lab" aesthetic with a focus on rea
 
 ## Contributing
 
-Epoch is intended to become an open and continuously improving knowledge platform.
+**epoch** is intended to become an open and continuously improving knowledge platform.
 
 Contributions can eventually include:
 
@@ -226,7 +226,7 @@ Contribution guidelines will be added as the project opens for community contrib
 
 ## Vision
 
-The long-term goal of Epoch is to create a **complete knowledge and experimentation layer for AI/ML**.
+The long-term goal of **epoch** is to create a **complete knowledge and experimentation layer for AI/ML**.
 
 ```text
              LEARN
@@ -244,4 +244,4 @@ The long-term goal of Epoch is to create a **complete knowledge and experimentat
             RESEARCH
 ```
 
-> **Epoch — Master AI/ML from first principles.**
+> **epoch — Master AI/ML from first principles.**
