@@ -21,6 +21,7 @@ import {
 import { getAllTopics } from "@/lib/topics";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { HeroVisual } from "@/components/ui/hero-visual";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -141,104 +142,61 @@ export default function Home() {
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
-      <section className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-20">
+      <section className="mx-auto flex min-h-[calc(100svh-9rem)] max-w-7xl items-center px-4 pt-14 pb-16 sm:px-6 sm:pt-20 sm:pb-24 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_420px] lg:gap-16 xl:gap-24">
 
-        <div className="relative z-10 max-w-4xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground shadow-xs mb-8">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
-            Now in early access — structured AI & ML education
-          </div>
-
-          {/* Headline */}
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.02] text-foreground">
-            The structured path
-            <br />
-            <span className="text-muted-foreground font-normal">
-              through AI & Machine Learning.
-            </span>
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-            Epoch connects mathematical derivations to working code, wraps them in
-            opinionated career roadmaps, and gives you interactive playgrounds to
-            build real intuition — not just familiarity.
-          </p>
-
-          {/* CTAs */}
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/learn"
-              className="inline-flex items-center gap-2 rounded-full bg-stone-800 px-7 py-3.5 text-sm font-bold text-stone-50 transition-opacity hover:opacity-80 dark:bg-stone-200 dark:text-stone-900"
-            >
-              Start Learning
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/roadmaps"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-bold text-foreground transition-colors hover:bg-secondary"
-            >
-              View Roadmaps
-            </Link>
-          </div>
-
-          {/* Trust line */}
-          <p className="mt-8 text-xs text-muted-foreground">
-            Free to use · No sign-up required to read notes
-          </p>
-        </div>
-
-        {/* Hero floating card */}
-        <div className="relative z-10 mt-16 lg:mt-0 lg:absolute lg:right-8 lg:top-12 lg:w-[26rem]">
-          <div className="paper-card-elevated overflow-hidden">
-            {/* Soft warm header */}
-            <div className="px-5 pt-5 pb-4 border-b border-border">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                What's inside Epoch
-              </p>
-              <h2 className="mt-1 font-display text-lg font-bold tracking-tight text-foreground">
-                Six learning environments
-              </h2>
+          {/* ── Left column: copy ── */}
+          <div className="flex flex-col">
+            {/* Badge */}
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground shadow-xs">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
+              Now in early access — structured AI & ML education
             </div>
 
-            {/* Feature rows */}
-            <div className="p-4 space-y-1.5">
-              {[
-                { icon: BookOpen,      label: "Learn Hub",       sub: "19+ structured topics",          href: "/learn" },
-                { icon: Compass,       label: "Roadmaps",        sub: "4 career paths with milestones", href: "/roadmaps" },
-                { icon: Play,          label: "Playground",      sub: "3 live concept simulators",      href: "/playground" },
-                { icon: Library,       label: "Resources",       sub: "Vetted books, courses & repos",  href: "/resources" },
-                { icon: FileCode2,     label: "Research Hub",    sub: "Seminal papers decoded",         href: "/research" },
-                { icon: LayoutDashboard, label: "Dashboard",    sub: "Progress, streaks & bookmarks",  href: "/dashboard" },
-              ].map(({ icon: Icon, label, sub, href }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="group flex items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 transition-all hover:border-border hover:bg-secondary"
-                >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-card">
-                    <Icon className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold text-foreground leading-none">{label}</p>
-                    <p className="mt-0.5 text-[10px] text-muted-foreground truncate">{sub}</p>
-                  </div>
-                  <ChevronRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-0.5" />
-                </Link>
-              ))}
-            </div>
+            {/* Headline */}
+            <h1 className="mt-7 font-display text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-bold tracking-tight leading-[1.08] text-foreground">
+              From First Principles <br /> to Frontier AI.
+              <br />
+              <span className="text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-[3.25rem] text-muted-foreground font-normal">
+                Go Beyond the Black Box.
+              </span>
+            </h1>
 
-            {/* Bottom CTA */}
-            <div className="px-4 pb-4">
+            {/* Sub-copy */}
+            <p className="mt-6 max-w-xl text-base sm:text-[1.0625rem] leading-relaxed text-muted-foreground">
+              Epoch connects mathematical derivations to working code, wraps them
+              in opinionated career roadmaps, and gives you interactive
+              playgrounds to build real intuition — not just familiarity.
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/learn"
-                className="flex items-center justify-center gap-2 rounded-full border border-border bg-secondary py-2.5 text-xs font-bold text-foreground transition-colors hover:bg-foreground hover:text-background w-full"
+                className="inline-flex items-center gap-2 rounded-full bg-stone-800 px-7 py-3.5 text-sm font-bold text-stone-50 transition-opacity hover:opacity-80 dark:bg-stone-200 dark:text-stone-900"
               >
-                Explore the platform
-                <ArrowRight className="h-3.5 w-3.5" />
+                Start Learning
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/roadmaps"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-bold text-foreground transition-colors hover:bg-secondary"
+              >
+                View Roadmaps
               </Link>
             </div>
+
+            {/* Trust line */}
+            <p className="mt-6 text-xs text-muted-foreground">
+              Free to use · No sign-up required to read notes
+            </p>
           </div>
+
+          {/* ── Right column: neural network visual ── */}
+          <div className="w-full">
+            <HeroVisual />
+          </div>
+
         </div>
       </section>
 

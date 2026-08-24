@@ -8,7 +8,6 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="Epoch Logo" className="h-9 w-9 rounded-xl object-contain bg-white/10 p-1" />
               <span className="font-display text-2xl font-bold tracking-tight text-white">epoch</span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">

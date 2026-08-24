@@ -71,7 +71,6 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
 
             <div className="flex items-center gap-2 text-xs text-muted-foreground hidden sm:flex">
               <Link href="/" className="flex items-center gap-2 hover:text-foreground transition-colors">
-                <img src="/logo.svg" alt="Epoch Logo" className="h-6 w-6 rounded-md object-contain" />
                 <span className="font-semibold text-foreground">Epoch</span>
               </Link>
               <ChevronRight className="h-3 w-3" />

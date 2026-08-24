@@ -32,9 +32,8 @@ export function Navbar() {
   return (
     <header className="sticky top-4 z-50 mx-auto max-w-7xl px-4 sm:px-6">
       <div className="flex items-center justify-between gap-4 rounded-full border border-border/80 bg-background/85 px-4 py-2.5 backdrop-blur-md shadow-xs transition-all">
-        {/* Brand Logo */}
+        {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 pl-1" aria-label="Epoch home">
-          <img src="/logo.svg" alt="Epoch Logo" className="h-8 w-8 rounded-lg object-contain" />
           <span className="leading-none">
             <span className="block font-display text-lg font-bold tracking-tight text-foreground">epoch</span>
             <span className="block text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground">

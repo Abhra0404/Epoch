@@ -163,7 +163,7 @@ export default function ResourcesPage() {
       <main className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
         {/* Header */}
         <section className="text-center max-w-3xl mx-auto py-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-accent shadow-xs">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-gray-900 shadow-xs">
             <Sparkles className="h-3.5 w-3.5" />
             Vetted External Resources
           </div>
@@ -184,7 +184,7 @@ export default function ResourcesPage() {
                 onClick={() => setSelectedType(type)}
                 className={`rounded-full px-4 py-2 text-xs font-bold transition-all border ${
                   selectedType === type
-                    ? "bg-accent/15 text-accent border-accent/40 shadow-xs"
+                    ? "bg-gray-900/15 text-gray-900 border-gray-900/40 shadow-xs"
                     : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
                 }`}
               >
@@ -199,7 +199,7 @@ export default function ResourcesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search resources, authors..."
-              className="w-full rounded-full border border-border bg-card pl-9 pr-4 py-2 text-xs text-foreground placeholder-muted-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full rounded-full border border-border bg-card pl-9 pr-4 py-2 text-xs text-foreground placeholder-muted-foreground focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
             />
             <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
           </div>
@@ -215,18 +215,18 @@ export default function ResourcesPage() {
             return (
               <div
                 key={item.id}
-                className="paper-card group flex flex-col justify-between p-6 transition-all hover:border-accent/40"
+                className="paper-card group flex flex-col justify-between p-6 transition-all hover:border-gray-900/40"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2">
                     <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
                       item.type === "Textbook"
-                        ? "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
                         : item.type === "Course"
-                        ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
                         : item.type === "Paper"
-                        ? "bg-accent/10 text-accent border-accent/20"
-                        : "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                        ? "bg-gray-900/10 text-gray-900 border-gray-900/20"
+                        : "bg-gray-900/10 text-gray-900 border-gray-900/20"
                     }`}>
                       {item.type}
                     </span>
@@ -236,7 +236,7 @@ export default function ResourcesPage() {
                         onClick={() => toggleUpvote(item.id)}
                         className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold border transition-all ${
                           isUpvoted
-                            ? "bg-accent/15 text-accent border-accent/30"
+                            ? "bg-gray-900/15 text-gray-900 border-gray-900/30"
                             : "bg-secondary text-muted-foreground border-border hover:text-foreground"
                         }`}
                       >
@@ -248,7 +248,7 @@ export default function ResourcesPage() {
                         onClick={() => toggleBookmark(item.id)}
                         className={`p-1.5 rounded-full border transition-all ${
                           isBookmarked
-                            ? "bg-accent/15 text-accent border-accent/30"
+                            ? "bg-gray-900/15 text-gray-900 border-gray-900/30"
                             : "bg-secondary text-muted-foreground border-border hover:text-foreground"
                         }`}
                         title={isBookmarked ? "Remove Bookmark" : "Save Bookmark"}
@@ -258,7 +258,7 @@ export default function ResourcesPage() {
                     </div>
                   </div>
 
-                  <h3 className="mt-4 font-display text-xl font-bold tracking-tight text-foreground group-hover:text-accent transition-colors">
+                  <h3 className="mt-4 font-display text-xl font-bold tracking-tight text-foreground group-hover:text-gray-900 transition-colors">
                     {item.title}
                   </h3>
 
@@ -286,7 +286,7 @@ export default function ResourcesPage() {
                   {item.linkedTopicSlug ? (
                     <Link
                       href={`/subjects/machine-learning/${item.linkedTopicSlug}`}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-gray-900 hover:underline"
                     >
                       Linked Epoch Note
                       <ArrowRight className="h-3 w-3" />
@@ -297,10 +297,10 @@ export default function ResourcesPage() {
                     href={item.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#34302D] dark:bg-card dark:text-foreground"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-gray-800 dark:text-white"
                   >
                     Open Resource
-                    <ExternalLink className="h-3 w-3 text-accent" />
+                    <ExternalLink className="h-3 w-3 text-gray-900" />
                   </a>
                 </div>
               </div>
