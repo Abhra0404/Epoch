@@ -28,6 +28,17 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
 
   const activeTopic = topics.find((t) => t.slug === currentSlug) || topics[1] || topics[0];
 
+  // Handle case where no topics are available (e.g., during build/prerendering)
+  if (!activeTopic) {
+    return (
+      <div className="min-h-screen bg-background text-foreground font-sans flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">Loading topics...</p>
+        </div>
+      </div>
+    );
+  }
+
   const filteredTopics = topics.filter(
     (t) =>
       t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
