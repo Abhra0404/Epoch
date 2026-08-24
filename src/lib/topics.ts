@@ -47,6 +47,90 @@ const TOPIC_METADATA_MAP: Record<string, { title: string; difficulty: "Beginner"
     readTime: "12 mins read",
     order: 5,
   },
+  "logistic-regression-and-the-sigmoid-function": {
+    title: "Logistic Regression & Sigmoid Function",
+    difficulty: "Intermediate",
+    readTime: "14 mins read",
+    order: 6,
+  },
+  "entropy-and-information-gain": {
+    title: "Entropy & Information Gain",
+    difficulty: "Intermediate",
+    readTime: "13 mins read",
+    order: 7,
+  },
+  "gini-impurity-and-the-best-split": {
+    title: "Gini Impurity & Best Split",
+    difficulty: "Intermediate",
+    readTime: "12 mins read",
+    order: 8,
+  },
+  "decision-tree-fundamentals": {
+    title: "Decision Tree Fundamentals",
+    difficulty: "Intermediate",
+    readTime: "14 mins read",
+    order: 9,
+  },
+  "random-forest": {
+    title: "Random Forest",
+    difficulty: "Advanced",
+    readTime: "16 mins read",
+    order: 10,
+  },
+  "ensemble-learning-and-bagging": {
+    title: "Ensemble Learning & Bagging",
+    difficulty: "Advanced",
+    readTime: "15 mins read",
+    order: 11,
+  },
+  "boosting-fundamentals": {
+    title: "Boosting Fundamentals",
+    difficulty: "Advanced",
+    readTime: "16 mins read",
+    order: 12,
+  },
+  "naive-bayes": {
+    title: "Naive Bayes",
+    difficulty: "Intermediate",
+    readTime: "12 mins read",
+    order: 13,
+  },
+  "k-nearest-neighbors": {
+    title: "K-Nearest Neighbors",
+    difficulty: "Beginner",
+    readTime: "10 mins read",
+    order: 14,
+  },
+  "support-vector-machines": {
+    title: "Support Vector Machines",
+    difficulty: "Advanced",
+    readTime: "18 mins read",
+    order: 15,
+  },
+  "linear-polynomial-and-rbf-kernels": {
+    title: "Linear, Polynomial & RBF Kernels",
+    difficulty: "Advanced",
+    readTime: "17 mins read",
+    order: 16,
+  },
+  "classification-fundamentals": {
+    title: "Classification Fundamentals",
+    difficulty: "Beginner",
+    readTime: "11 mins read",
+    order: 17,
+  },
+  "classification-evaluation": {
+    title: "Classification Evaluation",
+    difficulty: "Intermediate",
+    readTime: "13 mins read",
+    order: 18,
+  },
+  "time-series-and-forecasting": {
+    title: "Time Series & Forecasting",
+    difficulty: "Advanced",
+    readTime: "19 mins read",
+    order: 19,
+  },
 };
 
 export function getAllTopicSlugs(): string[] {

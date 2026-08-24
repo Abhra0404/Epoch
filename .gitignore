@@ -40,6 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-content
-
+# planning/docs (not needed for production)
 plan
