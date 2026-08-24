@@ -242,7 +242,7 @@ export default function Home() {
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                      {feat.label}
+                      {feat.title}
                     </span>
                     <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                   </div>
@@ -250,7 +250,7 @@ export default function Home() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <h3 className="mt-4 font-display text-base font-bold tracking-tight">
-                    {feat.title}
+                    {feat.label}
                   </h3>
                   <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                     {feat.desc}
@@ -315,99 +315,6 @@ export default function Home() {
                 })}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TOPIC GRID SAMPLE ────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pb-10 border-b border-border">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Featured Topics
-            </p>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight">
-              Start here.
-            </h2>
-          </div>
-          <Link
-            href="/learn"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-xs font-bold transition-colors hover:bg-secondary"
-          >
-            Browse all topics
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredTopics.map((topic, idx) => (
-            <Link
-              key={topic.slug}
-              href={`/subjects/machine-learning/${topic.slug}`}
-              className="paper-card group flex min-h-48 flex-col justify-between p-6"
-            >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-md border px-2 py-0.5 text-[10px] font-bold ${
-                      topic.difficulty === "Beginner"
-                        ? "border-border bg-secondary text-muted-foreground"
-                        : topic.difficulty === "Intermediate"
-                        ? "border-border bg-secondary text-muted-foreground"
-                        : "border-border bg-secondary text-muted-foreground"
-                    }`}
-                  >
-                    {topic.difficulty}
-                  </span>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                    ML · 0{idx + 1}
-                  </span>
-                </div>
-
-                <h3 className="mt-4 font-display text-xl font-bold tracking-tight group-hover:opacity-70 transition-opacity">
-                  {topic.title}
-                </h3>
-              </div>
-
-              <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-3 w-3" />
-                  {topic.readTime}
-                </span>
-                <span className="flex items-center gap-1 font-bold text-foreground transition-transform group-hover:translate-x-0.5">
-                  Read
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────────────────── */}
-      <section className="border-t border-border bg-card py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Early Learners
-            </p>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight">
-              What people are saying.
-            </h2>
-          </div>
-
-          <div className="grid gap-5 sm:grid-cols-3">
-            {testimonials.map((t) => (
-              <div key={t.name} className="paper-card p-6 flex flex-col justify-between">
-                <p className="text-sm leading-relaxed text-foreground">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="mt-6 pt-4 border-t border-border">
-                  <p className="text-xs font-bold text-foreground">{t.name}</p>
-                  <p className="text-[11px] text-muted-foreground">{t.role}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
