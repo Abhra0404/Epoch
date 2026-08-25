@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Support Vector Machines (SVM), Linear Algebra (Dot Products), Exponential Functions  
 **LEARNING OUTCOMES:** Explain the Kernel Trick, compare Linear, Polynomial, and RBF (Gaussian) kernels, derive non-linear decision boundaries, tune the RBF $\gamma$ hyperparameter, and select appropriate kernels based on dataset dimensions.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 The **Kernel Trick** is a mathematical technique that enables Support Vector Machines (SVMs) to learn complex, non-linear decision boundaries without explicitly computing high-dimensional feature transformations.
 
@@ -25,9 +23,7 @@ The three primary SVM kernels are:
 
 The key insight: The Kernel Trick allows SVMs to draw complex non-linear decision curves by computing simple similarity scores in input space.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you have a 2D dataset structured like concentric circles: Red points form a small inner circle around the origin, and Blue points form a large outer ring surrounding the Red circle.
 
@@ -37,9 +33,7 @@ If you attempt a **naive approach** by manually engineering high-order polynomia
 
 The Kernel Trick solves this completely. By evaluating the RBF kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)$, SVM draws a perfectly circular non-linear boundary around the inner cluster in $O(p)$ computational time without generating a single extra feature column.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 ### 1. Linear Kernel
 $$K_{\text{Linear}}(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j$$
@@ -64,9 +58,7 @@ $$\hat{y} = \text{sign}\left( \sum_{i \in \text{SV}} \alpha_i y_i K(\mathbf{x}_i
 | $\gamma$ (gamma) | RBF scale hyperparameter | Controls curvature and tightness of RBF boundaries |
 | $\|\mathbf{x}_i - \mathbf{x}_j\|^2$ | Squared Euclidean distance | Physical distance between two feature vectors |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine Red dots placed on a flat 1D line at $x \in [-1, +1]$, and Blue dots placed at $x \in [-3, -2] \cup [+2, +3]$.
 
@@ -82,9 +74,7 @@ When you look back down at the original 1D paper from above, that flat 2D sheet 
 
 The Kernel Trick computes this height elevation implicitly without needing to build the 3D bowl physically.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Demonstrate the mathematical equivalence of the Kernel Trick by evaluating a 1D Polynomial Kernel ($d=2, c=0$) using Method A (Kernel Function) vs. Method B (Explicit Feature Mapping).
@@ -116,9 +106,7 @@ Demonstrate the mathematical equivalence of the Kernel Trick by evaluating a 1D 
 **Answer:**  
 Both methods yield $36$, proving the mathematical validity of the Kernel Trick.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Calculate RBF Kernel similarity $K_{\text{RBF}}(\mathbf{x}_1, \mathbf{x}_2)$ for two 2D points under hyperparameter $\gamma = 0.50$.
@@ -151,9 +139,7 @@ Calculate RBF Kernel similarity $K_{\text{RBF}}(\mathbf{x}_1, \mathbf{x}_2)$ for
 **Answer:**  
 RBF Kernel similarity $K_{\text{RBF}} \approx 0.0111$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Setting $\gamma$ too large in the RBF Kernel (`gamma = 100.0`).  
 ✅ **FIX:** Tune $\gamma$ using grid search over logarithmic scales (e.g., $\gamma \in [0.001, 0.01, 0.1, 1.0]$).  
@@ -163,9 +149,7 @@ RBF Kernel similarity $K_{\text{RBF}} \approx 0.0111$.
 ✅ **FIX:** Use a **Linear Kernel** (`kernel='linear'`) for high-dimensional text data.  
 **WHY:** When feature count $p$ is already very large ($p > 10,000$), the data is almost always linearly separable in original space; using non-linear kernels adds unnecessary compute and increases overfitting risk.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use Linear Kernel:**
 - Feature count $p$ is very large relative to sample size ($p \ge N$), such as text TF-IDF vectors or genomic microarrays.
@@ -180,9 +164,7 @@ RBF Kernel similarity $K_{\text{RBF}} \approx 0.0111$.
 **The Boundary:**  
 If $p \gg N$, use **Linear Kernel**. If $N$ is modest and boundary is non-linear, use **RBF Kernel**. If $N > 200,000$, avoid non-linear kernels due to $O(N^2)$ matrix memory costs.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Support Vector Machines:** Provides non-linear dual formulation solvers.
@@ -193,9 +175,7 @@ If $p \gg N$, use **Linear Kernel**. If $N$ is modest and boundary is non-linear
 - **Support Vector Regression (SVR):** Fits non-linear continuous regression curves using kernel functions.
 - **Gaussian Processes:** Generalizes RBF kernel similarity to full Bayesian non-parametric regression.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Hand-Written Digit & Optical Character Recognition (OCR)  
 A postal sorting facility builds an automated system to read hand-written ZIP codes on envelopes ($8 \times 8$ pixel images, $p=64$ features).
@@ -209,9 +189,7 @@ A postal sorting facility builds an automated system to read hand-written ZIP co
 4. **Model Performance:** Achieves $99.1\%$ classification accuracy across 10 digit classes ($0$ through $9$).
 5. **Business Impact:** Processes 40,000 envelope scans per hour, replacing manual sorting and reducing package routing delays by $85\%$.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"What is the Kernel Trick, why does the RBF Kernel correspond to an infinite-dimensional feature space, and how do hyperparameters $C$ and $\gamma$ interact in RBF SVMs?"*
@@ -219,9 +197,7 @@ A postal sorting facility builds an automated system to read hand-written ZIP co
 **Expected Answer:**  
 The **Kernel Trick** computes inner products in a high-dimensional feature space directly in input space: $K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$, avoiding explicit transformation $\phi(\mathbf{x})$. The RBF kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)$ corresponds to an infinite-dimensional feature space because Taylor series expansion of $\exp(z) = \sum_{k=0}^{\infty} \frac{z^k}{k!}$ contains infinitely many polynomial terms. **Hyperparameter Interaction:** $\gamma$ controls individual support vector influence radius (large $\gamma$ creates tight local boundaries), while $C$ controls misclassification penalties (large $C$ enforces strict margins). High values for both $C$ and $\gamma$ significantly increase overfitting risk.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - **Kernel Trick:** Computes $\langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j) \rangle$ without explicit high-dimensional mapping.
 - **Linear Kernel:** $K = \mathbf{x}_i^T\mathbf{x}_j$ (Best when $p \gg N$).

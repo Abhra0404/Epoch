@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Classification Fundamentals, Multiple Linear Regression, Exponents and Natural Logarithms  
 **LEARNING OUTCOMES:** Explain the mathematical formulation of Logistic Regression, derive the Sigmoid function, interpret coefficients as log-odds ratios, and compute Binary Cross-Entropy (Log Loss).
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **Logistic Regression** is the foundational statistical model for binary classification. Despite having "regression" in its name, it is a classification algorithm that predicts the probability of an observation belonging to one of two discrete classes ($y \in \{0, 1\}$).
 
@@ -21,9 +19,7 @@ Instead of estimating raw values, Logistic Regression models the **log-odds** (l
 
 The key insight: Logistic Regression combines linear feature weighting with non-linear Sigmoid activation to produce calibrated, interpretable probability predictions.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose a medical clinic wants to predict whether a patient has diabetes based on blood glucose levels.
 
@@ -31,9 +27,7 @@ If you use **Linear Regression**, your model equation might predict a target sco
 
 Logistic Regression solves both problems. First, the Sigmoid function guarantees all output predictions fall neatly into valid probability ranges $[0, 1]$. Second, pairing Logistic Regression with **Binary Cross-Entropy (Log Loss)** creates a smooth, convex loss landscape where Gradient Descent is guaranteed to converge to the global minimum.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 For a feature vector $\mathbf{x} = (x_1, x_2, \dots, x_p)$, we compute the linear combination $z$:
 
@@ -58,9 +52,7 @@ $$\hat{p} = P(y = 1 \mid \mathbf{x}) = \sigma(z) = \frac{1}{1 + e^{-z}} = \frac{
 ### Binary Cross-Entropy Loss (Log Loss)
 $$J(\boldsymbol{\beta}) = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \ln(\hat{p}_i) + (1 - y_i) \ln(1 - \hat{p}_i) \right]$$
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a graph with logit score $z$ on the horizontal axis ($-\infty$ to $+\infty$) and predicted probability $\hat{p}$ on the vertical axis ($0.0$ to $1.0$).
 
@@ -77,9 +69,7 @@ Plotting $\sigma(z) = \frac{1}{1 + e^{-z}}$ reveals a smooth S-shaped curve:
 
 The Sigmoid curve squashes the infinite horizontal linear space into a clean, smooth vertical probability strip bounded between $0$ and $1$.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Given a fitted Logistic Regression model predicting loan default ($y=1$) from credit score feature $x$, calculate logit score $z$, predicted probability $\hat{p}$, and final class prediction $\hat{y}$ for a customer with feature $x = 5$.
@@ -112,9 +102,7 @@ Given a fitted Logistic Regression model predicting loan default ($y=1$) from cr
 **Answer:**  
 Logit $z = +2.0$, predicted probability $\hat{p} \approx 0.8808$ ($88.08\%$), and predicted class is $\hat{y} = 1$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Calculate Binary Cross-Entropy Loss (Log Loss) for a dataset of $n=2$ samples to measure penalty severity for confident wrong predictions versus correct predictions.
@@ -147,9 +135,7 @@ Calculate Binary Cross-Entropy Loss (Log Loss) for a dataset of $n=2$ samples to
 **Answer:**  
 Average Log Loss $J \approx 1.2629$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Interpreting Logistic Regression coefficients $\beta_1$ as direct changes in raw probability (e.g., claiming $\beta_1 = 0.8$ means probability increases by $80\%$).  
 ✅ **FIX:** Interpret $\beta_1$ as a linear change in **log-odds**, or exponentiate it ($\exp(\beta_1)$) to get the multiplicative change in **odds ratio**.  
@@ -159,9 +145,7 @@ Average Log Loss $J \approx 1.2629$.
 ✅ **FIX:** Always use Binary Cross-Entropy Loss (Log Loss).  
 **WHY:** MSE combined with Sigmoid produces a non-convex loss function full of flat regions and local minima where Gradient Descent gets permanently stuck.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Binary classification tasks requiring calibrated probability outputs.
@@ -175,9 +159,7 @@ Average Log Loss $J \approx 1.2629$.
 **The Boundary:**  
 If classes are linearly separable in feature space and probability calibration is needed, use **Logistic Regression**. If boundaries are intricate, non-linear decision trees or Random Forests will outperform it.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Multiple Linear Regression:** Uses the exact same linear combination equation $z = \boldsymbol{\beta}^T\mathbf{x}$.
@@ -187,9 +169,7 @@ If classes are linearly separable in feature space and probability calibration i
 - **Softmax Regression (Multinomial Logistic Regression):** Generalizes Sigmoid binary probabilities to $K$-class probability distributions.
 - **Neural Networks:** Single neuron in a modern neural network is a Logistic Regression unit.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Banking Loan Default Probability Engine  
 A retail bank evaluates consumer loan applications to estimate default risk ($y=1$).
@@ -206,9 +186,7 @@ A retail bank evaluates consumer loan applications to estimate default risk ($y=
    - Applicant with $\hat{p} = 0.28$ ($28\%$ default probability): Flagged for higher interest rate or collateral requirement.
 5. **Business Impact:** Maintains low default rates while satisfying regulatory compliance requiring fully transparent credit decisions.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why do we use Binary Cross-Entropy (Log Loss) instead of Mean Squared Error (MSE) to train Logistic Regression models?"*
@@ -216,9 +194,7 @@ A retail bank evaluates consumer loan applications to estimate default risk ($y=
 **Expected Answer:**  
 Pairing Mean Squared Error with the non-linear Sigmoid activation function $\sigma(z)$ yields a non-convex loss function with multiple local minima and large flat plateau regions where derivatives approach zero. If Gradient Descent lands on a flat plateau, parameters stop updating, causing training to stall. In contrast, Binary Cross-Entropy loss eliminates Sigmoid saturation in its derivative, resulting in a strictly convex loss landscape. Convexity guarantees that Gradient Descent will always converge to the single unique global minimum.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Models binary probability $\hat{p} = \sigma(\boldsymbol{\beta}^T\mathbf{x}) = \frac{1}{1 + e^{-z}}$.
 - Sigmoid squashes $(-\infty, +\infty)$ onto smooth probability range $(0, 1)$.

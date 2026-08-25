@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Simple Linear Regression, Matrix Addition & Multiplication, Systems of Linear Equations  
 **LEARNING OUTCOMES:** Formulate the multiple linear regression equation in vector and matrix forms, solve parameter coefficients using the normal equation, understand multicollinearity, and interpret partial regression coefficients.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 Multiple Linear Regression (MLR) extends Simple Linear Regression by modeling the relationship between a single continuous outcome variable and two or more predictor features simultaneously.
 
@@ -18,9 +16,7 @@ Each feature gets its own dedicated coefficient, known as a **partial regression
 
 The key insight: Multiple Linear Regression isolates the unique contribution of each feature on the target output while mathematically controlling for the confounding influence of all other features.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose a university wants to predict a graduate's starting salary based on their GPA. 
 
@@ -30,9 +26,7 @@ Running separate simple linear regressions for each variable is equally problema
 
 Multiple Linear Regression solves this by putting all relevant variables into a single unified equation. It disentangles overlapping effects, allowing you to answer questions like: *"How much extra salary does 1 additional GPA point provide for two candidates who have the exact same years of experience?"*
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 For an observation with $p$ independent features $(x_1, x_2, \dots, x_p)$, Multiple Linear Regression models the target $y$ as:
 
@@ -56,9 +50,7 @@ Using Ordinary Least Squares (OLS), we minimize the Sum of Squared Errors $S(\bo
 
 $$\boldsymbol{\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a 3D glass box representing a dataset with $p = 2$ features and target $y$.
 
@@ -70,9 +62,7 @@ Instead of drawing a straight 1D line, Multiple Linear Regression inserts a flat
 
 OLS rotates and tilts this 2D sheet until the sum of the squared lengths of all vertical strings reaches the smallest possible value.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Fit a Multiple Linear Regression model $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2$ using OLS for a dataset with $n=3$ observations and $p=2$ features ($x_1$: Study hours, $x_2$: Practice tests taken, $y$: Exam score).
@@ -125,9 +115,7 @@ Fit a Multiple Linear Regression model $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_
 **Answer:**  
 The fitted regression model is $\hat{y} = 1 + 2x_1 + 3x_2$. Base score is $1$, each study hour adds $2$ marks, and each practice test adds $3$ marks.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate prediction and residual computation for a new observation using a fitted multiple linear regression model with negative and positive coefficients.
@@ -165,9 +153,7 @@ Evaluate a test car with specs $x_1 = 3.0$ (3,000 lbs) and $x_2 = 1.5$ (150 hp) 
 **Answer:**  
 Predicted MPG is $23.25\text{ mpg}$ with a residual error of $-5.25\text{ mpg}$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Including two highly correlated features (e.g., house size in sq ft and sq meters) in the same model without addressing **multicollinearity**.  
 ✅ **FIX:** Remove one of the redundant features or use regularization techniques like Ridge Regression.  
@@ -177,9 +163,7 @@ Predicted MPG is $23.25\text{ mpg}$ with a residual error of $-5.25\text{ mpg}$.
 ✅ **FIX:** Always frame $\beta_j$ as a *partial* coefficient: the impact of $x_j$ *holding all other variables constant*.  
 **WHY:** Adding or removing a feature changes the numerical value and meaning of all other coefficients in MLR.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - You have multiple continuous or dummy-encoded categorical predictors driving a single continuous output.
@@ -194,9 +178,7 @@ Predicted MPG is $23.25\text{ mpg}$ with a residual error of $-5.25\text{ mpg}$.
 **The Boundary:**  
 Check the Variance Inflation Factor (VIF) for each feature. If $\text{VIF} > 10$, severe multicollinearity is present and OLS assumptions break down; you must drop features or switch to regularized regression.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Simple Linear Regression:** Extends 1D line fitting to multi-dimensional hyperplane fitting.
@@ -207,9 +189,7 @@ Check the Variance Inflation Factor (VIF) for each feature. If $\text{VIF} > 10$
 - **Polynomial Regression:** Creates higher-order features ($x_1^2, x_1 x_2$) and feeds them directly into MLR.
 - **Neural Network Linear Layers:** A single neuron without an activation function is structurally identical to Multiple Linear Regression.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Digital Marketing Campaign Attribution  
 An e-commerce retailer wants to optimize advertising spend across multiple channels (Google Search, Meta Ads, YouTube Video).
@@ -225,9 +205,7 @@ An e-commerce retailer wants to optimize advertising spend across multiple chann
 4. **Budget Reallocation:** Shift marketing budget away from lower-ROI channels (YouTube) into higher-ROI channels (Google Search).
 5. **Business Impact:** Increases total campaign revenue by $18\%$ without raising the total marketing budget.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"What happens mathematically to the Normal Equation $\boldsymbol{\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ when two features in $\mathbf{X}$ are perfectly collinear?"*
@@ -235,9 +213,7 @@ An e-commerce retailer wants to optimize advertising spend across multiple chann
 **Expected Answer:**  
 If two features are perfectly collinear, one column of matrix $\mathbf{X}$ is an exact linear combination of another. Consequently, the matrix product $\mathbf{X}^T\mathbf{X}$ loses full column rank and its determinant becomes zero ($\det(\mathbf{X}^T\mathbf{X}) = 0$). This makes $\mathbf{X}^T\mathbf{X}$ singular and non-invertible. As a result, there is no unique solution for $\boldsymbol{\beta}$; infinitely many coefficient combinations can produce the exact same minimal sum of squared errors.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Fits a multi-dimensional hyperplane $\mathbf{\hat{y}} = \mathbf{X}\boldsymbol{\beta}$ using OLS.
 - Solved analytically via Normal Equation: $\boldsymbol{\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$.

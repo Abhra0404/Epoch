@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Ensemble Learning and Bagging, Decision Tree Fundamentals, Gini Impurity  
 **LEARNING OUTCOMES:** Describe the Random Forest architecture, explain Feature Subspace Randomization ($m = \sqrt{p}$), derive decorrelation benefits over standard Bagging, compute Feature Importance (MDI), and tune key hyperparameters.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **Random Forest** is one of the most popular and effective ensemble algorithms in machine learning. Created by Leo Breiman, it extends **Bootstrap Aggregating (Bagging)** by introducing a second layer of randomness designed specifically to **decorrelate** individual decision trees.
 
@@ -22,9 +20,7 @@ Standard defaults:
 
 The key insight: By forcing trees to split on different random feature subsets, Random Forest decorrelates the trees, driving pairwise correlation $\rho \to 0$ and maximizing overall ensemble variance reduction.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you have a dataset with $100$ financial features predicting loan default, where *Credit Score* is by far the strongest predictor.
 
@@ -32,9 +28,7 @@ If you use **Standard Bagging**, all 100 bootstrap decision trees will pick *Cre
 
 Random Forest solves this. On roughly $\sqrt{100} = 10$ feature subsets per node, *Credit Score* will be excluded from the candidate pool $90\%$ of the time. This forces individual trees to discover hidden predictive signals in secondary features (like *Debt Ratio* or *Savings*), producing truly independent trees that drastically reduce variance when averaged.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Given a dataset $\mathcal{D}$ with $N$ observations and $p$ features:
 
@@ -59,9 +53,7 @@ For $b = 1$ to $B$ (number of trees):
 | $B$ | Number of trees in forest | $100$ to $500$ trees |
 | $T_b(\mathbf{x})$ | Prediction of $b$-th randomized tree | Base estimator prediction |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a diagnostic panel of 100 doctors attempting to diagnose a patient.
 
@@ -72,9 +64,7 @@ Because no two doctors evaluate the exact same combination of symptoms, their in
 
 When all 100 doctors cast their votes, their collective diagnosis is far more accurate and robust than any single expert's opinion.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Demonstrate feature subspace candidate selection at a decision node for a classification task with $p = 4$ total features.
@@ -108,9 +98,7 @@ Demonstrate feature subspace candidate selection at a decision node for a classi
 **Answer:**  
 Node 1 evaluates only the sampled subset $\{x_2, x_4\}$ and splits on $x_4$ (Debt) with maximum Gini Gain $0.500$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Calculate Mean Decrease Impurity (MDI) Feature Importance for Feature $x_1$ across an ensemble of $B=3$ trees.
@@ -141,9 +129,7 @@ Calculate Mean Decrease Impurity (MDI) Feature Importance for Feature $x_1$ acro
 **Answer:**  
 Feature $x_1$ has an MDI Feature Importance score of $0.25$ ($25\%$).
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Setting $m = p$ (evaluating all features at every node split).  
 ✅ **FIX:** Keep the default subset size $m = \sqrt{p}$ for classification or $m = p/3$ for regression.  
@@ -153,9 +139,7 @@ Feature $x_1$ has an MDI Feature Importance score of $0.25$ ($25\%$).
 ✅ **FIX:** Use **Permutation Feature Importance** on validation data to verify feature rankings.  
 **WHY:** MDI artificially inflates importance scores for continuous numerical features because they offer many candidate split points, giving them more opportunities to reduce Gini impurity by chance.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Tabular datasets with medium-to-large feature counts ($p = 10$ to $1,000$).
@@ -169,9 +153,7 @@ Feature $x_1$ has an MDI Feature Importance score of $0.25$ ($25\%$).
 **The Boundary:**  
 For tabular data where low-variance accuracy and out-of-the-box reliability are needed, use **Random Forest**. If data is sparse text or sequence-based, use Linear Models or Deep Learning.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Ensemble Learning and Bagging:** Uses bootstrapping and majority voting as its core ensemble engine.
@@ -181,9 +163,7 @@ For tabular data where low-variance accuracy and out-of-the-box reliability are 
 - **Extra-Trees (Extremely Randomized Trees):** Randomizes split thresholds in addition to feature subsets.
 - **Isolation Forests:** Adapts Random Forest architecture for unsupervised anomaly detection.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** E-Commerce Customer Churn Prediction  
 A subscription SaaS provider builds a model to predict whether a customer will cancel their subscription ($y=1$) within 30 days.
@@ -195,9 +175,7 @@ A subscription SaaS provider builds a model to predict whether a customer will c
 4. **Feature Importance Ranking:** Permutation importance reveals that *Support Ticket Count in Last 7 Days* ($28\%$) and *Days Since Last Login* ($22\%$) are the top churn drivers.
 5. **Business Value:** The customer success team automatically triggers targeted discount offers to high-churn-risk users, reducing monthly subscriber churn by $19\%$.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"Why does Random Forest select a random subset of features $m = \sqrt{p}$ at every node split, and how does this mathematically improve upon standard Bagging?"*
@@ -205,9 +183,7 @@ A subscription SaaS provider builds a model to predict whether a customer will c
 **Expected Answer:**  
 In standard Bagging, strong dominant features are selected at the root nodes of almost all bootstrap trees, causing trees to be structurally similar and highly correlated ($\rho \approx 1$). According to the ensemble variance equation $\text{Var} = \rho \sigma^2 + \frac{1-\rho}{B} \sigma^2$, as $B \to \infty$, variance is bounded by $\rho \sigma^2$. By restricting each split to $m = \sqrt{p}$ random features, Random Forest forces trees to split on secondary features when dominant ones are excluded. This decorrelates the trees, driving pairwise correlation $\rho \to 0$ and maximizing overall ensemble variance reduction.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Combines Bagging with Feature Subspace Randomization ($m = \sqrt{p}$).
 - Forces trees to split on diverse features, decorrelating trees ($\rho \to 0$).

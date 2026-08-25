@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Single-Variable Calculus (Derivatives), Simple Linear Regression, Vector Arithmetic  
 **LEARNING OUTCOMES:** Define Mean Squared Error (MSE) loss, derive gradients with respect to model parameters, implement the gradient descent update rule, and choose optimal learning rates.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 In machine learning, training a model means finding parameter values that produce the most accurate predictions possible. Two concepts drive this process: the **Loss Function** and **Gradient Descent**.
 
@@ -18,9 +16,7 @@ To walk downhill, you feel which direction slopes downward most steeply, take a 
 
 The key insight: Gradient Descent iteratively adjusts model parameters in the direction opposite to the gradient, systematically stepping down the loss landscape until it reaches the minimum loss.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you are fitting a linear model with $100,000$ features. 
 
@@ -30,9 +26,7 @@ Alternatively, trying **random guessing** or a **grid search** across millions o
 
 Gradient Descent solves this by avoiding matrix inversion entirely. Instead of calculating the perfect answer in one massive computation, it starts with arbitrary initial weights and makes fast, efficient, incremental adjustments using $O(np)$ operations per step, scaling smoothly to massive datasets.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 For a dataset of $n$ samples, the standard loss function for linear regression is **Mean Squared Error (MSE)**:
 
@@ -59,9 +53,7 @@ To move down the loss surface (steepest descent), subtract the scaled gradient:
 
 $$w := w - \alpha \frac{\partial J}{\partial w}, \quad b := b - \alpha \frac{\partial J}{\partial b}$$
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a smooth U-shaped parabolic curve plotted on a graph, where the horizontal axis represents model weight $w$ and the vertical axis represents loss $J(w)$.
 
@@ -77,9 +69,7 @@ If your weight lands on the right rim:
 
 As you approach the bottom, the slope naturally flattens ($\frac{\partial J}{\partial w} \to 0$), causing step sizes to automatically shrink until you gently settle at the minimum.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Perform 1 step of Gradient Descent to update weight $w$ for a model $\hat{y} = w \cdot x$ (assuming bias $b=0$).
@@ -120,9 +110,7 @@ Perform 1 step of Gradient Descent to update weight $w$ for a model $\hat{y} = w
 **Answer:**  
 After 1 iteration, weight $w$ updates from $0.0$ to $0.5$, successfully reducing MSE loss from $5.0$ down to $2.8125$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate what happens when the learning rate $\alpha$ is set too large, causing overshooting and step direction reversal.
@@ -157,9 +145,7 @@ Demonstrate what happens when the learning rate $\alpha$ is set too large, causi
 **Answer:**  
 With $\alpha = 0.5$, weight steps to $2.5$, overshooting optimal weight $w^*=2.0$ and reversing gradient direction.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Running Gradient Descent without feature scaling (e.g., combining income in $\$100,000\text{s}$ with age in years).  
 ✅ **FIX:** Apply Standard Scaling ($z = \frac{x - \mu}{\sigma}$) or Min-Max scaling before training.  
@@ -169,9 +155,7 @@ With $\alpha = 0.5$, weight steps to $2.5$, overshooting optimal weight $w^*=2.0
 ✅ **FIX:** Use learning rate schedulers, grid search over values like $[0.001, 0.01, 0.1]$, or monitor loss plots.  
 **WHY:** An excessively high learning rate causes the algorithm to overshoot the minimum, diverge upward, and explode to infinity ($\text{NaN}$ loss).
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Datasets have large sample sizes $n$ or high feature counts $p$ ($p > 10,000$) where OLS matrix inversion fails.
@@ -185,9 +169,7 @@ With $\alpha = 0.5$, weight steps to $2.5$, overshooting optimal weight $w^*=2.0
 **The Boundary:**  
 If feature size $p < 10,000$ and memory permits, use closed-form analytical OLS. If $p \ge 10,000$ or data arrives sequentially, use Stochastic Gradient Descent (SGD) or Batch Gradient Descent.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Derivatives & Partial Derivatives:** Calculus powers the exact computation of gradient slope vectors $\nabla J$.
@@ -198,9 +180,7 @@ If feature size $p < 10,000$ and memory permits, use closed-form analytical OLS.
 - **Advanced Optimizers (Adam, RMSprop):** Enhances basic gradient descent with adaptive learning rates and momentum.
 - **Deep Learning Backpropagation:** Applies the chain rule to run gradient descent across multi-layer neural networks.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Click-Through Rate (CTR) Prediction in Ad Tech  
 A digital advertising platform processes 500 million ad impressions daily to predict whether a user will click an ad ($y \in \{0, 1\}$).
@@ -216,9 +196,7 @@ A digital advertising platform processes 500 million ad impressions daily to pre
 4. **Monitoring:** Track average loss per batch. The loss steadily drops from $J = 0.693$ down to $J = 0.121$ over 50 epochs.
 5. **Business Impact:** Serves real-time predictions in under 5 milliseconds per ad request, generating a $14\%$ lift in ad monetization efficiency.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why is feature scaling crucial before running Gradient Descent, but completely unnecessary when solving linear regression using the Normal Equation $\boldsymbol{\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?"*
@@ -226,9 +204,7 @@ A digital advertising platform processes 500 million ad impressions daily to pre
 **Expected Answer:**  
 The Normal Equation is a closed-form analytical solution that solves for the exact global minimum in a single algebraic step; coordinate scales do not change the underlying mathematical location of the minimum. Conversely, Gradient Descent moves iteratively along step vectors defined by partial derivatives. Unscaled features create an elongated, skewed loss surface where gradients point perpendicular to the true minimum, forcing the optimizer to take inefficient zig-zag paths. Scaling reshapes the loss surface into spherical contours where gradients point directly toward the center.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Loss $J(w)$ measures model error; Gradient $\nabla J$ indicates direction of steepest error increase.
 - Updates parameters iteratively: $w := w - \alpha \frac{\partial J}{\partial w}$.

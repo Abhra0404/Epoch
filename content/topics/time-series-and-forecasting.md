@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Single-Variable Calculus, Simple Linear Regression, Regression Evaluation  
 **LEARNING OUTCOMES:** Define time series components (Trend, Seasonality, Noise), verify stationarity conditions, apply differencing, formulate Simple Exponential Smoothing and ARIMA$(p,d,q)$ models, and execute Walk-Forward validation without data leakage.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **Time Series Forecasting** is the discipline of analyzing data points collected sequentially over uniform chronological time intervals $t \in \{1, 2, \dots, T\}$ to predict future values $y_{T+h}$.
 
@@ -22,9 +20,7 @@ Forecasting algorithms require data to be **stationary**—meaning its mean, var
 
 The key insight: Time Series Forecasting leverages past temporal dependencies ($y_{t-1}, y_{t-2}$) and seasonal patterns to project future trajectories while preventing temporal data leakage.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose a retail chain wants to forecast daily store inventory for the next 30 days.
 
@@ -34,9 +30,7 @@ Furthermore, standard ML assumes samples are independent, completely ignoring au
 
 Time Series Forecasting solves these problems. It introduces specialized time-aware validation (**Walk-Forward Backtesting**), enforces chronological sequence integrity, and explicitly models autocorrelation and seasonal patterns.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 ### Time Series Decomposition
 - **Additive Model (Constant seasonal variation):**
@@ -67,9 +61,7 @@ Where $y_t'$ is the differenced series, $\phi_i$ are AR parameters, $\theta_j$ a
 | $p, d, q$ | ARIMA orders | $p$: AR lags, $d$: differencing order, $q$: MA residual lags |
 | $\alpha$ | Smoothing parameter (SES) | Weight given to recent observations ($0 < \alpha \le 1$) |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a deconstructed time-series chart showing monthly ice cream sales over 5 years:
 
@@ -84,9 +76,7 @@ A non-stationary series looks like a drifting staircase heading uphill with chan
 
 Applying **First Differencing** ($\Delta y_t = y_t - y_{t-1}$) subtracts yesterday's height from today's height, transforming the drifting staircase into a flat, horizontal soundwave oscillating stably around zero.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Calculate forecasts using **Simple Exponential Smoothing (SES)** with smoothing factor $\alpha = 0.50$ across a 3-period historical time series.
@@ -119,9 +109,7 @@ Calculate forecasts using **Simple Exponential Smoothing (SES)** with smoothing 
 **Answer:**  
 The SES forecast for period $t=4$ is $\hat{y}_4 = 13.5$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Apply First-Order Differencing ($d=1$) to convert a non-stationary trending series into a stationary series, then compute the differenced mean.
@@ -152,9 +140,7 @@ $$y = [100, 105, 112, 120]$$
 **Answer:**  
 The differenced stationary series is $\Delta y = [5, 7, 8]$, predicting $y_5 = 126.67$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Evaluating time series models using standard random $K$-Fold Cross-Validation.  
 ✅ **FIX:** Use **Walk-Forward Validation (TimeSeriesSplit)** where training sets strictly precede validation sets in chronological order.  
@@ -164,9 +150,7 @@ The differenced stationary series is $\Delta y = [5, 7, 8]$, predicting $y_5 = 1
 ✅ **FIX:** Perform an **Augmented Dickey-Fuller (ADF) test** to check for unit roots; apply differencing ($d=1$ or $d=2$) until $p\text{-value} < 0.05$.  
 **WHY:** Non-stationary data causes spurious regression, where independent trends falsely appear correlated.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Data observations are chronologically ordered over continuous regular time intervals.
@@ -180,9 +164,7 @@ The differenced stationary series is $\Delta y = [5, 7, 8]$, predicting $y_5 = 1
 **The Boundary:**  
 If target $y_t$ depends on past values ($y_{t-1}, y_{t-2}$) or seasonal cycles, use **Time Series Forecasting**. If observations are independent cross-sectional samples, use standard **Regression**.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Simple Linear Regression:** Serves as the basis for deterministic trend fitting.
@@ -193,9 +175,7 @@ If target $y_t$ depends on past values ($y_{t-1}, y_{t-2}$) or seasonal cycles, 
 - **Prophet & Holt-Winters:** Decomposable additive models with seasonal trend adjustments.
 - **Deep Temporal Models (LSTM, GRU, Temporal Fusion Transformers):** Using deep learning for multi-horizon time series forecasting.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** E-Commerce Supply Chain Demand Forecasting  
 A global retailer forecasts daily unit demand for 100,000 products to optimize warehouse replenishment.
@@ -208,9 +188,7 @@ A global retailer forecasts daily unit demand for 100,000 products to optimize w
 5. **Model Evaluation:** Measure performance using Mean Absolute Scaled Error ($\text{MASE} = 0.78$).
 6. **Business Impact:** Prevents over-stocking and stockouts, reducing warehouse holding costs by $\$12$ million annually while improving order fulfillment rates to $99.2\%$.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"Why is standard K-Fold Cross-Validation mathematically invalid for time series data, what is Stationarity, and how does the Augmented Dickey-Fuller (ADF) test verify it?"*
@@ -218,9 +196,7 @@ A global retailer forecasts daily unit demand for 100,000 products to optimize w
 **Expected Answer:**  
 Standard $K$-Fold Cross-Validation is invalid because it shuffles data randomly, creating **temporal data leakage** where future information ($y_{t+1}$) leaks into past training sets ($y_t$), violating chronological ordering. **Stationarity** means a series' statistical properties (mean, variance, autocovariance) are constant over time. The **Augmented Dickey-Fuller (ADF) test** tests for the presence of a unit root (null hypothesis $H_0$: series is non-stationary). An ADF $p\text{-value} < 0.05$ rejects $H_0$, confirming stationarity. If $p \ge 0.05$, differencing ($d=1$) must be applied to make the series stationary before modeling.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Models sequential, chronologically ordered data ($y_t$).
 - **Decomposition:** Trend ($T_t$), Seasonality ($S_t$), Noise ($R_t$).

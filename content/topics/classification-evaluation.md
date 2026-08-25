@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Classification Fundamentals, Logistic Regression, Basic Probability  
 **LEARNING OUTCOMES:** Construct a Confusion Matrix, calculate Precision, Recall, Specificity, and F1-Score, interpret ROC and Precision-Recall curves, and select appropriate metrics for imbalanced datasets.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 Evaluating classification models requires going far beyond simple Accuracy. While accuracy measures the overall percentage of correct predictions, it can be highly misleading when dealing with real-world datasets where classes are imbalanced or where different types of errors carry vastly different costs.
 
@@ -22,9 +20,7 @@ From these four counts, we derive specialized metrics—**Precision**, **Recall*
 
 The key insight: Classification evaluation measures the specific trade-off between false alarms (False Positives) and missed detections (False Negatives).
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose an e-commerce platform builds an automated fraud detection engine. 
 
@@ -34,9 +30,7 @@ Alternatively, treating all errors equally fails business logic. Flagging a legi
 
 Classification evaluation solves this by separating precision (how trustworthy positive alerts are) from recall (how many actual fraud cases were caught), allowing teams to tune decision thresholds to match business risk priorities.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 ### The Confusion Matrix
 
@@ -62,9 +56,7 @@ Classification evaluation solves this by separating precision (how trustworthy p
 - **False Positive Rate (FPR):** Proportion of actual negatives falsely flagged:
   $$\text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}$$
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 The **ROC Curve (Receiver Operating Characteristic)** visualizes classification performance across all possible decision thresholds $\tau \in [0, 1]$.
 
@@ -80,9 +72,7 @@ A random guessing classifier forms a straight diagonal $45^\circ$ line ($\text{A
 
 **AUC (Area Under Curve)** measures the probability that the model ranks a randomly chosen positive sample higher than a randomly chosen negative sample.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Construct a Confusion Matrix and calculate Accuracy, Precision, Recall, and F1-Score for a test dataset of $n=10$ observations.
@@ -118,9 +108,7 @@ Construct a Confusion Matrix and calculate Accuracy, Precision, Recall, and F1-S
 **Answer:**  
 $\text{Accuracy} = 80\%$, $\text{Precision} = 80\%$, $\text{Recall} = 80\%$, and $\text{F1-Score} = 80\%$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate the **Precision-Recall Trade-off** by showing how shifting decision threshold $\tau$ from $0.50$ to $0.80$ changes Precision and Recall.
@@ -155,9 +143,7 @@ Predicted probabilities $\hat{p}$ for $n=4$ samples:
 **Answer:**  
 Raising threshold $\tau$ boosts Precision ($66.7\% \to 100\%$) but sacrifices Recall ($100\% \to 50\%$).
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Optimizing Accuracy on heavily imbalanced datasets (e.g., $99.9\%$ non-fraud data).  
 ✅ **FIX:** Use **F1-Score**, **Precision-Recall AUC (PR-AUC)**, or set cost matrix penalties.  
@@ -167,9 +153,7 @@ Raising threshold $\tau$ boosts Precision ($66.7\% \to 100\%$) but sacrifices Re
 ✅ **FIX:** Use **Precision-Recall Curves (PR-AUC)** instead of ROC-AUC for severe class imbalance.  
 **WHY:** In massive negative datasets, a large number of True Negatives inflates the denominator of $\text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}$, making ROC-AUC look deceptively optimistic even when Precision is terrible.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Prioritize Precision:**
 - False Positives carry high cost or penalty (e.g., spam filter blocking crucial business emails, automated content moderation deleting valid posts).
@@ -181,9 +165,7 @@ Raising threshold $\tau$ boosts Precision ($66.7\% \to 100\%$) but sacrifices Re
 - Use **ROC-AUC** when classes are reasonably balanced and you want to measure ranking capability across thresholds.
 - Use **PR-AUC** when positive cases are extremely rare ($< 1\%$ positive rate).
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Classification Fundamentals:** Provides formal quantitative validation tools for decision boundaries.
@@ -193,9 +175,7 @@ Raising threshold $\tau$ boosts Precision ($66.7\% \to 100\%$) but sacrifices Re
 - **Threshold Tuning:** Selecting optimal operational cutoff $\tau$ based on business cost functions.
 - **Cost-Sensitive Learning:** Incorporating financial penalties directly into model selection.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Hospital Patient Sepsis Early Warning System  
 An ICU deploys an ML model to flag patients developing life-threatening sepsis ($y=1$).
@@ -211,9 +191,7 @@ An ICU deploys an ML model to flag patients developing life-threatening sepsis (
    - Nurses tolerate extra false alarms ($60\%$ false positive rate) because catching $95\%$ of true sepsis cases saves lives.
 5. **Business Impact:** Reduces ICU sepsis mortality by $31\%$ across the hospital network.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"Why is Precision-Recall AUC preferred over ROC-AUC when evaluating models on datasets with extreme class imbalance?"*
@@ -221,9 +199,7 @@ An ICU deploys an ML model to flag patients developing life-threatening sepsis (
 **Expected Answer:**  
 ROC-AUC plots True Positive Rate ($\frac{\text{TP}}{\text{TP}+\text{FN}}$) against False Positive Rate ($\frac{\text{FP}}{\text{FP}+\text{TN}}$). On extremely imbalanced datasets with millions of negative samples, the number of True Negatives (TN) in the denominator of FPR is huge. Consequently, even if a model generates thousands of False Positives, FPR remains near zero, producing a deceptively high ROC-AUC score (e.g., $0.95$). In contrast, Precision-Recall curves replace FPR with Precision ($\frac{\text{TP}}{\text{TP}+\text{FP}}$), which directly compares True Positives against False Positives without being masked by large TN counts.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - **Confusion Matrix:** Tracks TP, TN, FP (False Alarm), and FN (Missed Case).
 - **Precision:** $\frac{\text{TP}}{\text{TP} + \text{FP}}$ (Avoids false alarms).

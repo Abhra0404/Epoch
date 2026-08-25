@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Classification Fundamentals, Linear Algebra (Dot Products, Norms), Convex Optimization  
 **LEARNING OUTCOMES:** Explain maximum margin classification, derive the decision boundary and margin equations, define support vectors, formulate hard vs. soft margin optimization, and analyze hyperparameter $C$.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 A **Support Vector Machine (SVM)** is a powerful supervised learning algorithm used primarily for binary classification (and extended to multi-class and regression). Unlike Logistic Regression, which finds *any* line that separates classes, an SVM finds the single unique **optimal decision boundary** (hyperplane) that maximizes the **margin**—the physical distance between the boundary and the closest data points of any class.
 
@@ -20,9 +18,7 @@ To handle real-world noisy data where classes overlap, **Soft-Margin SVM** intro
 
 The key insight: SVMs maximize the geometric margin between classes, relying exclusively on a small subset of critical boundary points (Support Vectors).
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you have a linearly separable dataset with two classes of points.
 
@@ -32,9 +28,7 @@ Furthermore, fitting models on high-dimensional text or genomic data ($p \gg N$)
 
 SVM solves both problems. By explicitly maximizing the geometric margin ($\frac{2}{\|\mathbf{w}\|}$), it places the boundary dead-center in the widest possible gap between classes, providing the maximum structural safety buffer for unseen data.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 ### Hyperplane and Margin Equations
 A decision hyperplane in $p$-dimensional space is defined as:
@@ -66,9 +60,7 @@ $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{N} \alpha_i - \frac{1}{2} \sum_{i=1}^{N
 | $C$ | Regularization hyperparameter | Trade-off between margin width and slack penalty |
 | $\alpha_i$ | Lagrange multiplier | $\alpha_i > 0$ strictly for Support Vectors |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a 2D scatter plot with Red circles ($y = -1$) and Blue squares ($y = +1$).
 
@@ -81,9 +73,7 @@ The perpendicular distance between the top and bottom dashed lines is the **Marg
 
 The Blue squares and Red circles sitting directly on the dashed lines are the **Support Vectors**. All other points far away from the road shoulders have zero influence on where the boundary is drawn.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Find the exact hard-margin SVM weight $w$, bias $b$, decision boundary, and margin width for a 1D dataset ($p=1$) with $n=2$ support vectors.
@@ -118,9 +108,7 @@ Find the exact hard-margin SVM weight $w$, bias $b$, decision boundary, and marg
 **Answer:**  
 Weight $w = 1.0$, bias $b = -2.0$, decision boundary is $x = 2.0$, and margin width is $2.0$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Analyze the trade-off effect of Soft-Margin hyperparameter $C$ when evaluating a noisy dataset containing an outlier.
@@ -150,9 +138,7 @@ A dataset where a single noise point lands deep inside the opposite class territ
 **Answer:**  
 Large $C$ forces hard margins and overfits outliers; small $C$ creates soft margins that ignore outliers for better generalization.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Running SVM without standardizing or min-max scaling input features first.  
 ✅ **FIX:** Always apply Standard Scaling ($z = \frac{x-\mu}{\sigma}$) prior to training SVM models.  
@@ -162,9 +148,7 @@ Large $C$ forces hard margins and overfits outliers; small $C$ creates soft marg
 ✅ **FIX:** Reduce $C$ to allow soft-margin slack when training data is noisy.  
 **WHY:** A large $C$ penalizes slack severely, forcing the boundary to bend excessively around noisy points and ruining test set generalization.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - High-dimensional feature spaces ($p > N$), such as text classification, TF-IDF documents, or gene expression microarrays.
@@ -178,9 +162,7 @@ Large $C$ forces hard margins and overfits outliers; small $C$ creates soft marg
 **The Boundary:**  
 If feature count $p$ is high relative to sample size $N$ (e.g., $p=10,000, N=500$), use **SVM**. If sample size $N$ is massive ($N > 500,000$), use **Logistic Regression** or **LightGBM**.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Classification Fundamentals:** Provides a maximum-margin framework for binary decisions.
@@ -190,9 +172,7 @@ If feature count $p$ is high relative to sample size $N$ (e.g., $p=10,000, N=500
 - **Linear, Polynomial, and RBF Kernels:** Extends SVM to non-linear spaces using the Kernel Trick.
 - **Support Vector Regression (SVR):** Adapts maximum-margin concepts to continuous target estimation using $\epsilon$-insensitive loss.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Bioinformatics Cancer Subtype Microarray Classification  
 A medical research institution classifies tumor tissue samples into cancer subtypes based on gene expression profiles.
@@ -205,9 +185,7 @@ A medical research institution classifies tumor tissue samples into cancer subty
 5. **Support Vector Discovery:** The model isolates just 42 patient samples as Support Vectors to define the global classification boundary.
 6. **Business Value:** Achieves $97.8\%$ test diagnostic accuracy, enabling oncologists to prescribe targeted therapies based on gene subtype markers.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"How is the SVM margin width $\frac{2}{\|\mathbf{w}\|}$ derived, what are Support Vectors mathematically, and why is SVM effective in high-dimensional spaces where $p \gg N$?"*
@@ -215,9 +193,7 @@ A medical research institution classifies tumor tissue samples into cancer subty
 **Expected Answer:**  
 The margin boundaries are defined as $\mathbf{w}^T\mathbf{x} + b = \pm 1$. The perpendicular distance from the origin to a plane $\mathbf{w}^T\mathbf{x} + b = c$ is $\frac{c}{\|\mathbf{w}\|}$. Subtracting the negative boundary distance ($-\frac{1}{\|\mathbf{w}\|}$) from the positive boundary distance ($\frac{1}{\|\mathbf{w}\|}$) yields a total margin width of $\frac{2}{\|\mathbf{w}\|}$. **Support Vectors** are data points lying on the margin boundaries where Lagrange multipliers $\alpha_i > 0$. In dual form, SVM optimization depends only on dot products between samples ($\mathbf{x}_i^T\mathbf{x}_j$), forming an $N \times N$ matrix. When $p \gg N$, computational complexity scales with sample size $N$ rather than feature count $p$, preventing the curse of dimensionality.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - **Maximum Margin Classifier:** Finds hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$ maximizing margin $\frac{2}{\|\mathbf{w}\|}$.
 - **Support Vectors:** Critical boundary points ($\alpha_i > 0$) that hold up the boundary.

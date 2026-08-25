@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Multiple Linear Regression, Loss Functions, Matrix Inversion  
 **LEARNING OUTCOMES:** Explain the bias-variance tradeoff, derive Ridge ($L_2$) and Lasso ($L_1$) objective functions, compare geometric constraint shapes, and apply regularization to prevent overfitting.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 Regularization is a technique used in machine learning to prevent models from **overfitting**—the bad behavior where a model learns training data noise instead of true underlying patterns.
 
@@ -20,9 +18,7 @@ There are two primary types of regularization:
 
 The key insight: Regularization trades a tiny amount of training accuracy (bias) for a huge increase in generalizability to unseen data (reduced variance).
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you are predicting real estate prices with $100$ input features, including noisy or redundant features like *"color of the front door"* or *"number of electrical outlets"*.
 
@@ -32,9 +28,7 @@ Naive solutions require hand-deleting features based on intuition, which is slow
 
 Ridge and Lasso solve this automatically. By penalizing large weights, they suppress noisy features and stabilize collinear variables without requiring manual feature removal.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Regularization modifies the standard OLS loss by adding a penalty scaled by hyperparameter $\lambda \ge 0$:
 
@@ -56,9 +50,7 @@ $$J_{\text{Lasso}}(\boldsymbol{\beta}) = \frac{1}{2n} \sum_{i=1}^{n} \left(y_i -
 | $\|\boldsymbol{\beta}\|_1$ | $L_1$ norm (sum of absolute weights) | $|\beta_1| + |\beta_2| + \dots + |\beta_p|$ |
 | $\mathbf{I}$ | Identity matrix | Ensures $(\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})$ is always invertible |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a 2D contour plot where the horizontal axis is coefficient $\beta_1$ and the vertical axis is coefficient $\beta_2$.
 
@@ -70,9 +62,7 @@ Now place a constraint boundary centered at the origin $(0,0)$:
 
 As the expanding OLS ellipse hits the diamond, it almost always touches one of the sharp corners on an axis first. At that point, the other coefficient is forced to be **exactly zero**, creating a sparse model.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Calculate the exact regularized weight $w_{\text{Ridge}}$ for a 1D model $\hat{y} = w \cdot x$ using Ridge Regression with penalty $\lambda = 1.0$.
@@ -109,9 +99,7 @@ Calculate the exact regularized weight $w_{\text{Ridge}}$ for a 1D model $\hat{y
 **Answer:**  
 The exact Ridge solution is $w_{\text{Ridge}} = \frac{10}{9} \approx 1.111$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate how Lasso ($L_1$) regularization applies **soft-thresholding** to force a weight to zero when $\lambda$ is sufficiently large.
@@ -147,9 +135,7 @@ Demonstrate how Lasso ($L_1$) regularization applies **soft-thresholding** to fo
 **Answer:**  
 For $\lambda = 1.0$, $w_{\text{Lasso}} = 2.0$. For $\lambda = 3.5$, $w_{\text{Lasso}}$ is forced to exactly $0.0$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Applying Ridge or Lasso regularization without scaling input features first.  
 ✅ **FIX:** Always standardize features ($z = \frac{x - \mu}{\sigma}$) so all features have zero mean and unit variance.  
@@ -159,9 +145,7 @@ For $\lambda = 1.0$, $w_{\text{Lasso}} = 2.0$. For $\lambda = 3.5$, $w_{\text{La
 ✅ **FIX:** Exclude $\beta_0$ from the penalty sum: $\sum_{j=1}^{p} \beta_j^2$.  
 **WHY:** The intercept merely controls the overall vertical baseline of predictions; shrinking $\beta_0$ biases the model toward predicting zero regardless of target scale.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use Ridge ($L_2$):**
 - You have many features that are highly correlated (multicollinearity).
@@ -177,9 +161,7 @@ For $\lambda = 1.0$, $w_{\text{Lasso}} = 2.0$. For $\lambda = 3.5$, $w_{\text{La
 **The Boundary:**  
 If feature selection is required, use **Lasso**. If features are highly correlated, use **Ridge**. If you need both simultaneously, use **ElasticNet** ($L_1 + L_2$).
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Multiple Linear Regression:** Adds penalty constraints directly onto OLS matrix formulations.
@@ -189,9 +171,7 @@ If feature selection is required, use **Lasso**. If features are highly correlat
 - **ElasticNet Regression:** Blends $L_1$ and $L_2$ penalties into a single hybrid objective function.
 - **Weight Decay in Neural Networks:** $L_2$ regularization applied directly to deep learning network weights during gradient descent.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Genomic Biomarker Discovery  
 A medical research lab analyzes gene expression profiles to predict patient drug response rates.
@@ -203,9 +183,7 @@ A medical research lab analyzes gene expression profiles to predict patient drug
 4. **Feature Selection Result:** Lasso shrinks $19,985$ gene coefficients to **exactly zero**, isolating a sparse set of $15$ key biomarker genes.
 5. **Impact:** Doctors develop a low-cost, targeted diagnostic panel testing only those $15$ genes, reducing diagnostic costs from $\$5,000$ to $\$50$ per patient while maintaining high prediction accuracy.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Hard  
 **Question:** *"Why does Lasso ($L_1$) regularization produce sparse models with exact zeros, whereas Ridge ($L_2$) only shrinks weights close to zero?"*
@@ -213,9 +191,7 @@ A medical research lab analyzes gene expression profiles to predict patient drug
 **Expected Answer:**  
 Geometrically, the $L_1$ penalty constraint forms a diamond shape with sharp corners located directly on the coordinate axes ($|\beta_1| + |\beta_2| \le s$). As the elliptical OLS loss contours expand, they are statistically far more likely to intersect one of these sharp corners first, forcing the non-intersecting coordinate to equal exactly zero. Conversely, the $L_2$ penalty forms a smooth, round sphere ($\beta_1^2 + \beta_2^2 \le s$) with no corners; the expanding loss ellipse touches the smooth circle tangentially, shrinking weights proportionally without hitting zero.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Regularization prevents overfitting by penalizing large coefficient weights.
 - **Ridge ($L_2$):** Adds $\lambda \sum \beta_j^2$; shrinks weights smoothly; handles multicollinearity.

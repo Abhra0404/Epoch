@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Basic Probability, Cartesian Coordinate System, Single Linear Regression  
 **LEARNING OUTCOMES:** Distinguish between regression and classification, define decision boundaries, convert continuous probabilities into discrete class predictions using decision thresholds, and compare binary vs. multi-class problems.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 In machine learning, **Classification** is a supervised learning task where the goal is to predict a discrete categorical label (a class) for a given set of input features, rather than predicting a continuous numerical value.
 
@@ -21,9 +19,7 @@ To make these decisions, a classification model computes an underlying probabili
 
 The key insight: Classification transforms continuous feature inputs into discrete categorical decisions by establishing a decision boundary across the feature space.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose a bank wants to automate credit card transaction approval to catch fraud. 
 
@@ -31,9 +27,7 @@ If you try a **naive approach** by applying Linear Regression to fit targets cod
 
 Classification models solve this fundamental issue. They bound output scores strictly between $0.0$ and $1.0$, producing valid probabilities that directly represent the likelihood of a transaction belonging to a specific class.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Given an input feature vector $\mathbf{x} \in \mathbb{R}^p$, a classification model estimates the conditional probability of target $y$ belonging to class $k \in \{0, 1, \dots, K-1\}$:
 
@@ -55,9 +49,7 @@ $$\hat{y} = \begin{cases} 1 & \text{if } P(y = 1 \mid \mathbf{x}) \ge \tau \\ 0 
 
 A **Decision Boundary** is the geometric surface in feature space where $P(y=1 \mid \mathbf{x}) = \tau$, dividing space into class regions.
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a 2D scatter plot where the horizontal $x_1$-axis represents a customer's age and the vertical $x_2$-axis represents account balance.
 
@@ -72,9 +64,7 @@ When a new applicant arrives:
 - If the dot lands on the Red side of the decision boundary, the model predicts default ($\hat{y}=1$).
 - If it lands on the Blue side, it predicts repayment ($\hat{y}=0$).
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Evaluate 4 email samples using a feature score $x$ (suspicious link count) and a simple probability function $P(y=1 \mid x) = \frac{x}{10}$. Determine predictions using decision threshold $\tau = 0.5$.
@@ -112,9 +102,7 @@ Evaluate 4 email samples using a feature score $x$ (suspicious link count) and a
 **Answer:**  
 Predictions are $\hat{y} = [0, 0, 1, 1]$, achieving $100\%$ accuracy with threshold $\tau = 0.5$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Perform Multi-Class classification on a single test image using unnormalized model logit scores $z = [z_0, z_1, z_2]$ for $K=3$ classes ($0=\text{Cat}, 1=\text{Dog}, 2=\text{Bird}$) using the **Argmax** decision rule.
@@ -149,9 +137,7 @@ Perform Multi-Class classification on a single test image using unnormalized mod
 **Answer:**  
 The model predicts Class 1 (Dog) with a maximum logit score of $3.8$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Encoding nominal multi-class labels as ordered integers in a regression model (e.g., setting $\text{Cat}=1, \text{Dog}=2, \text{Bird}=3$).  
 ✅ **FIX:** Use proper multi-class algorithms or one-hot encoding.  
@@ -161,9 +147,7 @@ The model predicts Class 1 (Dog) with a maximum logit score of $3.8$.
 ✅ **FIX:** Use specialized metrics like Precision, Recall, F1-Score, or ROC-AUC.  
 **WHY:** A dummy classifier that predicts $0$ for every sample achieves $99\%$ accuracy while failing to detect a single positive case.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Target variable consists of discrete categories or classes (e.g., Yes/No, Low/Medium/High risk, Disease Diagnosis).
@@ -177,9 +161,7 @@ The model predicts Class 1 (Dog) with a maximum logit score of $3.8$.
 **The Boundary:**  
 If the target is a discrete label or countable distinct set, use **Classification**. If the target is a continuous real number on a continuous scale, use **Regression**.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Basic Probability:** Concepts of conditional probability $P(y \mid \mathbf{x})$ and decision thresholds.
@@ -190,9 +172,7 @@ If the target is a discrete label or countable distinct set, use **Classificatio
 - **Classification Evaluation (Confusion Matrix, ROC-AUC):** Frameworks to evaluate classification models.
 - **Multi-Class Neural Networks (Softmax):** Scaling binary decisions to thousands of classes.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Automated Medical Screening for Diabetic Retinopathy  
 An eye clinic chain deploys an AI system to screen patient eye scans for signs of blindness-inducing retinopathy ($0=\text{Healthy}, 1=\text{Retinopathy}$).
@@ -206,9 +186,7 @@ An eye clinic chain deploys an AI system to screen patient eye scans for signs o
    - Patient B: $P(y=1) = 0.22 \ge 0.15 \implies \hat{y} = 1$ (Flagged for urgent specialist doctor review).
 5. **Business Impact:** Flags $98.5\%$ of true disease cases early, preventing vision loss for over 12,000 patients annually.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Easy  
 **Question:** *"Why is standard Linear Regression mathematically inappropriate for solving binary classification problems?"*
@@ -216,9 +194,7 @@ An eye clinic chain deploys an AI system to screen patient eye scans for signs o
 **Expected Answer:**  
 Linear Regression is inappropriate for binary classification for two main reasons. First, linear outputs are unbounded ($-\infty$ to $+\infty$), producing predictions below $0$ or above $1$ that cannot be interpreted as valid probabilities. Second, Linear Regression minimizes squared vertical errors; adding extreme, highly-confident positive outliers far away from the decision threshold tilts the fitted line unnecessarily, shifting the decision boundary and causing misclassifications on previously correct samples.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Predicts discrete categorical class labels ($y \in \{0, 1\}$ or multi-class).
 - Maps continuous features to probabilities bounded between $0.0$ and $1.0$.

@@ -4,26 +4,22 @@
 **PREREQUISITE TOPICS:** Basic Probability, Bayes' Theorem, Classification Fundamentals  
 **LEARNING OUTCOMES:** Derive the Naive Bayes classifier using Bayes' Theorem, explain the conditional independence assumption, apply Laplace smoothing to resolve zero-probabilities, use log-probabilities to prevent underflow, and select appropriate variants (Gaussian, Multinomial, Bernoulli).
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **Naive Bayes** is a fast, probabilistic classification algorithm built on **Bayes' Theorem**. It is called "naive" because it makes one fundamental, simplifying assumption: it assumes that all input features are **conditionally independent** of each other given the target class label.
 
 Consider an email spam filter. If a spam email contains the words *"Free"* and *"Discount"*, Naive Bayes assumes that the appearance of the word *"Discount"* is completely independent of the appearance of the word *"Free"* once you know the email is Spam.
 
-While this conditional independence assumption is rarely true in the real world (words in human language are naturally correlated), Naive Bayes performs surprisingly well in practice—especially for high-dimensional text classification tasks like spam detection, sentiment analysis, and document categorization.
+While this conditional independence assumption is rarely true in the real world, Naive Bayes performs surprisingly well in practice—especially for high-dimensional text classification tasks like spam detection, sentiment analysis, and document categorization.
 
 Naive Bayes exists in three primary variants:
 1. **Multinomial Naive Bayes:** Used for discrete word counts or term frequencies in text classification.
-2. **Bernoulli Naive Bayes:** Used for binary boolean features (presence or absence of words).
+2. **Bernoulli Naive Bayes:** Used for binary boolean features.
 3. **Gaussian Naive Bayes:** Used for continuous numerical features, assuming features follow a normal (Gaussian) distribution $N(\mu, \sigma^2)$.
 
 The key insight: Naive Bayes simplifies joint probability calculations into a product of independent marginal probabilities, making it blazingly fast and highly scalable to high-dimensional datasets.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you are building a text classifier to sort news articles across $10$ topics using a vocabulary of $50,000$ unique words.
 
@@ -33,9 +29,7 @@ Naive Bayes solves this computational impossibility.
 
 By assuming conditional independence given class $y$, the joint probability breaks down into a simple product of individual word probabilities: $\prod_{j=1}^{50000} P(x_j \mid y)$. This reduces the required parameters from $2^{50,000}$ to just $50,000 \times 10$, allowing the model to train in seconds on modest hardware.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 ### Bayes' Theorem
 The posterior probability of class $y=k$ given feature vector $\mathbf{x} = (x_1, x_2, \dots, x_p)$ is:
@@ -65,9 +59,7 @@ $$P(x_j \mid y = k) = \frac{N_{k, x_j} + \alpha}{N_k + \alpha \cdot |V|}$$
 | $\alpha$ | Smoothing hyperparameter | $\alpha = 1.0$ (Laplace), $\alpha < 1.0$ (Lidstone) |
 | $|V|$ | Vocabulary size | Total number of unique features/words |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine two large buckets of words collected from past emails:
 - **Spam Bucket ($y=1$):** Contains 1,000 total words. The word *"Free"* appears 200 times; *"Meeting"* appears 5 times.
@@ -81,9 +73,7 @@ To determine if the email is Spam or Ham:
 
 Compare the two final bucket scores. Whichever bucket yields the higher combined probability wins the prediction.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Classify a test email containing the word *"Free"* as Spam ($y=1$) or Ham ($y=0$) using Naive Bayes.
@@ -123,9 +113,7 @@ Training Corpus of $n=4$ emails:
 **Answer:**  
 The model predicts Class Spam with a posterior probability of $66.67\%$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate how **Laplace Smoothing ($\alpha=1$)** fixes the **Zero-Probability Problem** when an incoming test email contains an unseen word.
@@ -134,7 +122,7 @@ Demonstrate how **Laplace Smoothing ($\alpha=1$)** fixes the **Zero-Probability 
 - Class Prior: $P(\text{Spam}) = 0.50$, $P(\text{Ham}) = 0.50$
 - Total word tokens in Spam class: $N_{\text{Spam}} = 10$
 - Total word tokens in Ham class: $N_{\text{Ham}} = 10$
-- Vocabulary size (total unique words across all classes): $|V| = 5$
+- Vocabulary size: $|V| = 5$
 - Target test word: *"Bonus"*
 - Un-smoothed count of *"Bonus"* in Spam: $N_{\text{Spam, Bonus}} = 3$
 - Un-smoothed count of *"Bonus"* in Ham: $N_{\text{Ham, Bonus}} = 0$ (Never seen in Ham during training)
@@ -163,9 +151,7 @@ Demonstrate how **Laplace Smoothing ($\alpha=1$)** fixes the **Zero-Probability 
 **Answer:**  
 Laplace smoothing yields $P(\text{Bonus} \mid \text{Ham}) = \frac{1}{15}$, successfully resolving the zero-probability failure.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Multiplying raw probabilities directly when evaluating text documents containing hundreds of words.  
 ✅ **FIX:** Sum log-probabilities: $\ln P(y) + \sum \ln P(x_j \mid y)$.  
@@ -175,9 +161,7 @@ Laplace smoothing yields $P(\text{Bonus} \mid \text{Ham}) = \frac{1}{15}$, succe
 ✅ **FIX:** Enable additive Laplace smoothing (`alpha=1.0` in scikit-learn).  
 **WHY:** If a test sample contains even one word never seen in a specific class during training, the un-smoothed probability becomes $0$, destroying the entire prediction.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Text classification tasks (Spam filtering, Sentiment Analysis, News Topic Categorization).
@@ -191,9 +175,7 @@ Laplace smoothing yields $P(\text{Bonus} \mid \text{Ham}) = \frac{1}{15}$, succe
 **The Boundary:**  
 For sparse text data or fast high-dimensional baselines, use **Naive Bayes**. For dense tabular data with complex feature dependencies, use **Logistic Regression** or **Tree Ensembles**.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Bayes' Theorem:** Uses fundamental conditional probability theory $P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}$.
@@ -203,9 +185,7 @@ For sparse text data or fast high-dimensional baselines, use **Naive Bayes**. Fo
 - **Bayesian Inference & Networks:** Expanding naive independence assumptions to complex directed graphical models.
 - **NLP Text Classification Pipelines:** Serving as the standard baseline for TF-IDF text vectorizers.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Enterprise Support Ticket Automated Routing  
 A software company processes 50,000 customer support tickets daily, automatically routing them to specialized support teams (*Billing*, *Technical Bug*, *Account Access*).
@@ -220,19 +200,15 @@ A software company processes 50,000 customer support tickets daily, automaticall
    - Result: Predicts Class *Billing* with high log-posterior score.
 5. **Business Impact:** Automates ticket routing for $88\%$ of incoming volume, reducing support ticket resolution times from 4 hours to 12 minutes.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why is the conditional independence assumption in Naive Bayes called 'naive', why do we sum log-probabilities instead of multiplying raw probabilities, and how does Laplace smoothing fix zero-probabilities?"*
 
 **Expected Answer:**  
-The assumption is called "naive" because it assumes all features are completely independent given the class label ($P(x_1, x_2 \mid y) = P(x_1 \mid y)P(x_2 \mid y)$), which is rarely true in real data (e.g., words in text are correlated). We sum log-probabilities ($\ln P(y) + \sum \ln P(x_j \mid y)$) because multiplying hundreds of fractional probabilities causes floating-point underflow (rounding to absolute 0). Laplace smoothing ($\alpha=1$) adds a small constant to numerators and denominators ($P = \frac{\text{Count} + 1}{N + |V|}$), ensuring unseen features receive a small non-zero probability rather than zeroing out the entire calculation.
+The assumption is called "naive" because it assumes all features are completely independent given the class label ($P(x_1, x_2 \mid y) = P(x_1 \mid y)P(x_2 \mid y)$), which is rarely true in real data. We sum log-probabilities ($\ln P(y) + \sum \ln P(x_j \mid y)$) because multiplying hundreds of fractional probabilities causes floating-point underflow (rounding to absolute 0). Laplace smoothing ($\alpha=1$) adds a small constant to numerators and denominators ($P = \frac{\text{Count} + 1}{N + |V|}$), ensuring unseen features receive a small non-zero probability rather than zeroing out the entire calculation.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Generative classifier based on Bayes' Theorem: $P(y \mid \mathbf{x}) \propto P(y) \prod P(x_j \mid y)$.
 - Assumes features are conditionally independent given the class.

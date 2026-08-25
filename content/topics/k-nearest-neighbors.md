@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Classification Fundamentals, Cartesian Coordinate System, Metric Spaces  
 **LEARNING OUTCOMES:** Explain instance-based lazy learning, compute Euclidean and Manhattan distances, select optimal $K$ hyperparameter values, explain the Curse of Dimensionality, and implement feature scaling.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **K-Nearest Neighbors (KNN)** is a simple, intuitive, non-parametric algorithm used for both classification and regression. It operates on a fundamental principle: *"Birds of a feather flock together"*—similar data points naturally exist in close physical proximity to one another in feature space.
 
@@ -22,9 +20,7 @@ Hyperparameter $K$ controls the model's complexity:
 
 The key insight: KNN makes predictions by querying historical training instances located nearest to the target point in feature space.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you are analyzing customer behavior where purchasing patterns form complex, irregular, non-linear pockets in feature space.
 
@@ -34,9 +30,7 @@ Alternatively, training complex non-parametric decision trees can require extens
 
 KNN solves this by evaluating decisions strictly **locally**. It makes no global structural assumptions about the data distribution. Whether the decision boundary is a circle, a spiral, or irregular clusters, KNN naturally adapts to the local geometry by simply looking at nearby neighbors.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Given a query sample $\mathbf{x}_0 \in \mathbb{R}^p$ and a training set $\mathcal{D} = \{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$:
 
@@ -64,9 +58,7 @@ Given a query sample $\mathbf{x}_0 \in \mathbb{R}^p$ and a training set $\mathca
 | $p$ | Feature dimensionality | Vector space dimensions |
 | $q$ | Minkowski norm power parameter | $q=1$ is Manhattan; $q=2$ is Euclidean |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a 2D map showing two towns: Redville (represented by Red dots) and Blueville (represented by Blue dots).
 
@@ -81,9 +73,7 @@ You drop a new visitor at an unknown coordinate $X_{\text{query}}$ on the map:
 
 Expanding the neighbor radius smooths out random individual noise and creates a stable local majority consensus.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Given $n=4$ training points in 2D space, use $K=3$ Nearest Neighbors with Euclidean distance to classify query point $\mathbf{x}_0 = (2, 3)$.
@@ -125,9 +115,7 @@ Query point: $\mathbf{x}_0 = (2, 3)$, Hyperparameter $K = 3$
 **Answer:**  
 The $K=3$ nearest neighbors vote majority Class 0 ($2 \text{ vs. } 1$), so $\hat{y} = 0$.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Demonstrate how **unscaled features** distort KNN distance calculations, proving why Feature Scaling is strictly mandatory.
@@ -168,9 +156,7 @@ Query Patient: $\mathbf{x}_0 = (30\text{ yrs}, \$50,000)$
 **Answer:**  
 Unscaled features distort metric space, making scaling essential for KNN.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Running KNN on raw, unscaled features measured in different units (e.g., age vs. annual income).  
 ✅ **FIX:** Apply Standard Scaling ($z = \frac{x-\mu}{\sigma}$) or Min-Max Normalization before running KNN.  
@@ -180,9 +166,7 @@ Unscaled features distort metric space, making scaling essential for KNN.
 ✅ **FIX:** Always select an **odd number** for $K$ (e.g., $K=3, 5, 7$) when evaluating binary outcomes.  
 **WHY:** Even values of $K$ create tie-vote deadlocks (e.g., 2 votes for Class 0, 2 votes for Class 1) requiring arbitrary tie-breaking.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - Small-to-medium datasets ($N < 100,000$) with low feature dimensions ($p < 20$).
@@ -196,9 +180,7 @@ Unscaled features distort metric space, making scaling essential for KNN.
 **The Boundary:**  
 If feature count $p$ is low ($p < 20$) and dataset size $N$ is small, use **KNN**. If feature count $p$ is high or inference latency must be fast, use parametric models (Logistic Regression, Linear SVM) or Decision Trees.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Classification Fundamentals:** Uses majority voting to assign discrete class predictions.
@@ -209,9 +191,7 @@ If feature count $p$ is low ($p < 20$) and dataset size $N$ is small, use **KNN*
 - **Locality-Sensitive Hashing (LSH):** Approximates nearest neighbor searches in large-scale vector databases.
 - **Collaborative Filtering:** Powering user-based and item-based recommendation engines.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** E-Commerce Personalized Product Recommendation Engine  
 An online retailer recommends products to users based on shopping behavior.
@@ -223,9 +203,7 @@ An online retailer recommends products to users based on shopping behavior.
 4. **Recommendation Generation:** Aggregate the recent purchase history of those 10 nearest neighbor shoppers, filtering out items User $U_{101}$ has already bought.
 5. **Business Impact:** Recommends highly relevant products, driving a $16\%$ increase in recommendation click-through rate (CTR).
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why is KNN called a 'lazy learner', and how does the Curse of Dimensionality degrade distance-based classification as feature dimension $p$ increases?"*
@@ -233,9 +211,7 @@ An online retailer recommends products to users based on shopping behavior.
 **Expected Answer:**  
 KNN is called a "lazy learner" because it does not construct a generalized mathematical model during a training phase; it simply stores the raw training instances and defers all distance calculations to prediction time. The **Curse of Dimensionality** refers to the phenomenon where high-dimensional volume grows exponentially, causing data points to become extremely sparse. In high-dimensional space ($p > 100$), the distance between any query point and its nearest neighbor approaches the distance to the furthest point ($\frac{d_{\max} - d_{\min}}{d_{\min}} \to 0$). As all points become nearly equidistant, distance metrics lose discriminative power.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - **Lazy Learner:** Zero training time; defers compute to prediction.
 - **Prediction:** Majority vote (Classification) or mean (Regression) of $K$ neighbors.

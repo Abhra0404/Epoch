@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** High School Algebra, Cartesian Coordinate Plane, Basic Mean & Variance  
 **LEARNING OUTCOMES:** Understand Ordinary Least Squares (OLS), calculate the optimal slope and intercept by hand, calculate residuals, and make predictions on new data.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 Simple Linear Regression is a fundamental statistical method used to model and predict the relationship between two continuous numeric variables: one input and one output. 
 
@@ -18,9 +16,7 @@ Rather than guessing where to place the line, the algorithm mathematically calcu
 
 The key insight: Simple Linear Regression finds the unique straight line that minimizes the collective vertical distance between your actual data points and your predictions.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you are a student trying to predict your final exam score based on the number of hours you study each week. 
 
@@ -28,9 +24,7 @@ If you take a **naive approach**, you might simply calculate the average exam sc
 
 Simple Linear Regression solves this by using every data point simultaneously. It determines the baseline score you would get with zero study hours and calculates exactly how many marks each additional study hour adds on average, giving you a reliable and personalized prediction.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Simple Linear Regression expresses the relationship between an independent variable $x$ and a dependent variable $y$ through a linear equation:
 
@@ -55,9 +49,7 @@ $$\beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} 
 
 $$\beta_0 = \bar{y} - \beta_1 \bar{x}$$
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a two-dimensional scatter plot where the horizontal $x$-axis represents study hours (from $0$ to $10$) and the vertical $y$-axis represents exam scores (from $0$ to $100$).
 
@@ -67,9 +59,7 @@ Now picture drawing a straight ruler through this cloud of dots. From every sing
 
 Next, imagine attaching a physical cardboard square to each dashed line, where the area of the square equals $(\text{error})^2$. Ordinary Least Squares pivots and slides the ruler until the combined surface area of all these cardboard squares across all points reaches the absolute minimum possible size.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Fit a Simple Linear Regression line using Ordinary Least Squares to predict exam marks ($y$) from study hours ($x$), then predict the score for a student who studies $4$ hours.
@@ -109,9 +99,7 @@ A dataset of $n = 3$ students:
 **Answer:**  
 The fitted line is $\hat{y} = -1 + 2.5x$. A student studying $4$ hours is predicted to score $9$ marks.
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Fit a regression line where the relationship is negative (an inverse relationship): predicting hours of sleep ($y$) based on hours of late-night screen time ($x$).
@@ -152,9 +140,7 @@ A dataset of $n = 3$ observations:
 **Answer:**  
 The model is $\hat{y} = 12 - 3.5x$. Base sleep with zero screen time is $12$ hours.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Assuming correlation implies causation (e.g., concluding that forcing a student to sit for 10 hours *causes* their mark to hit 100%).  
 ✅ **FIX:** Treat linear regression as an observational association tool, not proof of cause-and-effect.  
@@ -164,9 +150,7 @@ The model is $\hat{y} = 12 - 3.5x$. Base sleep with zero screen time is $12$ hou
 ✅ **FIX:** Restrict predictions to the interpolation range ($x_{\min} \le x \le x_{\max}$).  
 **WHY:** Real-world linear trends saturate, level off, or change curvature outside observed bounds.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - You want to predict a continuous numerical value using a single continuous feature.
@@ -182,9 +166,7 @@ The model is $\hat{y} = 12 - 3.5x$. Base sleep with zero screen time is $12$ hou
 **The Boundary:**  
 Check your **residual plot** (residuals plotted against fitted values). If residuals scatter randomly around zero with constant width, Linear Regression is appropriate. If you see a curved or trumpet-like funnel shape, the linear assumption is violated.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Cartesian Coordinates & Slope-Intercept Equation:** Uses $y = mx + c$ geometry as the primary predictive architecture.
@@ -195,9 +177,7 @@ Check your **residual plot** (residuals plotted against fitted values). If resid
 - **Gradient Descent:** Serves as the primary toy problem for learning iterative loss optimization algorithms.
 - **Logistic Regression:** Uses the same linear combination $\beta_0 + \beta_1 x$ and wraps it inside a sigmoid function for probability classification.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Real Estate Rental Price Estimation  
 A property technology platform wants to provide instant rental estimates based on apartment floor area.
@@ -211,9 +191,7 @@ A property technology platform wants to provide instant rental estimates based o
    $$\hat{y} = 450 + 1.75(800) = 450 + 1400 = \$1,850/\text{month}$$
 5. **Business Value:** The base intercept ($\$450$) represents fixed neighborhood amenity costs, while the slope ($\$1.75$) transparently shows the exact value of each additional square foot to both renters and property owners.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why does Ordinary Least Squares minimize the sum of squared vertical errors instead of the sum of absolute errors ($|y - \hat{y}|$) or perpendicular distances?"*
@@ -221,9 +199,7 @@ A property technology platform wants to provide instant rental estimates based o
 **Expected Answer:**  
 OLS minimizes vertical errors because $x$ is assumed to be an error-free independent variable, making prediction error exist strictly along the $y$-axis. Squaring the errors rather than taking absolute values provides two key advantages: it penalizes large errors disproportionately, and mathematically, the squared loss function is continuously differentiable everywhere, allowing us to derive closed-form analytical solutions ($\beta_1, \beta_0$) without iterative optimization.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Fits a straight line $\hat{y} = \beta_0 + \beta_1 x$ by minimizing squared vertical gaps.
 - Slope $\beta_1$ equals $\frac{\text{Cov}(x,y)}{\text{Var}(x)}$; intercept $\beta_0$ is $\bar{y} - \beta_1\bar{x}$.

@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth antialiased">
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         <body
-          className={`${roboto.variable} ${montserrat.variable} ${ptMono.variable} paper-lines min-h-screen overflow-x-hidden overflow-y-auto bg-background font-sans antialiased relative`}
+          className={`${roboto.variable} ${montserrat.variable} ${ptMono.variable} paper-lines min-h-screen bg-background font-sans antialiased relative`}
         >
           {children}
         </body>

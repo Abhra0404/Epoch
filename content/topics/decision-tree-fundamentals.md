@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Classification Fundamentals, Regression Evaluation, Cartesian Coordinate System  
 **LEARNING OUTCOMES:** Describe the architecture of a decision tree (nodes, branches, leaves), explain axis-aligned decision boundaries, contrast classification vs. regression trees, and manage tree depth to prevent overfitting.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 A **Decision Tree** is a versatile non-parametric supervised learning algorithm used for both classification and regression tasks. It models decisions by recursively splitting a dataset into smaller, increasingly homogeneous subsets using a flowchart-like tree structure of binary (IF-THEN) rules.
 
@@ -21,9 +19,7 @@ Unlike linear models that fit smooth diagonal hyperplanes, decision trees slice 
 
 The key insight: Decision trees construct interpretable, rule-based hierarchical pathways that natively capture non-linear feature interactions without requiring feature scaling.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose a bank wants to automate personal loan approvals based on applicant age and income. 
 
@@ -33,9 +29,7 @@ Furthermore, linear models require standardization scaling when combining income
 
 Decision Trees solve both problems. They discover complex non-linear feature interactions automatically and are completely invariant to feature scaling, generating human-readable IF-THEN rules directly understandable by business auditors.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 A Decision Tree partitions $p$-dimensional feature space $\mathcal{X} \subseteq \mathbb{R}^p$ into $M$ disjoint rectangular regions $R_1, R_2, \dots, R_M$:
 
@@ -59,9 +53,7 @@ $$\hat{y}_{R_m} = \frac{1}{N_m} \sum_{\mathbf{x}_i \in R_m} y_i$$
 | $I(\cdot)$ | Indicator function | Equals $1$ if condition is true, $0$ otherwise |
 | `max_depth` | Hyperparameter | Maximum allowed depth distance from root to leaf |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Picture a 2D scatter plot where the horizontal $x_1$-axis is Applicant Age ($18$ to $70$) and the vertical $x_2$-axis is Annual Income ($0$ to $\$150\text{k}$).
 
@@ -75,9 +67,7 @@ Instead of drawing a single diagonal line across the plot, a decision tree makes
 
 These perpendicular cuts divide the 2D plane into a grid of distinct rectangular boxes. Each box corresponds to a leaf node. Any new point falling inside a box receives the majority color of the training dots in that box.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Trace a classification decision tree traversal to predict loan approval ($y=1$ for Approve, $y=0$ for Deny) for a single applicant.
@@ -114,9 +104,7 @@ Decision Tree Rule Hierarchy:
 **Answer:**  
 The model follows the path `Root (True) -> Node A (False) -> Leaf 2`, predicting $\hat{y} = 1$ (Approve Loan).
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Calculate the predicted value $\hat{y}_{R_m}$ and leaf Mean Squared Error (MSE) for a **Regression Tree** leaf node containing $n=3$ house price target values.
@@ -146,9 +134,7 @@ $$y = [200, 220, 240]$$
 **Answer:**  
 The leaf predicts $\hat{y}_{R_m} = \$220,000$ with an internal leaf $\text{MSE} = 266.67$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Allowing a decision tree to grow without depth constraints (`max_depth = None`), growing until every leaf contains 1 sample.  
 ✅ **FIX:** Set stopping hyperparameter constraints like `max_depth`, `min_samples_split`, or `min_samples_leaf`.  
@@ -158,9 +144,7 @@ The leaf predicts $\hat{y}_{R_m} = \$220,000$ with an internal leaf $\text{MSE} 
 ✅ **FIX:** Pass raw numerical features directly into the tree without scaling.  
 **WHY:** Decision trees evaluate feature conditions using ordinal split thresholds ($x_j \le v$); monotonic scaling transformations do not change the ordering of values or the resulting split decisions.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - You need high model interpretability with clear IF-THEN business rules.
@@ -174,9 +158,7 @@ The leaf predicts $\hat{y}_{R_m} = \$220,000$ with an internal leaf $\text{MSE} 
 **The Boundary:**  
 If interpretability and rule-based decision paths are paramount, use a **Single Decision Tree**. If predictive accuracy is priority and interpretability can be relaxed, ensemble trees (**Random Forests** or **Gradient Boosting**) are preferred.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Classification & Regression Fundamentals:** Applies classification labels and regression means to leaf partitions.
@@ -187,9 +169,7 @@ If interpretability and rule-based decision paths are paramount, use a **Single 
 - **Random Forests:** Ensembles hundreds of decorrelated decision trees using bagging to eliminate individual tree variance.
 - **Gradient Boosted Decision Trees (XGBoost/LightGBM):** Sequential tree ensembles built on residual error corrections.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Bank Mortgage Loan Automated Underwriting  
 A financial institution uses a decision tree to automate mortgage pre-approval decisions.
@@ -203,9 +183,7 @@ A financial institution uses a decision tree to automate mortgage pre-approval d
 4. **Auditability:** When an applicant is denied, the system prints the precise path traversed (e.g., *"Denied due to Rule 2: Credit Score 600 <= 620"*).
 5. **Business Impact:** Automates $78\%$ of routine mortgage applications in under 2 seconds while maintaining $100\%$ legal audit compliance.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why are single Decision Trees prone to high variance, and how do tree depth hyperparameters mitigate this issue?"*
@@ -213,9 +191,7 @@ A financial institution uses a decision tree to automate mortgage pre-approval d
 **Expected Answer:**  
 Single Decision Trees are non-parametric models that make no assumptions about data distribution. If allowed to grow unconstrained (`max_depth = None`), a tree will continue splitting until every leaf is pure, creating hyper-specific boundaries that memorize random training noise. A minor perturbation in the training dataset can alter the root split, completely changing the downstream tree structure and causing high variance. Constraining hyperparameters like `max_depth` or `min_samples_leaf` forces early stopping, pruning complex branches and bounding model complexity to ensure robust generalization.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Hierarchical flowchart structure: Root Node $\to$ Decision Nodes $\to$ Leaf Nodes.
 - Slices feature space using axis-aligned orthogonal cuts.

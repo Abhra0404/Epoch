@@ -4,9 +4,7 @@
 **PREREQUISITE TOPICS:** Decision Tree Fundamentals, Classification Evaluation, Basic Probability  
 **LEARNING OUTCOMES:** Explain the wisdom of the crowd concept, define Bootstrap Aggregating (Bagging), derive the mathematical variance reduction formula, compute Out-Of-Bag (OOB) probability, and contrast parallel vs. sequential ensemble methods.
 
----
-
-## 1. CORE CONCEPT (200-250 words)
+## 1. CORE CONCEPT
 
 **Ensemble Learning** is a powerful machine learning paradigm that combines the predictions of multiple individual models (called *base models* or *weak learners*) to produce a single aggregated prediction that is more accurate and robust than any single model alone.
 
@@ -21,9 +19,7 @@ Bagging operates in three distinct steps:
 
 The key insight: Bagging averages out random fluctuations and noise from individual high-variance models, stabilizing predictions through the wisdom of the crowd.
 
----
-
-## 2. THE PROBLEM IT SOLVES (150-200 words)
+## 2. THE PROBLEM IT SOLVES
 
 Suppose you train a single, deep, unconstrained Decision Tree on a complex dataset.
 
@@ -33,9 +29,7 @@ Alternatively, pruning the single tree reduces variance but increases **bias**, 
 
 Bagging solves this bias-variance dilemma. By training dozens of deep, low-bias decision trees on different bootstrap samples and averaging their predictions, Bagging cancels out individual tree variance while preserving the low-bias capability of deep trees.
 
----
-
-## 3. FORMAL DEFINITION & NOTATION (200-250 words)
+## 3. FORMAL DEFINITION & NOTATION
 
 Given a training dataset $\mathcal{D} = \{(\mathbf{x}_1, y_1), \dots, (\mathbf{x}_N, y_N)\}$, we generate $B$ bootstrap samples $\mathcal{D}_1^*, \mathcal{D}_2^*, \dots, \mathcal{D}_B^*$ of size $N$.
 
@@ -63,9 +57,7 @@ $$\text{Var}(\hat{f}_{\text{bag}}) = \rho \sigma^2 + \frac{1 - \rho}{B} \sigma^2
 | $\rho$ | Pairwise correlation | Degree of similarity between base model predictions |
 | OOB | Out-Of-Bag samples | Samples left out of a specific bootstrap set ($\approx 36.8\%$) |
 
----
-
-## 4. INTUITION WITH VISUALS (150-200 words)
+## 4. INTUITION WITH VISUALS
 
 Imagine a county fair contest to guess the weight of a giant bull.
 
@@ -78,9 +70,7 @@ When you average all 500 independent guesses:
 
 In Bagging, each bootstrap tree is one contestant guessing the target. Averaging their predictions cancels out individual errors, producing a smooth, stable ensemble estimate.
 
----
-
-## 5. WORKED EXAMPLE 1: Simple Case (300-400 words)
+## 5. WORKED EXAMPLE 1: Simple Case
 
 **Problem:**  
 Calculate the final aggregated **Bagging Majority Vote** prediction for a binary classification problem ($y \in \{0, 1\}$) evaluated across $B=5$ bootstrap base classifiers.
@@ -114,9 +104,7 @@ Predictions from $B=5$ independent base models for a single test input $\mathbf{
 **Answer:**  
 The Bagging ensemble predicts Class 1 with $60\%$ majority vote consensus ($3$ out of $5$ votes).
 
----
-
-## 6. WORKED EXAMPLE 2: Common Variation (300-400 words)
+## 6. WORKED EXAMPLE 2: Common Variation
 
 **Problem:**  
 Mathematically derive the exact probability that a specific training observation $\mathbf{x}_i$ is **left out** of a bootstrap sample (Out-Of-Bag) for sample size $N=3$, and compare it to the asymptotic limit as $N \to \infty$.
@@ -147,9 +135,7 @@ Mathematically derive the exact probability that a specific training observation
 **Answer:**  
 For $N=3$, $P(\text{OOB}) = 29.63\%$. As $N \to \infty$, $P(\text{OOB}) \to 36.8\%$.
 
----
-
-## 7. COMMON MISTAKES (100-150 words)
+## 7. COMMON MISTAKES
 
 ❌ **MISTAKE:** Expecting Bagging to improve the performance of high-bias (underfitted) models like shallow Linear Regression.  
 ✅ **FIX:** Use Bagging exclusively on high-variance, low-bias base models (like deep Decision Trees).  
@@ -159,9 +145,7 @@ For $N=3$, $P(\text{OOB}) = 29.63\%$. As $N \to \infty$, $P(\text{OOB}) \to 36.8
 ✅ **FIX:** Always use random sampling with replacement (bootstrapping).  
 **WHY:** Without bootstrapping, all base models become identical ($\rho = 1$). According to the variance formula $\text{Var} = \rho \sigma^2 + \frac{1-\rho}{B}\sigma^2$, if $\rho=1$, ensemble variance reduction drops to zero.
 
----
-
-## 8. WHEN TO USE (vs. When NOT to Use) (150-200 words)
+## 8. WHEN TO USE (vs. When NOT to Use)
 
 **When to Use:**
 - You have high-variance, complex base models (unconstrained decision trees) prone to overfitting.
@@ -175,9 +159,7 @@ For $N=3$, $P(\text{OOB}) = 29.63\%$. As $N \to \infty$, $P(\text{OOB}) \to 36.8
 **The Boundary:**  
 If base models overfit (high variance), use **Bagging**. If base models underfit (high bias), use **Boosting**.
 
----
-
-## 9. CONNECTIONS TO OTHER TOPICS (100-150 words)
+## 9. CONNECTIONS TO OTHER TOPICS
 
 **Builds on:**
 - **Decision Tree Fundamentals:** Deep decision trees serve as the standard base estimators for Bagging.
@@ -187,9 +169,7 @@ If base models overfit (high variance), use **Bagging**. If base models underfit
 - **Random Forest:** Enhances Bagging by adding random feature subspace selection at every node split.
 - **Extra-Trees (Extremely Randomized Trees):** Introduces random thresholds alongside feature bootstrapping.
 
----
-
-## 10. REAL-WORLD APPLICATION (200-250 words)
+## 10. REAL-WORLD APPLICATION
 
 **Industry Use Case:** Financial Portfolio Volatility Prediction  
 A quantitative hedge fund builds an algorithmic trading system to predict stock price volatility regimes.
@@ -201,9 +181,7 @@ A quantitative hedge fund builds an algorithmic trading system to predict stock 
 4. **Validation via OOB:** Evaluate model stability using Out-Of-Bag samples. The OOB error score reaches $0.12$, matching formal k-fold cross-validation results.
 5. **Business Impact:** The Bagging ensemble smooths out false market signals, reducing trade drawdown by $34\%$ and generating stable annualized returns.
 
----
-
-## INTERVIEW QUESTION (100-150 words)
+## INTERVIEW QUESTION
 
 **Difficulty:** Medium  
 **Question:** *"Why does Bagging reduce prediction variance without changing model bias, and what is the mathematical role of pairwise correlation $\rho$ in ensemble variance reduction?"*
@@ -211,9 +189,7 @@ A quantitative hedge fund builds an algorithmic trading system to predict stock 
 **Expected Answer:**  
 Bagging trains $B$ low-bias, high-variance base models on independent bootstrap samples. Because expected values are linear ($\mathbb{E}[\frac{1}{B}\sum \hat{f}_b] = \mathbb{E}[\hat{f}]$), averaging predictions preserves the low bias of individual trees. The ensemble variance equation is $\text{Var} = \rho \sigma^2 + \frac{1 - \rho}{B} \sigma^2$. As $B$ grows, the second term vanishes, leaving $\rho \sigma^2$. Pairwise correlation $\rho$ represents how similarly base models behave. Lowering model correlation $\rho$ directly decreases overall ensemble variance, explaining why creating diverse base models is critical.
 
----
-
-## KEY TAKEAWAYS (50 words max)
+## KEY TAKEAWAYS
 
 - Combines predictions from $B$ parallel models to reduce variance.
 - **Bootstrapping:** Random sampling with replacement of size $N$.
