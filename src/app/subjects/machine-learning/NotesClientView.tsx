@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   BookOpen, 
@@ -10,12 +10,12 @@ import {
   ArrowRight, 
   ChevronRight, 
   Clock, 
-  GraduationCap, 
-  Sparkles
+  Bookmark,
+  Maximize,
+  Minimize,
 } from "lucide-react";
 import { TopicItem } from "@/lib/topics";
 import { MarkdownViewer } from "@/components/MarkdownViewer";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface NotesClientViewProps {
   topics: TopicItem[];
@@ -24,7 +24,9 @@ interface NotesClientViewProps {
 
 export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [completedTopics, setCompletedTopics] = useState<string[]>(["simple-linear-regression"]);
+  const [completedTopics, setCompletedTopics] = useState<string[]>([]);
+  const [bookmarkedTopics, setBookmarkedTopics] = useState<string[]>([]);
+  const [focusMode, setFocusMode] = useState(false);
 
   const activeTopic = topics.find((t) => t.slug === currentSlug) || topics[1] || topics[0];
 
@@ -56,8 +58,14 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
     );
   };
 
+  const toggleBookmark = (slug: string) => {
+    setBookmarkedTopics((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
+  };
+
   const isCompleted = completedTopics.includes(activeTopic.slug);
-  const progressPercent = Math.round((completedTopics.length / topics.length) * 100);
+  const isBookmarked = bookmarkedTopics.includes(activeTopic.slug);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -66,8 +74,20 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
     }
   };
 
+  // Apply focus mode styles to body
+  useEffect(() => {
+    if (focusMode) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [focusMode]);
+
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className={`min-h-screen bg-background text-foreground font-sans ${focusMode ? "focus-mode" : ""}`}>
       {/* Top Header Navigation */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-4 py-3 sm:px-6">
@@ -90,40 +110,13 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
               <span className="text-accent font-medium">Machine Learning</span>
             </div>
           </div>
-
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
-              <span className="text-accent font-semibold">{completedTopics.length}/{topics.length}</span>
-              <span>Topics Done</span>
-              <div className="h-1.5 w-16 bg-border rounded-full overflow-hidden ml-1">
-                <div
-                  className="h-full bg-accent transition-all duration-300"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={() => toggleComplete(activeTopic.slug)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                isCompleted
-                  ? "border-accent/30 bg-accent/10 text-accent"
-                  : "border-border bg-secondary hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              <CheckCircle2 className="h-4 w-4" />
-              {isCompleted ? "Completed" : "Mark as Done"}
-            </button>
-
-            <ThemeToggle />
-          </div>
         </div>
       </header>
 
       {/* Main Container with Sidebar */}
       <div className="mx-auto flex max-w-[1600px] relative z-20">
         {/* Left Sidebar: Topics Navigation */}
-        <aside className="w-80 shrink-0 border-r border-border bg-secondary p-4 hidden lg:block min-h-[calc(100vh-57px)] sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto">
+        <aside className={`w-80 shrink-0 border-r border-border bg-secondary p-4 hidden lg:block min-h-[calc(100vh-57px)] sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto transition-all ${focusMode ? "w-0 p-0 border-0 hidden" : ""}`}>
           <div className="space-y-4">
             <div>
               <div className="flex items-center gap-2 text-accent text-xs font-bold uppercase tracking-wider">
@@ -151,6 +144,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
               {filteredTopics.map((t, idx) => {
                 const isActive = t.slug === activeTopic.slug;
                 const isDone = completedTopics.includes(t.slug);
+                const isBookmarkedTopic = bookmarkedTopics.includes(t.slug);
 
                 return (
                   <Link
@@ -167,6 +161,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
                         Topic 0{idx + 1}
                       </span>
                       {isDone && <CheckCircle2 className="h-3.5 w-3.5 text-accent" />}
+                      {isBookmarkedTopic && <Bookmark className="h-3.5 w-3.5 text-amber-500 fill-current" />}
                     </div>
 
                     <h3 className={`text-xs font-semibold mt-1 line-clamp-1 ${
@@ -198,132 +193,133 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
         </aside>
 
         {/* Center Main Reader Content */}
-        <main className="flex-grow p-4 sm:p-8 max-w-4xl mx-auto overflow-hidden">
-          {/* Header Metadata Card */}
-          <div className="rounded-[2rem] border border-border bg-card p-6 mb-8 paper-card shadow-xs">
-            <div className="flex items-center justify-between gap-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-                <Sparkles className="h-3.5 w-3.5" />
-                {activeTopic.moduleName} • Module 0{activeIndex + 1}
-              </span>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3.5 w-3.5 text-accent" />
-                  {activeTopic.readTime}
-                </span>
-              </div>
+        <main className={`flex-grow p-4 sm:p-8 mx-auto overflow-hidden transition-all ${focusMode ? "max-w-none" : "max-w-4xl"}`}>
+          <div className="relative">
+            {/* Right Side Action Buttons */}
+            <div className="fixed right-4 top-20 z-30 flex flex-col gap-2 hidden lg:flex">
+              <button
+                onClick={() => toggleComplete(activeTopic.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg ${
+                  isCompleted
+                    ? "border-accent/30 bg-accent/10 text-accent"
+                    : "border-border bg-background hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                {isCompleted ? "Completed" : "Mark as Done"}
+              </button>
+
+              <button
+                onClick={() => toggleBookmark(activeTopic.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg ${
+                  isBookmarked
+                    ? "border-amber-500/30 bg-amber-500/10 text-amber-500"
+                    : "border-border bg-background hover:bg-amber-500/10 hover:text-amber-500"
+                }`}
+              >
+                <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                {isBookmarked ? "Bookmarked" : "Bookmark"}
+              </button>
+
+              <button
+                onClick={() => setFocusMode(!focusMode)}
+                className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg border-border bg-background hover:bg-accent hover:text-accent-foreground"
+              >
+                {focusMode ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+                {focusMode ? "Exit Focus" : "Focus Mode"}
+              </button>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-semibold text-foreground mt-4 tracking-tight">
-              {activeTopic.title}
-            </h1>
-
-            {/* Prerequisites */}
-            <div className="mt-4 pt-4 border-t border-border space-y-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                <GraduationCap className="h-4 w-4 text-accent" />
-                Prerequisite Topics
-              </div>
-              <p className="text-xs text-muted-foreground bg-secondary p-3 rounded-[1.5rem] border border-border">
-                {activeTopic.prerequisites}
-              </p>
+            {/* Mobile Action Buttons (Bottom) */}
+            <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+              <button
+                onClick={() => toggleComplete(activeTopic.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg ${
+                  isCompleted
+                    ? "border-accent/30 bg-accent/10 text-accent"
+                    : "border-border bg-background hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                {isCompleted ? "Done" : "Mark Done"}
+              </button>
+              <button
+                onClick={() => toggleBookmark(activeTopic.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg ${
+                  isBookmarked
+                    ? "border-amber-500/30 bg-amber-500/10 text-amber-500"
+                    : "border-border bg-background hover:bg-amber-500/10 hover:text-amber-500"
+                }`}
+              >
+                <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                {isBookmarked ? "Saved" : "Bookmark"}
+              </button>
+              <button
+                onClick={() => setFocusMode(!focusMode)}
+                className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all shadow-lg border-border bg-background hover:bg-accent hover:text-accent-foreground"
+              >
+                {focusMode ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
+                {focusMode ? "Exit" : "Focus"}
+              </button>
             </div>
 
-            {/* Learning Outcomes */}
-            {activeTopic.learningOutcomes && (
-              <div className="mt-3 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  <BookOpen className="h-4 w-4 text-accent" />
-                  Learning Outcomes
-                </div>
-                <p className="text-xs text-foreground bg-accent/5 border border-accent/20 p-3 rounded-[1.5rem] leading-relaxed">
-                  {activeTopic.learningOutcomes}
-                </p>
-              </div>
-            )}
+            {/* Rendered Markdown Body with KaTeX */}
+            <div className="rounded-[2rem] border border-border bg-card p-6 sm:p-10 paper-card mb-8 lg:pr-20">
+              <MarkdownViewer content={activeTopic.content} />
+            </div>
 
-            {/* Quick Section Anchor Pills */}
-            {activeTopic.sections.length > 0 && (
-              <div className="mt-6 pt-4 border-t border-border">
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-2">
-                  Jump to Section
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {activeTopic.sections.map((sec) => (
-                    <button
-                      key={sec.id}
-                      onClick={() => scrollToSection(sec.id)}
-                      className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-muted-foreground hover:border-accent hover:text-accent transition-colors"
-                    >
-                      {sec.title}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+            {/* Bottom Topic Navigation Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border lg:pr-20">
+              {prevTopic ? (
+                <Link
+                  href={`/subjects/machine-learning/${prevTopic.slug}`}
+                  className="w-full sm:w-auto flex items-center gap-3 p-4 rounded-full border border-border bg-secondary hover:border-accent/50 hover:bg-accent transition-all group text-left"
+                >
+                  <ArrowLeft className="h-4 w-4 text-accent transition-transform group-hover:-translate-x-1" />
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
+                      Previous Topic
+                    </span>
+                    <span className="text-xs font-semibold text-foreground line-clamp-1">{prevTopic.title}</span>
+                  </div>
+                </Link>
+              ) : null}
 
-          {/* Rendered Markdown Body with KaTeX */}
-          <div className="rounded-[2rem] border border-border bg-card p-6 sm:p-10 paper-card mb-8">
-            <MarkdownViewer content={activeTopic.content} />
-          </div>
-
-          {/* Bottom Topic Navigation Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border">
-            {prevTopic ? (
-              <Link
-                href={`/subjects/machine-learning/${prevTopic.slug}`}
-                className="w-full sm:w-auto flex items-center gap-3 p-4 rounded-full border border-border bg-secondary hover:border-accent/50 hover:bg-accent transition-all group text-left"
-              >
-                <ArrowLeft className="h-4 w-4 text-accent transition-transform group-hover:-translate-x-1" />
-                <div>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
-                    Previous Topic
-                  </span>
-                  <span className="text-xs font-semibold text-foreground line-clamp-1">{prevTopic.title}</span>
-                </div>
-              </Link>
-            ) : <div />}
-
-            {nextTopic ? (
-              <Link
-                href={`/subjects/machine-learning/${nextTopic.slug}`}
-                className="w-full sm:w-auto flex items-center justify-end gap-3 p-4 rounded-full border border-border bg-secondary hover:border-accent/50 hover:bg-accent transition-all group text-right"
-              >
-                <div>
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
-                    Next Topic
-                  </span>
-                  <span className="text-xs font-semibold text-foreground line-clamp-1">{nextTopic.title}</span>
-                </div>
-                <ArrowRight className="h-4 w-4 text-accent transition-transform group-hover:translate-x-1" />
-              </Link>
-            ) : <div />}
+              {nextTopic ? (
+                <Link
+                  href={`/subjects/machine-learning/${nextTopic.slug}`}
+                  className="w-full sm:w-auto flex items-center justify-end gap-3 p-4 rounded-full border border-border bg-secondary hover:border-accent/50 hover:bg-accent transition-all group text-right"
+                >
+                  <div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">
+                      Next Topic
+                    </span>
+                    <span className="text-xs font-semibold text-foreground line-clamp-1">{nextTopic.title}</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-accent transition-transform group-hover:translate-x-1" />
+                </Link>
+              ) : null}
+            </div>
           </div>
         </main>
-
-        {/* Right Sidebar: Table of Contents Anchors */}
-        {activeTopic.sections.length > 0 && (
-          <aside className="w-64 shrink-0 border-l border-border bg-secondary p-4 hidden xl:block min-h-[calc(100vh-57px)] sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto">
-            <div className="space-y-3">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block">
-                On This Page
-              </span>
-              <nav className="space-y-1.5">
-                {activeTopic.sections.map((sec) => (
-                  <button
-                    key={sec.id}
-                    onClick={() => scrollToSection(sec.id)}
-                    className="block w-full text-left text-xs text-muted-foreground hover:text-accent py-1 transition-colors line-clamp-2"
-                  >
-                    {sec.title}
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </aside>
-        )}
       </div>
+      <style jsx global>{`
+        .focus-mode .sticky.top-0 {
+          display: none;
+        }
+        .focus-mode aside.w-80 {
+          display: none;
+        }
+        .focus-mode main {
+          max-width: none !important;
+          padding: 2rem !important;
+        }
+        @media (max-width: 1023px) {
+          .focus-mode .sticky.top-0 {
+            display: flex;
+          }
+        }
+      `}</style>
     </div>
   );
 }
