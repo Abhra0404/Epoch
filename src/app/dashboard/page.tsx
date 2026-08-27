@@ -17,25 +17,13 @@ import {
   ArrowRight,
   TrendingUp,
   Sparkles,
-  Download
+  Download,
+  Plus
 } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<"overview" | "bookmarks" | "settings">("overview");
-
-  const completedTopicsList = [
-    { slug: "simple-linear-regression", title: "Simple Linear Regression", date: "2 days ago", readTime: "10 mins" },
-    { slug: "multiple-linear-regression", title: "Multiple Linear Regression", date: "3 days ago", readTime: "15 mins" },
-    { slug: "loss-function-and-gradient-descent", title: "Loss Function & Gradient Descent", date: "5 days ago", readTime: "15 mins" },
-    { slug: "regression-evaluation", title: "Regression Model Evaluation", date: "Yesterday", readTime: "12 mins" },
-  ];
-
-  const bookmarkedItems = [
-    { title: "Pattern Recognition and Machine Learning", author: "C. Bishop", type: "Textbook" },
-    { title: "Attention Is All You Need", author: "Vaswani et al.", type: "Paper" },
-    { title: "Ridge & Lasso Regularization", author: "Epoch Notes", type: "Note", slug: "ridge-and-lasso-regularization" },
-  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -47,19 +35,16 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-border">
             <div className="flex items-center gap-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/15 border-2 border-accent text-accent font-display text-2xl font-bold">
-                AM
+                <User className="h-7 w-7" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                    Alex Mercer
+                    Your Dashboard
                   </h1>
-                  <span className="rounded-full bg-accent/10 border border-accent/20 px-3 py-0.5 text-xs font-bold text-accent">
-                    Pro Learner
-                  </span>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  ML Engineering & Applied Math • Active since August 2026
+                  Track your learning progress across subjects
                 </p>
               </div>
             </div>
@@ -67,11 +52,11 @@ export default function DashboardPage() {
             {/* Streak Counter Widget */}
             <div className="flex items-center gap-3 rounded-[1.5rem] bg-secondary border border-border p-3.5">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/15 text-amber-500">
-                <Flame className="h-5 w-5 fill-current animate-pulse" />
+                <Flame className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-sm font-bold text-foreground">7 Day Streak!</div>
-                <div className="text-[11px] text-muted-foreground">Keep learning daily</div>
+                <div className="text-sm font-bold text-foreground">0 Day Streak</div>
+                <div className="text-[11px] text-muted-foreground">Start learning to build your streak</div>
               </div>
             </div>
           </div>
@@ -80,22 +65,22 @@ export default function DashboardPage() {
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
               <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Completed Topics</span>
-              <div className="mt-1 text-2xl font-bold font-mono text-accent">4 / 5</div>
+              <div className="mt-1 text-2xl font-bold font-mono text-accent">0</div>
             </div>
 
             <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
               <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Time Learned</span>
-              <div className="mt-1 text-2xl font-bold font-mono text-foreground">14.5 hrs</div>
+              <div className="mt-1 text-2xl font-bold font-mono text-foreground">0 hrs</div>
             </div>
 
             <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
               <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Path</span>
-              <div className="mt-1 text-xs font-bold text-accent line-clamp-1">ML Engineer</div>
+              <div className="mt-1 text-xs font-bold text-muted-foreground">None selected</div>
             </div>
 
             <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
               <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Path Progress</span>
-              <div className="mt-1 text-2xl font-bold font-mono text-emerald-500">62%</div>
+              <div className="mt-1 text-2xl font-bold font-mono text-muted-foreground">0%</div>
             </div>
           </div>
         </section>
@@ -123,7 +108,7 @@ export default function DashboardPage() {
             }`}
           >
             <Bookmark className="h-4 w-4" />
-            Bookmarks ({bookmarkedItems.length})
+            Bookmarks
           </button>
 
           <button
@@ -152,31 +137,25 @@ export default function DashboardPage() {
                   href="/subjects/machine-learning"
                   className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
                 >
-                  Continue Reading <ArrowRight className="h-3 w-3" />
+                  Browse Topics <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
 
-              <div className="mt-4 space-y-3">
-                {completedTopicsList.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/subjects/machine-learning/${item.slug}`}
-                    className="flex items-center justify-between p-3.5 rounded-[1.5rem] border border-border bg-secondary hover:border-accent/50 transition-all group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="h-4 w-4 text-accent shrink-0" />
-                      <div>
-                        <div className="text-xs font-bold text-foreground group-hover:text-accent transition-colors">
-                          {item.title}
-                        </div>
-                        <div className="text-[10px] text-muted-foreground">
-                          Completed {item.date} • {item.readTime}
-                        </div>
-                      </div>
-                    </div>
-                    <ArrowRight className="h-3.5 w-3.5 text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                ))}
+              <div className="mt-8 flex flex-col items-center justify-center py-12 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary border border-border mb-4">
+                  <CheckCircle2 className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <p className="text-sm font-semibold text-foreground">No completed topics yet</p>
+                <p className="mt-1 text-xs text-muted-foreground max-w-xs">
+                  Start reading topics to track your progress here
+                </p>
+                <Link
+                  href="/subjects/machine-learning"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-bold text-accent hover:bg-accent/20 transition-all"
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                  Start Learning
+                </Link>
               </div>
             </div>
 
@@ -186,46 +165,14 @@ export default function DashboardPage() {
                 Skill Mastery Matrix
               </h3>
 
-              <div className="mt-6 space-y-5">
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-foreground">Mathematics for ML</span>
-                    <span className="text-accent font-mono">85%</span>
-                  </div>
-                  <div className="mt-1.5 h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-[85%]" />
-                  </div>
+              <div className="mt-8 flex flex-col items-center justify-center py-8 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary border border-border mb-4">
+                  <TrendingUp className="h-6 w-6 text-muted-foreground" />
                 </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-foreground">Supervised Learning</span>
-                    <span className="text-accent font-mono">70%</span>
-                  </div>
-                  <div className="mt-1.5 h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-[70%]" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-foreground">Deep Learning & Autograd</span>
-                    <span className="text-accent font-mono">40%</span>
-                  </div>
-                  <div className="mt-1.5 h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-[40%]" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-foreground">MLOps & Model Serving</span>
-                    <span className="text-accent font-mono">30%</span>
-                  </div>
-                  <div className="mt-1.5 h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-[30%]" />
-                  </div>
-                </div>
+                <p className="text-sm font-semibold text-foreground">No skill data yet</p>
+                <p className="mt-1 text-xs text-muted-foreground max-w-xs">
+                  Complete topics to see your skill mastery breakdown
+                </p>
               </div>
             </div>
           </section>
@@ -238,38 +185,21 @@ export default function DashboardPage() {
               Saved Bookmarked Items
             </h3>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {bookmarkedItems.map((item, idx) => (
-                <div key={idx} className="paper-inner p-4 rounded-[1.5rem] border border-border flex flex-col justify-between">
-                  <div>
-                    <span className="rounded-full bg-accent/10 border border-accent/20 px-2.5 py-0.5 text-[10px] font-bold text-accent">
-                      {item.type}
-                    </span>
-                    <h4 className="mt-2 font-display text-sm font-bold text-foreground">
-                      {item.title}
-                    </h4>
-                    <p className="mt-1 text-xs text-muted-foreground">{item.author}</p>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-border flex justify-end">
-                    {item.slug ? (
-                      <Link
-                        href={`/subjects/machine-learning/${item.slug}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
-                      >
-                        Open Note <ArrowRight className="h-3 w-3" />
-                      </Link>
-                    ) : (
-                      <Link
-                        href="/resources"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
-                      >
-                        View in Index <ArrowRight className="h-3 w-3" />
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              ))}
+            <div className="mt-8 flex flex-col items-center justify-center py-12 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary border border-border mb-4">
+                <Bookmark className="h-6 w-6 text-muted-foreground" />
+              </div>
+              <p className="text-sm font-semibold text-foreground">No bookmarks yet</p>
+              <p className="mt-1 text-xs text-muted-foreground max-w-xs">
+                Bookmark topics and resources to save them for later
+              </p>
+              <Link
+                href="/resources"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-bold text-accent hover:bg-accent/20 transition-all"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                Browse Resources
+              </Link>
             </div>
           </section>
         )}
@@ -286,7 +216,7 @@ export default function DashboardPage() {
                 <label className="block text-xs font-semibold text-foreground mb-1">Display Name</label>
                 <input
                   type="text"
-                  defaultValue="Alex Mercer"
+                  placeholder="Enter your display name"
                   className="w-full rounded-full border border-border bg-secondary px-4 py-2 text-xs text-foreground focus:border-accent focus:outline-none"
                 />
               </div>
@@ -294,6 +224,7 @@ export default function DashboardPage() {
               <div>
                 <label className="block text-xs font-semibold text-foreground mb-1">Primary Learning Goal</label>
                 <select className="w-full rounded-full border border-border bg-secondary px-4 py-2 text-xs text-foreground focus:border-accent focus:outline-none">
+                  <option value="">Select a learning goal</option>
                   <option>Machine Learning Engineer</option>
                   <option>Deep Learning & GenAI Researcher</option>
                   <option>MLOps Systems Engineer</option>

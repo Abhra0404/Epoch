@@ -6,10 +6,10 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { 
   BookOpen, 
   Compass, 
-  Play, 
   Library, 
   FileCode2, 
   LayoutDashboard, 
+  Sliders,
   ArrowRight,
   Menu,
   X
@@ -19,7 +19,7 @@ import { useState } from "react";
 const navItems = [
   { label: "Learn", href: "/learn", icon: BookOpen },
   { label: "Roadmaps", href: "/roadmaps", icon: Compass },
-  { label: "Playground", href: "/playground", icon: Play },
+  { label: "Playground", href: "/playground", icon: Sliders },
   { label: "Resources", href: "/resources", icon: Library },
   { label: "Research", href: "/research", icon: FileCode2 },
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
