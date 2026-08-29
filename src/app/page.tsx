@@ -7,7 +7,6 @@ import {
   Play,
   Library,
   FileCode2,
-  LayoutDashboard,
   CheckCircle2,
   Clock,
   Zap,
@@ -69,14 +68,6 @@ const platformFeatures = [
     desc: "Transformers, ResNet, Adam, LoRA. Plain-English intuition + KaTeX equations + minimal PyTorch.",
     icon: FileCode2,
     href: "/research",
-    color: "text-stone-900 dark:text-stone-100",
-  },
-  {
-    label: "Dashboard",
-    title: "Track your progress",
-    desc: "Streaks, skill mastery bars, completed topics, and saved resources all in one place.",
-    icon: LayoutDashboard,
-    href: "/dashboard",
     color: "text-stone-900 dark:text-stone-100",
   },
 ];
@@ -222,7 +213,7 @@ export default function Home() {
             Platform Suite
           </p>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold tracking-tight">
-            Six environments, one coherent system.
+            Five environments, one coherent system.
           </h2>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
             Each environment is designed to reinforce the others — read a note,

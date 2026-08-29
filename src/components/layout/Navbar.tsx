@@ -8,7 +8,6 @@ import {
   Compass, 
   Library, 
   FileCode2, 
-  LayoutDashboard, 
   Sliders,
   ArrowRight,
   Menu,
@@ -22,7 +21,6 @@ const navItems = [
   { label: "Playground", href: "/playground", icon: Sliders },
   { label: "Resources", href: "/resources", icon: Library },
   { label: "Research", href: "/research", icon: FileCode2 },
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 ];
 
 export function Navbar() {

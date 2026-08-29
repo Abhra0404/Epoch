@@ -25,9 +25,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 interface NotesClientViewProps {
   topics: TopicItem[];
   currentSlug: string;
+  subject?: "machine-learning" | "deep-learning" | "nlp" | "python-libraries";
+  subjectTitle?: string;
 }
 
-export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
+export function NotesClientView({ topics, currentSlug, subject = "machine-learning", subjectTitle = "Machine Learning" }: NotesClientViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [completedTopics, setCompletedTopics] = useState<string[]>([]);
   const [bookmarkedTopics, setBookmarkedTopics] = useState<string[]>([]);
@@ -105,7 +107,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
               <ArrowLeft className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground group-hover:-translate-x-0.5 transition-all" />
               <span className="font-medium">Subjects</span>
               <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
-              <span className="font-semibold text-foreground">Machine Learning</span>
+              <span className="font-semibold text-foreground">{subjectTitle}</span>
             </Link>
           </div>
 
@@ -170,8 +172,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
               <div className="flex items-center gap-2 text-accent text-[11px] font-bold uppercase tracking-wider">
                 <BookOpen className="h-3.5 w-3.5" />
                 Subject Module
-              </div>
-              <h2 className="text-base font-bold text-foreground mt-1">Machine Learning</h2>
+              </div>                    <h2 className="text-base font-bold text-foreground mt-1">{subjectTitle}</h2>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {topics.length} Core Topics • Study Notes
               </p>
@@ -221,7 +222,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
                 return (
                   <Link
                     key={t.slug}
-                    href={`/subjects/machine-learning/${t.slug}`}
+                    href={`/subjects/${subject}/${t.slug}`}
                     className={`group block p-3 rounded-2xl border transition-all text-left ${
                       isActive
                         ? "border-accent/60 bg-card shadow-xs ring-1 ring-accent/20"
@@ -305,7 +306,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
                     return (
                       <Link
                         key={t.slug}
-                        href={`/subjects/machine-learning/${t.slug}`}
+                        href={`/subjects/${subject}/${t.slug}`}
                         onClick={() => setMobileDrawerOpen(false)}
                         className={`block p-3 rounded-xl border text-left transition-all ${
                           isActive
@@ -340,8 +341,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
             {/* Bottom Prev / Next Navigation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               {prevTopic ? (
-                <Link
-                  href={`/subjects/machine-learning/${prevTopic.slug}`}
+                <Link                    href={`/subjects/${subject}/${prevTopic.slug}`}
                   className="group flex items-center gap-3.5 p-4 rounded-2xl border border-border/80 bg-card hover:border-accent/50 hover:bg-accent/5 transition-all text-left shadow-xs"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-secondary group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
@@ -359,8 +359,7 @@ export function NotesClientView({ topics, currentSlug }: NotesClientViewProps) {
               ) : <div />}
 
               {nextTopic ? (
-                <Link
-                  href={`/subjects/machine-learning/${nextTopic.slug}`}
+                <Link                    href={`/subjects/${subject}/${nextTopic.slug}`}
                   className="group flex items-center justify-end gap-3.5 p-4 rounded-2xl border border-border/80 bg-card hover:border-accent/50 hover:bg-accent/5 transition-all text-right shadow-xs sm:col-start-2"
                 >
                   <div className="min-w-0">

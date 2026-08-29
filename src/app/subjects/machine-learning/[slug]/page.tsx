@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const topics = getAllTopics();
+  const topics = getAllTopics().filter((t) => t.subject === "machine-learning");
   return topics.map((t) => ({
     slug: t.slug,
   }));
@@ -29,12 +29,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function MachineLearningTopicPage({ params }: PageProps) {
   const { slug } = await params;
-  const topics = getAllTopics();
+  const allTopics = getAllTopics();
+  const topics = allTopics.filter((t) => t.subject === "machine-learning");
   const topic = getTopicData(slug);
 
-  if (!topic) {
+  if (!topic || topic.subject !== "machine-learning") {
     notFound();
   }
 
-  return <NotesClientView topics={topics} currentSlug={slug} />;
+  return <NotesClientView topics={topics} currentSlug={slug} subject="machine-learning" subjectTitle="Machine Learning" />;
 }

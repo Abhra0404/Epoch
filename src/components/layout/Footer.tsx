@@ -69,9 +69,8 @@ export function Footer() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-white/40">Account</p>
               <ul className="mt-4 space-y-2.5 text-xs text-white/70">
-                <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
                 <li><Link href="/profile" className="hover:text-white transition-colors">User Profile</Link></li>
-                <li><Link href="/dashboard#bookmarks" className="hover:text-white transition-colors">Saved Notes</Link></li>
+                <li><Link href="/learn" className="hover:text-white transition-colors">Saved Notes</Link></li>
               </ul>
             </div>
           </div>

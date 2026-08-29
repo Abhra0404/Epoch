@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function MachineLearningSubjectPage() {
-  const topics = getAllTopics();
-  // Default to simple-linear-regression (first topic)
-  const defaultSlug = "simple-linear-regression";
+  const allTopics = getAllTopics();
+  const topics = allTopics.filter((t) => t.subject === "machine-learning");
+  const defaultSlug = topics[0]?.slug || "simple-linear-regression";
 
-  return <NotesClientView topics={topics} currentSlug={defaultSlug} />;
+  return <NotesClientView topics={topics} currentSlug={defaultSlug} subject="machine-learning" subjectTitle="Machine Learning" />;
 }

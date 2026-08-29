@@ -23,7 +23,7 @@ export const youtubeChannels: YouTubeChannel[] = [
   },
   {
     name: "Sheriyans AI School",
-    url: "https://www.youtube.com/@SheriyansAISchool",
+    url: "https://www.youtube.com/@SheriyansAI",
     description: "AI and Machine Learning courses and tutorials in Hindi",
     topics: ["AI", "ML", "Deep Learning"],
   },

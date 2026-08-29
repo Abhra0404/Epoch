@@ -1,509 +1,335 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { 
-  Play, 
-  RotateCcw, 
-  Sparkles, 
-  Sliders, 
-  Code2, 
-  TrendingDown, 
-  Sigma, 
-  Scale, 
+import {
+  Play,
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
   BarChart3,
-  ArrowRight
+  Brain,
+  Sparkles,
+  Eye,
+  MessageSquare,
+  BookOpen,
+  Code2,
+  FlaskConical,
+  Compass,
 } from "lucide-react";
 import Link from "next/link";
+import {
+  experiments,
+  categories,
+  getFeaturedExperiment,
+  type Category,
+} from "@/lib/playground/data";
+
+const categoryIcons: Record<Category, React.ElementType> = {
+  "Machine Learning": BarChart3,
+  "Deep Learning": Brain,
+  NLP: MessageSquare,
+  "Computer Vision": Eye,
+  "Generative AI": Sparkles,
+};
+
+const difficultyColor: Record<string, string> = {
+  Beginner: "text-emerald-600 dark:text-emerald-400",
+  Intermediate: "text-amber-600 dark:text-amber-400",
+  Advanced: "text-rose-600 dark:text-rose-400",
+};
 
 export default function PlaygroundPage() {
-  const [activeTab, setActiveTab] = useState<"gd" | "reg" | "gini">("gd");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const featured = getFeaturedExperiment();
 
-  // -------------------------------------------------------------
-  // Simulator 1: Gradient Descent State
-  // -------------------------------------------------------------
-  const [learningRate, setLearningRate] = useState<number>(0.1);
-  const [iterations, setIterations] = useState<number>(10);
-  const [startWeight, setStartWeight] = useState<number>(-2.5);
-  const [funcChoice, setFuncChoice] = useState<"quadratic" | "quartic">("quadratic");
-
-  // Gradient Descent Calculation
-  const gdHistory = useMemo(() => {
-    const history: { step: number; w: number; loss: number; grad: number }[] = [];
-    let w = startWeight;
-
-    for (let i = 0; i <= iterations; i++) {
-      let loss = 0;
-      let grad = 0;
-
-      if (funcChoice === "quadratic") {
-        // f(w) = (w - 3)^2 + 1
-        loss = Math.pow(w - 3, 2) + 1;
-        grad = 2 * (w - 3);
-      } else {
-        // f(w) = 0.1 * w^4 - 2 * w^2 + 0.5 * w + 8
-        loss = 0.1 * Math.pow(w, 4) - 2 * Math.pow(w, 2) + 0.5 * w + 8;
-        grad = 0.4 * Math.pow(w, 3) - 4 * w + 0.5;
-      }
-
-      history.push({ step: i, w, loss, grad });
-      w = w - learningRate * grad;
-    }
-
-    return history;
-  }, [learningRate, iterations, startWeight, funcChoice]);
-
-  // -------------------------------------------------------------
-  // Simulator 2: Regularization State (L1 vs L2)
-  // -------------------------------------------------------------
-  const [lambdaVal, setLambdaVal] = useState<number>(2.0);
-  const [regType, setRegType] = useState<"l1" | "l2">("l2");
-  const rawWeights = [4.5, -3.2, 0.8, -0.4, 2.1];
-
-  const regWeights = useMemo(() => {
-    return rawWeights.map((w) => {
-      if (regType === "l1") {
-        // Soft thresholding: sign(w) * max(0, |w| - lambda)
-        const absW = Math.abs(w);
-        const shrink = Math.max(0, absW - lambdaVal * 0.5);
-        return Math.sign(w) * shrink;
-      } else {
-        // Ridge shrinkage: w / (1 + lambda)
-        return w / (1 + lambdaVal * 0.5);
-      }
-    });
-  }, [lambdaVal, regType]);
-
-  // -------------------------------------------------------------
-  // Simulator 3: Gini & Entropy Calculator State
-  // -------------------------------------------------------------
-  const [class1Count, setClass1Count] = useState<number>(15);
-  const [class2Count, setClass2Count] = useState<number>(5);
-
-  const totalSamples = class1Count + class2Count;
-  const p1 = totalSamples > 0 ? class1Count / totalSamples : 0;
-  const p2 = totalSamples > 0 ? class2Count / totalSamples : 0;
-
-  const giniImpurity = 1 - (p1 * p1 + p2 * p2);
-  const entropy =
-    totalSamples > 0 && p1 > 0 && p2 > 0
-      ? -(p1 * (Math.log2(p1))) - (p2 * (Math.log2(p2)))
-      : 0;
+  const filtered =
+    activeCategory === "All"
+      ? experiments.filter((e) => !e.featured)
+      : experiments.filter(
+          (e) => !e.featured && e.category === activeCategory
+        );
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
-        {/* Header */}
-        <section className="text-center max-w-3xl mx-auto py-6">
-          <h1 className="mt-5 font-display text-4xl font-bold tracking-tight sm:text-5xl">
-            ML Hyperparameter & Math Playground
+      <main className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 lg:px-8">
+        {/* ═══════════════════════════════════════════════
+            HERO
+        ═══════════════════════════════════════════════ */}
+        <section className="text-center max-w-3xl mx-auto py-8">
+          <span className="inline-block rounded-full bg-foreground/5 border border-foreground/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground mb-5">
+            Interactive Lab
+          </span>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
+            Build intuition by doing.
           </h1>
-          <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-            Manipulate parameters in real-time to observe loss optimization, weight shrinkage, and classification split dynamics.
+          <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            Tune parameters, watch algorithms respond in real time, and connect
+            every experiment back to the theory behind it.
           </p>
         </section>
 
-        {/* Tab Selectors */}
-        <section className="mt-6 flex flex-wrap justify-center gap-3">
+        {/* ═══════════════════════════════════════════════
+            CATEGORY FILTERS
+        ═══════════════════════════════════════════════ */}
+        <section className="mt-6 flex items-center justify-center gap-2 flex-wrap">
           <button
-            onClick={() => setActiveTab("gd")}
-            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all border ${
-              activeTab === "gd"
-                ? "bg-accent/15 text-accent border-accent/40 shadow-xs"
-                : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
+            onClick={() => setActiveCategory("All")}
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+              activeCategory === "All"
+                ? "bg-foreground text-background"
+                : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
             }`}
           >
-            <TrendingDown className="h-4 w-4" />
-            1. Gradient Descent Visualizer
+            All
           </button>
-
-          <button
-            onClick={() => setActiveTab("reg")}
-            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all border ${
-              activeTab === "reg"
-                ? "bg-accent/15 text-accent border-accent/40 shadow-xs"
-                : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
-            }`}
-          >
-            <Scale className="h-4 w-4" />
-            2. Regularization (L1 vs L2)
-          </button>
-
-          <button
-            onClick={() => setActiveTab("gini")}
-            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all border ${
-              activeTab === "gini"
-                ? "bg-accent/15 text-accent border-accent/40 shadow-xs"
-                : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
-            }`}
-          >
-            <BarChart3 className="h-4 w-4" />
-            3. Gini & Entropy Split
-          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+                activeCategory === cat
+                  ? "bg-foreground text-background"
+                  : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:text-foreground"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </section>
 
-        {/* Tab 1: Gradient Descent Visualizer */}
-        {activeTab === "gd" && (
-          <section className="mt-8 grid gap-8 lg:grid-cols-12">
-            {/* Control Panel */}
-            <div className="paper-card p-6 lg:col-span-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
-                    <Sliders className="h-4 w-4" /> Controls
-                  </span>
-                  <button
-                    onClick={() => {
-                      setLearningRate(0.1);
-                      setIterations(10);
-                      setStartWeight(-2.5);
-                    }}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    title="Reset defaults"
+        {/* ═══════════════════════════════════════════════
+            FEATURED EXPERIMENT
+        ═══════════════════════════════════════════════ */}
+        {activeCategory === "All" && featured && (
+          <section className="mt-12">
+            <Link
+              href={`/playground/${featured.slug}`}
+              className="block paper-card-elevated p-8 sm:p-10 group hover:border-foreground/20 transition-all"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
+                  Featured
+                </span>
+                <span className="rounded-full bg-foreground/5 border border-foreground/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  {featured.category}
+                </span>
+                <span className="rounded-full bg-foreground/5 border border-foreground/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  <Clock className="h-2.5 w-2.5" />
+                  {featured.duration}
+                </span>
+              </div>
+
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight group-hover:text-accent transition-colors">
+                {featured.title}
+              </h2>
+
+              <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
+                {featured.longDescription}
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {featured.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md bg-foreground/5 border border-foreground/10 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground"
                   >
-                    <RotateCcw className="h-4 w-4" />
-                  </button>
-                </div>
-
-                <div className="mt-6 space-y-5">
-                  {/* Loss Function Select */}
-                  <div>
-                    <label className="block text-xs font-semibold text-foreground mb-1.5">
-                      Loss Function
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setFuncChoice("quadratic")}
-                        className={`rounded-xl px-3 py-2 text-xs font-semibold border ${
-                          funcChoice === "quadratic"
-                            ? "bg-accent/10 border-accent text-accent"
-                            : "bg-secondary border-border text-muted-foreground"
-                        }`}
-                      >
-                        Convex (Quadratic)
-                      </button>
-                      <button
-                        onClick={() => setFuncChoice("quartic")}
-                        className={`rounded-xl px-3 py-2 text-xs font-semibold border ${
-                          funcChoice === "quartic"
-                            ? "bg-accent/10 border-accent text-accent"
-                            : "bg-secondary border-border text-muted-foreground"
-                        }`}
-                      >
-                        Non-Convex (Quartic)
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Learning Rate Slider */}
-                  <div>
-                    <div className="flex justify-between text-xs font-semibold">
-                      <span>Learning Rate (α)</span>
-                      <span className="text-accent">{learningRate}</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0.01"
-                      max="0.9"
-                      step="0.01"
-                      value={learningRate}
-                      onChange={(e) => setLearningRate(parseFloat(e.target.value))}
-                      className="mt-2 w-full accent-accent"
-                    />
-                    <p className="mt-1 text-[10px] text-muted-foreground">
-                      Controls step size along negative gradient vector.
-                    </p>
-                  </div>
-
-                  {/* Iterations Slider */}
-                  <div>
-                    <div className="flex justify-between text-xs font-semibold">
-                      <span>Steps / Iterations</span>
-                      <span className="text-accent">{iterations}</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="1"
-                      max="25"
-                      step="1"
-                      value={iterations}
-                      onChange={(e) => setIterations(parseInt(e.target.value))}
-                      className="mt-2 w-full accent-accent"
-                    />
-                  </div>
-
-                  {/* Starting Weight Slider */}
-                  <div>
-                    <div className="flex justify-between text-xs font-semibold">
-                      <span>Starting Weight (w₀)</span>
-                      <span className="text-accent">{startWeight}</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="-4.0"
-                      max="6.0"
-                      step="0.1"
-                      value={startWeight}
-                      onChange={(e) => setStartWeight(parseFloat(e.target.value))}
-                      className="mt-2 w-full accent-accent"
-                    />
-                  </div>
-                </div>
+                    {tag}
+                  </span>
+                ))}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-border text-[11px] text-muted-foreground">
-                <p>
-                  <span className="font-semibold text-foreground">Formula:</span>{" "}
-                  <code className="bg-secondary px-1.5 py-0.5 rounded text-accent font-mono">
-                    w_{"{t+1}"} = w_t - α · ∇L(w_t)
-                  </code>
-                </p>
+              <div className="mt-6 flex items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-5 py-2.5 text-xs font-bold text-background group-hover:bg-foreground/90 transition-colors">
+                  <Play className="h-3.5 w-3.5" />
+                  Open Playground
+                  <ArrowRight className="h-3 w-3" />
+                </span>
+                <span className={`text-xs font-semibold ${difficultyColor[featured.difficulty]}`}>
+                  {featured.difficulty}
+                </span>
               </div>
-            </div>
-
-            {/* Visual Loss Graph & Trajectory */}
-            <div className="paper-card p-6 lg:col-span-8">
-              <div className="flex items-center justify-between pb-4 border-b border-border">
-                <div>
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    Gradient Step Trajectory
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    Final Weight: <span className="font-bold text-accent">{gdHistory[gdHistory.length - 1].w.toFixed(4)}</span> | 
-                    Final Loss: <span className="font-bold text-accent">{gdHistory[gdHistory.length - 1].loss.toFixed(4)}</span>
-                  </p>
-                </div>
-                <Link
-                  href="/subjects/machine-learning/loss-function-and-gradient-descent"
-                  className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
-                >
-                  Gradient Notes <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-
-              {/* Trajectory Table & Metrics */}
-              <div className="mt-4 max-h-80 overflow-y-auto rounded-[1.5rem] border border-border bg-secondary p-3">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-border text-muted-foreground font-semibold">
-                      <th className="pb-2 pl-2">Step</th>
-                      <th className="pb-2">Weight (w)</th>
-                      <th className="pb-2">Gradient (∇L)</th>
-                      <th className="pb-2">Loss L(w)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border/60">
-                    {gdHistory.map((row) => (
-                      <tr key={row.step} className="hover:bg-background/50 font-mono text-[11px]">
-                        <td className="py-2 pl-2 font-sans font-bold text-accent">#{row.step}</td>
-                        <td className="py-2">{row.w.toFixed(4)}</td>
-                        <td className="py-2">{row.grad.toFixed(4)}</td>
-                        <td className="py-2 text-foreground font-bold">{row.loss.toFixed(4)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            </Link>
           </section>
         )}
 
-        {/* Tab 2: Regularization Simulator */}
-        {activeTab === "reg" && (
-          <section className="mt-8 grid gap-8 lg:grid-cols-12">
-            <div className="paper-card p-6 lg:col-span-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
-                <Scale className="h-4 w-4" /> Penalty Controls
+        {/* ═══════════════════════════════════════════════
+            EXPERIMENT GRID
+        ═══════════════════════════════════════════════ */}
+        <section className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-2xl font-bold tracking-tight">
+              {activeCategory === "All" ? "Explore Playgrounds" : activeCategory}
+            </h2>
+            <span className="text-xs font-mono text-muted-foreground">
+              {filtered.length} experiment{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map((exp) => {
+              const Icon = categoryIcons[exp.category];
+              return (
+                <Link
+                  key={exp.slug}
+                  href={`/playground/${exp.slug}`}
+                  className="paper-card p-6 group hover:border-foreground/20 transition-all flex flex-col justify-between min-h-[220px]"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-mono">
+                        {exp.category}
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                    </div>
+
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-secondary mb-3">
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                    </div>
+
+                    <h3 className="font-display text-base font-bold tracking-tight group-hover:text-accent transition-colors">
+                      {exp.title}
+                    </h3>
+
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+                      {exp.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-[10px] font-semibold ${difficultyColor[exp.difficulty]}`}>
+                        {exp.difficulty}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">·</span>
+                      <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                        <Clock className="h-2.5 w-2.5" />
+                        {exp.duration}
+                      </span>
+                    </div>
+                    <span className="text-xs font-bold text-foreground flex items-center gap-1">
+                      Open <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-sm text-muted-foreground">
+                No experiments in this category yet.
+              </p>
+            </div>
+          )}
+        </section>
+
+        {/* ═══════════════════════════════════════════════
+            CONNECT BACK TO EPOCH
+        ═══════════════════════════════════════════════ */}
+        <section className="mt-20 pb-16">
+          <div className="text-center mb-10">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">
+              Never stuck in an isolated experiment
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              Every playground links back to the wider Epoch ecosystem — learn the
+              theory, practice in the lab, test your knowledge, and explore the
+              original research.
+            </p>
+          </div>
+
+          <div className="paper-card-elevated p-8 sm:p-10">
+            {/* Tree header */}
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div className="h-px flex-1 bg-border max-w-16" />
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">
+                A typical experiment flow
               </span>
-
-              <div className="mt-6 space-y-6">
-                <div>
-                  <label className="block text-xs font-semibold text-foreground mb-2">
-                    Penalty Type
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => setRegType("l1")}
-                      className={`rounded-2xl p-4 text-left border transition-all ${
-                        regType === "l1"
-                          ? "bg-accent/10 border-accent text-accent"
-                          : "bg-secondary border-border text-muted-foreground"
-                      }`}
-                    >
-                      <div className="font-bold text-sm">L1 (Lasso)</div>
-                      <div className="text-[10px] mt-1 opacity-80">Sets features to exact zero (Sparse).</div>
-                    </button>
-
-                    <button
-                      onClick={() => setRegType("l2")}
-                      className={`rounded-2xl p-4 text-left border transition-all ${
-                        regType === "l2"
-                          ? "bg-accent/10 border-accent text-accent"
-                          : "bg-secondary border-border text-muted-foreground"
-                      }`}
-                    >
-                      <div className="font-bold text-sm">L2 (Ridge)</div>
-                      <div className="text-[10px] mt-1 opacity-80">Shrinks weights smoothly toward zero.</div>
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span>Regularization Strength (λ)</span>
-                    <span className="text-accent">{lambdaVal}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="8"
-                    step="0.2"
-                    value={lambdaVal}
-                    onChange={(e) => setLambdaVal(parseFloat(e.target.value))}
-                    className="mt-2 w-full accent-accent"
-                  />
-                </div>
-              </div>
+              <div className="h-px flex-1 bg-border max-w-16" />
             </div>
 
-            {/* Weight Bar Chart Comparison */}
-            <div className="paper-card p-6 lg:col-span-7">
-              <div className="flex items-center justify-between pb-4 border-b border-border">
-                <h3 className="font-display text-lg font-bold text-foreground">
-                  Coefficient Shrinkage Effect
-                </h3>
-                <Link
-                  href="/subjects/machine-learning/ridge-and-lasso-regularization"
-                  className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
-                >
-                  Regularization Notes <ArrowRight className="h-3 w-3" />
-                </Link>
+            {/* Tree layout */}
+            <div className="flex flex-col items-center">
+              {/* Root node */}
+              <div className="rounded-2xl border border-border bg-secondary px-6 py-3 flex items-center gap-2">
+                <FlaskConical className="h-4 w-4 text-accent" />
+                <span className="text-sm font-bold text-foreground">Playground Experiment</span>
               </div>
 
-              <div className="mt-6 space-y-4">
-                {rawWeights.map((origW, idx) => {
-                  const regW = regWeights[idx];
-                  const origWidth = Math.min(100, Math.abs(origW) * 20);
-                  const regWidth = Math.min(100, Math.abs(regW) * 20);
+              {/* Vertical stem */}
+              <div className="h-8 w-px bg-border" />
 
+              {/* Branches */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 w-full">
+                {[
+                  {
+                    label: "Learn",
+                    desc: "Structured notes with math & code",
+                    href: "/learn",
+                    icon: BookOpen,
+                  },
+                  {
+                    label: "Practice",
+                    desc: "Tune parameters in this lab",
+                    href: "/playground",
+                    icon: FlaskConical,
+                  },
+                  {
+                    label: "Interview",
+                    desc: "Test your understanding",
+                    href: "/learn",
+                    icon: MessageSquare,
+                  },
+                  {
+                    label: "Build",
+                    desc: "Apply it in a project",
+                    href: "/projects",
+                    icon: Code2,
+                  },
+                  {
+                    label: "Research",
+                    desc: "Read the original paper",
+                    href: "/research",
+                    icon: Compass,
+                  },
+                ].map((item, i) => {
+                  const Icon = item.icon;
                   return (
-                    <div key={idx} className="space-y-1">
-                      <div className="flex justify-between text-xs font-mono">
-                        <span className="font-sans font-semibold text-muted-foreground">Feature w_{idx + 1}</span>
-                        <span>
-                          <span className="text-muted-foreground">Original: {origW}</span> →{" "}
-                          <span className={`font-bold ${Math.abs(regW) === 0 ? "text-rose-500" : "text-accent"}`}>
-                            Regularized: {regW.toFixed(2)}
-                          </span>
-                        </span>
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="group relative flex flex-col items-center text-center"
+                    >
+                      {/* Horizontal connector (hidden on first/last for cleaner look) */}
+                      {i === 0 && (
+                        <div className="absolute top-0 left-1/2 h-px bg-border hidden lg:block" style={{ width: "calc(100% - 2rem)" }} />
+                      )}
+
+                      {/* Node */}
+                      <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card group-hover:border-foreground/30 transition-colors">
+                        <Icon className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
                       </div>
 
-                      <div className="h-3 w-full bg-secondary rounded-full overflow-hidden flex">
-                        <div
-                          className="h-full bg-accent transition-all duration-300 rounded-full"
-                          style={{ width: `${regWidth}%` }}
-                        />
-                      </div>
-                    </div>
+                      <p className="mt-3 text-sm font-bold text-foreground group-hover:text-accent transition-colors">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground leading-relaxed">
+                        {item.desc}
+                      </p>
+
+                      <ArrowRight className="mt-2 h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
                   );
                 })}
               </div>
             </div>
-          </section>
-        )}
-
-        {/* Tab 3: Gini & Entropy Split */}
-        {activeTab === "gini" && (
-          <section className="mt-8 grid gap-8 lg:grid-cols-12">
-            <div className="paper-card p-6 lg:col-span-5">
-              <span className="text-xs font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
-                <BarChart3 className="h-4 w-4" /> Node Sample Counts
-              </span>
-
-              <div className="mt-6 space-y-6">
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span>Class 1 Samples (n₁)</span>
-                    <span className="text-accent">{class1Count}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="50"
-                    step="1"
-                    value={class1Count}
-                    onChange={(e) => setClass1Count(parseInt(e.target.value))}
-                    className="mt-2 w-full accent-accent"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span>Class 2 Samples (n₂)</span>
-                    <span className="text-accent">{class2Count}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="50"
-                    step="1"
-                    value={class2Count}
-                    onChange={(e) => setClass2Count(parseInt(e.target.value))}
-                    className="mt-2 w-full accent-accent"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Calculated Output Metrics */}
-            <div className="paper-card p-6 lg:col-span-7 flex flex-col justify-between">
-              <div>
-                <h3 className="font-display text-lg font-bold text-foreground pb-4 border-b border-border">
-                  Node Impurity Metrics
-                </h3>
-
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
-                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                      Gini Impurity
-                    </span>
-                    <div className="mt-2 text-3xl font-bold font-mono text-accent">
-                      {giniImpurity.toFixed(4)}
-                    </div>
-                    <p className="mt-1 text-[11px] text-muted-foreground">
-                      0 = Pure node, 0.5 = Equal split
-                    </p>
-                  </div>
-
-                  <div className="paper-inner p-4 rounded-[1.5rem] border border-border">
-                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                      Entropy (Bits)
-                    </span>
-                    <div className="mt-2 text-3xl font-bold font-mono text-accent">
-                      {entropy.toFixed(4)}
-                    </div>
-                    <p className="mt-1 text-[11px] text-muted-foreground">
-                      0 = Zero uncertainty, 1.0 = Max entropy
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Class Probabilities: p₁ = {p1.toFixed(2)}, p₂ = {p2.toFixed(2)}</span>
-                <Link
-                  href="/subjects/machine-learning/decision-tree-fundamentals"
-                  className="inline-flex items-center gap-1 font-bold text-accent hover:underline"
-                >
-                  Decision Tree Notes <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
+          </div>
+        </section>
       </main>
 
       <Footer />

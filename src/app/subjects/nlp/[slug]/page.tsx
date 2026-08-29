@@ -1,46 +1,41 @@
+import { getAllTopics, getTopicData } from "@/lib/topics";
+import { NotesClientView } from "../../machine-learning/NotesClientView";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ComingSoonView } from "../ComingSoonView";
 
-const TOPICS = [
-  { slug: "tokenization", title: "Tokenization Methods", status: "Coming Soon" },
-  { slug: "self-attention", title: "Self-Attention Mechanism", status: "Coming Soon" },
-  { slug: "bert-architecture", title: "BERT Architecture", status: "Coming Soon" },
-  { slug: "gpt-architecture", title: "GPT Architecture", status: "Coming Soon" },
-  { slug: "lora-fine-tuning", title: "LoRA Fine-tuning", status: "Coming Soon" },
-  { slug: "preference-alignment", title: "Preference Alignment (RLHF)", status: "Coming Soon" },
-  { slug: "multilingual-nlp", title: "Multilingual NLP", status: "Coming Soon" },
-];
-
-export async function generateStaticParams() {
-  return TOPICS.map((t) => ({ slug: t.slug }));
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateStaticParams() {
+  const topics = getAllTopics().filter((t) => t.subject === "nlp");
+  return topics.map((t) => ({
+    slug: t.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const topic = TOPICS.find((t) => t.slug === slug);
+  const topic = getTopicData(slug);
   if (!topic) return { title: "Topic Not Found | Epoch" };
 
   return {
     title: `${topic.title} Notes | Epoch NLP`,
-    description: `${topic.title} study notes - Coming Soon`,
+    description: topic.learningOutcomes || `${topic.title} study notes and mathematical derivations.`,
   };
 }
 
-export default async function NLPTopicPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function NLPTopicPage({ params }: PageProps) {
   const { slug } = await params;
-  const topic = TOPICS.find((t) => t.slug === slug);
+  const allTopics = getAllTopics();
+  const topics = allTopics.filter((t) => t.subject === "nlp");
+  const topic = getTopicData(slug);
 
-  if (!topic) {
+  if (!topic || topic.subject !== "nlp") {
     notFound();
   }
 
-  const currentIndex = TOPICS.findIndex((t) => t.slug === slug);
-  const reorderedTopics = [...TOPICS.slice(currentIndex), ...TOPICS.slice(0, currentIndex)];
-
-  return <ComingSoonView 
-    subjectTitle="NLP & Transformer Models"
-    subjectDescription="Self-attention mechanisms, tokenization, BERT, GPT architecture, LoRA, and preference alignment."
-    topics={reorderedTopics}
-  />;
+  return <NotesClientView topics={topics} currentSlug={slug} subject="nlp" subjectTitle="NLP & Transformer Models" />;
 }

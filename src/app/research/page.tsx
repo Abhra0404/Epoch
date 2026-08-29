@@ -7,22 +7,9 @@ import {
   Search,
   X,
   ArrowRight,
-  BookOpen,
   FileText,
   Lightbulb,
   Code2,
-  TrendingUp,
-  Clock,
-  Sparkles,
-  ChevronRight,
-  ArrowUpRight,
-  Play,
-  Layers,
-  Zap,
-  Target,
-  FlaskConical,
-  Filter,
-  BookMarked,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -36,17 +23,23 @@ const filterTabs = ["Trending", "Recent", "Foundational", "Reproductions"] as co
 
 export default function ResearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedArea, setSelectedArea] = useState<string | null>(() =>
+    typeof window === "undefined"
+      ? null
+      : new URLSearchParams(window.location.search).get("area")
+  );
   const [activeFilter, setActiveFilter] = useState<string>("Trending");
 
   const filteredPapers = papers.filter(
     (p) =>
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.authors.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.area.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
+      (!selectedArea || p.area.toLowerCase() === selectedArea.replace(/-/g, " ").toLowerCase()) &&
+      (p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.authors.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.area.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())))
   );
 
-  const latestPapers = [...papers].sort((a, b) => b.year - a.year).slice(0, 6);
+  const latestPapers = [...papers].sort((a, b) => b.year - a.year);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -106,14 +99,19 @@ export default function ResearchPage() {
         </section>
 
         {/* Search Results */}
-        {searchQuery && (
+        {(searchQuery || selectedArea) && (
           <section className="mt-8 mb-12">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-bold text-foreground">
-                {filteredPapers.length} result{filteredPapers.length !== 1 ? "s" : ""} for &ldquo;{searchQuery}&rdquo;
+                {filteredPapers.length} paper{filteredPapers.length !== 1 ? "s" : ""}
+                {selectedArea ? ` in ${selectedArea.replace(/-/g, " ")}` : ` for “${searchQuery}”`}
               </h2>
               <button
-                onClick={() => setSearchQuery("")}
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedArea(null);
+                  window.history.pushState({}, "", "/research");
+                }}
                 className="text-xs text-muted-foreground hover:text-foreground"
               >
                 Clear
@@ -122,7 +120,7 @@ export default function ResearchPage() {
             <div className="space-y-2">
               {filteredPapers.map((paper) => (
                 <Link
-                  key={paper.slug}
+                  key={`${paper.area}-${paper.slug}`}
                   href={`/research/papers/${paper.slug}`}
                   className="flex items-center justify-between p-4 rounded-2xl border border-border bg-card hover:border-foreground/20 transition-all group"
                 >
@@ -146,7 +144,7 @@ export default function ResearchPage() {
           </section>
         )}
 
-        {!searchQuery && (
+        {!searchQuery && !selectedArea && (
           <>
             {/* ═══════════════════════════════════════════════
                 2. RESEARCH AREAS
@@ -170,6 +168,9 @@ export default function ResearchPage() {
                     </p>
                     <p className="mt-1 text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
                       {area.description}
+                    </p>
+                    <p className="mt-2 text-[10px] font-mono text-muted-foreground">
+                      {area.paperCount} papers
                     </p>
                   </Link>
                 ))}
@@ -227,16 +228,13 @@ export default function ResearchPage() {
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background group-hover:bg-foreground/90 transition-colors">
                     Explore Paper <ArrowRight className="h-3 w-3" />
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs font-bold text-foreground hover:bg-secondary transition-colors">
-                    Read Paper <ExternalLink className="h-3 w-3" />
-                  </span>
                 </div>
               </Link>
 
               {/* Smaller Featured Cards */}
               <div className="mt-4 grid sm:grid-cols-3 gap-4">
                 {papers
-                  .filter((p) => p.slug !== featuredPaper.slug && p.foundaional)
+                  .filter((p) => p.slug !== featuredPaper.slug && p.foundational)
                   .slice(0, 3)
                   .map((paper) => (
                     <Link
@@ -403,7 +401,7 @@ export default function ResearchPage() {
               </div>
 
               <div className="space-y-1">
-                {latestPapers.map((paper) => (
+                {latestPapers.slice(0, 10).map((paper) => (
                   <Link
                     key={paper.slug}
                     href={`/research/papers/${paper.slug}`}
@@ -431,15 +429,6 @@ export default function ResearchPage() {
                   </Link>
                 ))}
               </div>
-
-              <div className="mt-6 text-center">
-                <Link
-                  href="/research/papers"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-foreground hover:text-accent transition-colors"
-                >
-                  Browse all papers <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
             </section>
           </>
         )}
@@ -447,15 +436,5 @@ export default function ResearchPage() {
 
       <Footer />
     </div>
-  );
-}
-
-function ExternalLink({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
   );
 }

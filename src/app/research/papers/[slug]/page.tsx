@@ -77,7 +77,7 @@ export default function PaperDetailPage() {
             <span className="rounded-full bg-foreground/5 border border-foreground/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               {paper.difficulty}
             </span>
-            {paper.foundaional && (
+            {paper.foundational && (
               <span className="rounded-full bg-foreground/5 border border-foreground/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                 Foundational
               </span>
@@ -224,7 +224,7 @@ export default function PaperDetailPage() {
                   href="/playground"
                   className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background hover:bg-foreground/90 transition-colors"
                 >
-                  <Play className="h-3 w-3" />
+                  <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Open in Playground
                 </Link>
               </div>
@@ -319,10 +319,4 @@ function SectionHeader({ icon: Icon, title }: { icon: React.ElementType; title: 
   );
 }
 
-function Play({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="5 3 19 12 5 21 5 3" />
-    </svg>
-  );
-}
+

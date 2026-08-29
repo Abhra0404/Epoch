@@ -17,8 +17,8 @@ import { roadmaps } from "@/lib/roadmaps/data";
 
 const levelColors: Record<string, string> = {
   Beginner: "text-emerald-600",
-  Intermediate: "text-blue-600",
-  Advanced: "text-purple-600",
+  Intermediate: "text-muted-foreground",
+  Advanced: "text-muted-foreground",
 };
 
 export default function RoadmapsPage() {

@@ -37,11 +37,30 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
     }
   }, [activeContent]);
 
+  // Decode HTML entities for proper LaTeX rendering
+  const decodeHTMLEntities = (text: string): string => {
+    const entities: { [key: string]: string } = {
+      "&quot;": '"',
+      "&apos;": "'",
+      "&#39;": "'",
+      "&lt;": "<",
+      "&gt;": ">",
+      "&amp;": "&",
+    };
+    let result = text;
+    for (const [entity, char] of Object.entries(entities)) {
+      result = result.replace(new RegExp(entity, "g"), char);
+    }
+    return result;
+  };
+
   const renderMathInText = (text: string): string => {
     // Display math: $$...$$
     let result = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
       try {
-        return katex.renderToString(formula, {
+        // Decode HTML entities before passing to KaTeX
+        const decodedFormula = decodeHTMLEntities(formula);
+        return katex.renderToString(decodedFormula, {
           displayMode: true,
           throwOnError: false,
           output: "html",
@@ -52,10 +71,14 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
     });
 
     // Inline math: $...$ (but not $$)
-    result = result.replace(/(?<!\$)\$([^\$\n]+)\$(?!\$)/g, (match, formula) => {
-      if (formula.includes("\n")) return match;
+    // Updated pattern to handle LaTeX with escaped newlines (\\) in cases/arrays
+    result = result.replace(/(?<!\$)\$([^\$]+?)\$(?!\$)/g, (match, formula) => {
+      // Don't process if it contains actual newlines not part of LaTeX
+      if (formula.includes("\n") && !formula.includes("\\\\")) return match;
       try {
-        return katex.renderToString(formula, {
+        // Decode HTML entities before passing to KaTeX
+        const decodedFormula = decodeHTMLEntities(formula);
+        return katex.renderToString(decodedFormula, {
           displayMode: false,
           throwOnError: false,
           output: "html",
@@ -68,7 +91,9 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
     // LaTeX display: \[...\]
     result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
       try {
-        return katex.renderToString(formula, {
+        // Decode HTML entities before passing to KaTeX
+        const decodedFormula = decodeHTMLEntities(formula);
+        return katex.renderToString(decodedFormula, {
           displayMode: true,
           throwOnError: false,
           output: "html",
@@ -81,7 +106,9 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
     // LaTeX inline: \(...\)
     result = result.replace(/\\\((.*?)\\\)/g, (match, formula) => {
       try {
-        return katex.renderToString(formula, {
+        // Decode HTML entities before passing to KaTeX
+        const decodedFormula = decodeHTMLEntities(formula);
+        return katex.renderToString(decodedFormula, {
           displayMode: false,
           throwOnError: false,
           output: "html",
@@ -120,8 +147,19 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
           "blockquote", "ul", "ol", "li", "table",
           "thead", "tbody", "tr", "th", "td",
           "a", "img", "hr", "div", "span", "section",
+          // KaTeX tags
+          "svg", "path", "line", "rect", "circle", "ellipse", "polygon",
+          "foreignObject", "text", "tspan", "g", "defs", "use", "marker",
+          "linearGradient", "radialGradient", "stop", "style",
         ],
-        ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "style", "id"],
+        ALLOWED_ATTR: [
+          "href", "src", "alt", "title", "class", "style", "id",
+          // SVG attributes
+          "viewBox", "width", "height", "d", "x", "y", "cx", "cy", "r",
+          "x1", "y1", "x2", "y2", "points", "fill", "stroke", "stroke-width",
+          "xmlns", "xmlns:xlink", "transform", "font-family", "font-size",
+          "text-anchor", "dominant-baseline", "data-mml-node", "data-mjx-version",
+        ],
         KEEP_CONTENT: true,
       });
 
@@ -306,40 +344,43 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
 
         .markdown-content blockquote {
           margin: 1.5rem 0;
-          padding: 0.75rem 1.25rem;
-          border-left: 4px solid var(--border-strong, var(--accent, #333));
-          background: var(--surface-1, var(--secondary, #f9f9f7));
-          border-radius: 0 8px 8px 0;
-          color: var(--text-secondary, var(--muted-foreground, #555));
-          font-style: italic;
+          padding: 1rem 1.25rem;
+          border-left: 3px solid var(--foreground);
+          background: color-mix(in srgb, var(--card) 95%, var(--foreground) 5%);
+          border-radius: 0 var(--radius, 12px) var(--radius, 12px) 0;
+          color: var(--muted-foreground);
+          font-style: normal;
         }
 
         .markdown-content code {
-          background: var(--surface-1, var(--secondary, #f9f9f7));
-          padding: 2px 6px;
-          border-radius: 4px;
+          background: color-mix(in srgb, var(--foreground) 5%, transparent);
+          padding: 0.15rem 0.4rem;
+          border-radius: 0.375rem;
           font-family: var(--font-mono, 'Monaco', 'Courier New', monospace);
-          font-size: 13px;
-          color: var(--text-primary, var(--foreground, #1a1a1a));
-          border: 0.5px solid var(--border, #e0e0e0);
+          font-size: 0.85em;
+          color: var(--foreground);
+          border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+          font-weight: 500;
         }
 
         .markdown-content pre {
-          background: var(--surface-1, var(--secondary, #f9f9f7));
-          padding: 1rem;
-          border-radius: var(--radius, 12px);
+          background: color-mix(in srgb, var(--card) 93%, var(--foreground) 7%);
+          padding: 1.25rem;
+          border-radius: var(--radius, 16px);
           overflow-x: auto;
           margin: 1.5rem 0;
-          border: 0.5px solid var(--border, #e0e0e0);
+          border: 1px solid var(--border);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
         }
 
         .markdown-content pre code {
-          background: none;
+          background: transparent;
           padding: 0;
           border-radius: 0;
           border: none;
-          font-size: 13px;
-          line-height: 1.6;
+          font-size: 0.875rem;
+          line-height: 1.65;
+          color: var(--foreground);
         }
 
         /* Tables */
@@ -347,27 +388,29 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
           width: 100%;
           border-collapse: collapse;
           margin: 1.5rem 0;
-          border: 0.5px solid var(--border, #e0e0e0);
+          border: 1px solid var(--border);
           border-radius: var(--radius, 12px);
           overflow: hidden;
         }
 
         .markdown-content table thead {
-          background: var(--surface-1, var(--secondary, #f9f9f7));
+          background: color-mix(in srgb, var(--card) 90%, var(--foreground) 10%);
         }
 
         .markdown-content table th {
-          padding: 12px;
+          padding: 12px 16px;
           text-align: left;
           font-weight: 600;
-          border-bottom: 1px solid var(--border, #e0e0e0);
+          border-bottom: 1px solid var(--border);
           font-size: 14px;
+          color: var(--foreground);
         }
 
         .markdown-content table td {
-          padding: 12px;
-          border-bottom: 0.5px solid var(--border, #e0e0e0);
+          padding: 12px 16px;
+          border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
           font-size: 14px;
+          color: var(--foreground);
         }
 
         .markdown-content table tr:last-child td {
@@ -375,25 +418,26 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
         }
 
         .markdown-content table tbody tr:hover {
-          background: var(--surface-1, var(--secondary, #f9f9f7));
+          background: color-mix(in srgb, var(--card) 95%, var(--foreground) 5%);
         }
 
         /* Math */
         .katex-display {
           margin: 1.5rem auto;
-          padding: 0.75rem 1.25rem;
+          padding: 1rem 1.5rem;
           width: fit-content;
           max-width: 100%;
-          background: var(--surface-1, var(--secondary, #f9f9f7));
-          border: 1px solid var(--border, #e0e0e0);
-          border-radius: 12px;
+          background: color-mix(in srgb, var(--card) 95%, var(--foreground) 5%);
+          border: 1px solid var(--border);
+          border-radius: var(--radius, 16px);
           overflow-x: auto;
           box-sizing: border-box;
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
         }
 
         .katex {
-          font-size: 15px;
-          color: var(--text-primary, var(--foreground, #1a1a1a));
+          font-size: 1rem;
+          color: var(--foreground);
         }
 
         /* Inline math without outer box */
@@ -406,20 +450,21 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
 
         /* Links */
         .markdown-content a {
-          color: var(--text-accent, #0066cc);
-          text-decoration: none;
-          border-bottom: 1px solid var(--border-accent, #0066cc);
+          color: var(--foreground);
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          font-weight: 500;
         }
 
         .markdown-content a:hover {
-          text-decoration: underline;
+          opacity: 0.8;
         }
 
         /* Horizontal rule */
         .markdown-content hr {
           margin: 2rem 0;
           border: none;
-          border-top: 1px solid var(--border-strong, #999);
+          border-top: 1px solid var(--border);
         }
 
         /* Images */
@@ -427,63 +472,26 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
           max-width: 100%;
           height: auto;
           margin: 1rem 0;
-          border-radius: var(--radius, 8px);
+          border-radius: var(--radius, 12px);
+          border: 1px solid var(--border);
         }
 
         .info-box {
-          background: var(--bg-accent, #e6f1fb);
-          color: var(--text-accent, #0066cc);
+          background: color-mix(in srgb, var(--card) 90%, var(--foreground) 10%);
+          color: var(--foreground);
           padding: 1rem;
-          border-radius: var(--radius, 8px);
+          border-radius: var(--radius, 12px);
           margin: 1rem 0;
-          font-size: 13px;
+          font-size: 14px;
           display: flex;
-          gap: 8px;
+          gap: 10px;
           align-items: flex-start;
-          border: 1px solid var(--border, #d0e1f9);
+          border: 1px solid var(--border);
         }
 
         .info-box-icon {
           flex-shrink: 0;
           margin-top: 2px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          .editor-panel {
-            background: var(--surface-1, #2a2a2a);
-            border-color: var(--border, #404040);
-          }
-
-          .editor-textarea {
-            background: var(--surface-2, #1a1a1a);
-            color: var(--text-primary, #e0e0e0);
-            border-color: var(--border, #404040);
-          }
-
-          .btn {
-            background: var(--surface-2, #1a1a1a);
-            color: var(--text-primary, #e0e0e0);
-            border-color: var(--border-strong, #555);
-          }
-
-          .btn:hover {
-            background: var(--surface-1, #2a2a2a);
-            border-color: var(--border-stronger, #777);
-          }
-
-          .markdown-content code {
-            background: var(--surface-1, #2a2a2a);
-          }
-
-          .markdown-content pre {
-            background: var(--surface-1, #2a2a2a);
-            border-color: var(--border, #404040);
-          }
-
-          .info-box {
-            background: var(--bg-accent, #0c2847);
-            color: var(--text-accent, #5ba3f5);
-          }
         }
       `}</style>
 

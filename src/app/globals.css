@@ -180,8 +180,8 @@ body.paper-lines::before {
 .dark body.paper-lines::before {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0.06) 1px,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.04) 1px,
     transparent 1px,
     transparent 24px
   );
